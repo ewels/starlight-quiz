@@ -28,3 +28,7 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+# Generated for npm publish from the repo root (see package prepack)
+packages/starlight-quiz/README.md
+packages/starlight-quiz/LICENSE

@@ -1,0 +1,49 @@
+---
+title: Progress tracking
+description: How quiz progress is saved and restored.
+---
+
+import { Quiz, QuizResults } from 'starlight-quiz/components';
+
+Every quiz records whether it has been answered and whether the answer was correct. That progress is saved to the
+browser's `localStorage`, so it survives reloads and revisits.
+
+## How it is stored
+
+- Progress is keyed by the **page path** plus each quiz's **id**.
+- A quiz's id comes from its `id` prop, falling back to a stable hash of its `title`. Because the key is stable rather
+  than positional, progress survives reordering quizzes and rebuilding the site.
+- The whole page's progress is stored under a single key, validated on load, and discarded if it is ever corrupted or
+  unexpectedly large — a bad write can never break a page.
+
+:::tip[Give important quizzes an explicit id]
+If you might edit a quiz's title later, set an explicit `id` so saved progress is not lost when the title (and therefore
+the fallback hash) changes.
+
+```mdx
+<Quiz id="chapter-1-intro" title="Chapter 1 — Introduction">
+  …
+</Quiz>
+```
+
+:::
+
+## Try it
+
+Answer this quiz, then reload the page — your answer is restored automatically:
+
+<Quiz title="Does progress persist?" id="progress-demo">
+Will this answer still be here after a reload?
+
+- [x] Yes
+- [ ] No
+
+It is saved to local storage and restored when the page loads.
+
+</Quiz>
+
+## Aggregate progress
+
+A [`<QuizResults>`](/starlight-quiz/guides/results-screen/) panel shows progress across every quiz on the page and lets
+the reader reset all of them at once. The progress data is exposed through a central tracker and a
+`starlight-quiz:progress` window event, which future features (such as a sidebar summary) can subscribe to.

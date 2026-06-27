@@ -1,0 +1,104 @@
+---
+title: Quick start
+description: Install the Starlight Quiz plugin and write your first quiz.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+## Install
+
+```sh
+npm install starlight-quiz
+```
+
+## Add the plugin
+
+Register the plugin in your Starlight configuration. It wires up the styles and translations for you.
+
+```js title="astro.config.mjs"
+import starlight from '@astrojs/starlight';
+import starlightQuiz from 'starlight-quiz';
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      title: 'My docs',
+      plugins: [starlightQuiz()],
+    }),
+  ],
+});
+```
+
+## Write a quiz
+
+Quizzes are written with markdown inside an imported `<Quiz>` component. The basic structure is a question, a
+[task list](https://github.github.com/gfm/#task-list-items-extension-) of answers, and an optional content section:
+
+```mdx
+import { Quiz } from 'starlight-quiz/components';
+
+<Quiz title="Static site generators">
+Question text goes here.
+
+- [x] Correct answer
+- [ ] Incorrect answer
+- [ ] Another incorrect answer
+
+Optional content, revealed after the answer is submitted.
+</Quiz>
+```
+
+A ticked box (`[x]`) is a correct answer; an empty box (`[ ]`) is incorrect. This renders as:
+
+<Quiz title="Static site generators" id="quickstart-basic">
+Question text goes here.
+
+- [x] Correct answer
+- [ ] Incorrect answer
+- [ ] Another incorrect answer
+
+Optional content, revealed after the answer is submitted.
+
+</Quiz>
+
+:::tip[Asterisk bullets]
+You can use asterisk bullets (`*`) instead of hyphens (`-`) for answers — both are valid GitHub-flavoured markdown.
+:::
+
+## Multiple correct answers
+
+With **one** correct answer you get radio buttons. With **more than one**, the quiz switches to checkboxes
+automatically:
+
+<Quiz title="Programming languages" id="quickstart-multiple">
+Which of these are programming languages?
+
+- [x] Python
+- [ ] HTML
+- [x] JavaScript
+- [ ] CSS
+
+Python and JavaScript are programming languages, while HTML and CSS are markup/styling languages.
+
+</Quiz>
+
+All correct answers — and only the correct answers — must be selected to get the question right.
+
+## Fill-in-the-blank
+
+For questions where readers type the answer, wrap the expected answer in double square brackets:
+
+<Quiz title="Capital city" id="quickstart-blank">
+The capital of France is [[Paris]].
+</Quiz>
+
+Answers are case-insensitive, so "Paris", "paris" and "PARIS" are all accepted.
+
+## Next steps
+
+- **[Multiple choice](/starlight-quiz/guides/multiple-choice/)** — radio buttons, checkboxes and per-answer feedback.
+- **[Fill-in-the-blank](/starlight-quiz/guides/fill-in-the-blank/)** — multiple blanks and content sections.
+- **[Advanced formatting](/starlight-quiz/guides/advanced-formatting/)** — code, tables and images in quizzes.
+- **[Progress tracking](/starlight-quiz/guides/progress-tracking/)** — how quiz progress is saved.
+- **[Configuration](/starlight-quiz/guides/configuration/)** — all available options.

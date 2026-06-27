@@ -18,20 +18,32 @@ export default defineConfig({
           label: 'Start here',
           items: [
             { label: 'Introduction', link: '/' },
-            { label: 'Getting started', slug: 'guides/getting-started' },
+            { label: 'Quick start', slug: 'guides/quick-start' },
           ],
         },
         {
-          label: 'Guides',
+          label: 'Question types',
           items: [
-            { label: 'Authoring quizzes', slug: 'guides/authoring' },
-            { label: 'Results & scoring', slug: 'guides/results' },
-            { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
+            { label: 'Multiple choice', slug: 'guides/multiple-choice' },
+            { label: 'Fill-in-the-blank', slug: 'guides/fill-in-the-blank' },
+          ],
+        },
+        {
+          label: 'Features',
+          items: [
+            { label: 'Shuffle answers', slug: 'guides/shuffle-answers' },
+            { label: 'Progress tracking', slug: 'guides/progress-tracking' },
+            { label: 'Results screen', slug: 'guides/results-screen' },
+            { label: 'Advanced formatting', slug: 'guides/advanced-formatting' },
           ],
         },
         {
           label: 'Reference',
-          items: [{ label: 'Live demo', slug: 'demo' }],
+          items: [
+            { label: 'Configuration', slug: 'guides/configuration' },
+            { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
+            { label: 'Live demo', slug: 'demo' },
+          ],
         },
       ],
     }),

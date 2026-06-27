@@ -5,9 +5,19 @@ description: Interactive quizzes for Astro and Starlight, authored in markdown.
 
 import { Quiz } from 'starlight-quiz/components';
 
-**Starlight Quiz** adds interactive, self-marking quizzes to your Astro and Starlight documentation. Write them with
-the markdown you already know — task lists for answers, blockquotes for feedback and `[[double brackets]]` for
-fill-in-the-blank — and the package turns them into accessible, themeable quizzes that remember a reader's progress.
+**Starlight Quiz** adds interactive, self-marking quizzes to your Astro and Starlight documentation — a spiritual port
+of [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz). Write them with the markdown you already know and the package
+turns them into accessible, themeable quizzes that remember a reader's progress.
+
+## Features
+
+- ✨ **Simple markdown syntax** – write quizzes with GitHub-flavoured task lists, no new syntax to learn
+- 🎯 **Multiple quiz types** – single choice, multiple choice and fill-in-the-blank
+- ⚡ **Instant feedback** – per-answer feedback and visual correct/incorrect indicators
+- 📊 **Progress &amp; results** – an aggregate results panel with score tiers and confetti
+- 💾 **Results saved** – answers persist to the browser's local storage, surviving reloads and rebuilds
+- 🌐 **Internationalisation** – English, French, German and Spanish out of the box
+- ♿ **Accessible** – real fieldsets, `aria-live` feedback and keyboard-safe auto-submit
 
 Try it:
 
@@ -20,15 +30,14 @@ Which of these does Starlight Quiz support out of the box?
 - [ ] Mind reading
   > Not yet — but everything else here is real.
 
----
-
 When more than one answer is correct, the quiz automatically switches to checkboxes.
 
 </Quiz>
 
 ## Where next?
 
-- [Getting started](/starlight-quiz/guides/getting-started/) — install the plugin and write your first quiz.
-- [Authoring quizzes](/starlight-quiz/guides/authoring/) — the full markdown syntax.
-- [Results & scoring](/starlight-quiz/guides/results/) — add a score panel and confetti.
+- [Quick start](/starlight-quiz/guides/quick-start/) — install the plugin and write your first quiz.
+- [Multiple choice](/starlight-quiz/guides/multiple-choice/) — radio buttons, checkboxes and answer syntax.
+- [Fill-in-the-blank](/starlight-quiz/guides/fill-in-the-blank/) — text-input questions.
+- [Configuration](/starlight-quiz/guides/configuration/) — every plugin option and component prop.
 - [Live demo](/starlight-quiz/demo/) — every question type on one page.

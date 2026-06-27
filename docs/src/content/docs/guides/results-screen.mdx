@@ -1,6 +1,6 @@
 ---
-title: Results & scoring
-description: Add an aggregate score panel and confetti to a page of quizzes.
+title: Results screen
+description: Add an aggregate score panel with score tiers and confetti.
 ---
 
 import { Quiz, QuizResults } from 'starlight-quiz/components';
@@ -62,4 +62,4 @@ loaded with a dynamic import, so it adds nothing to your bundle unless it actual
 ## Resetting
 
 The results panel includes a **Reset all answers** button that clears every quiz on the page. Each quiz also keeps its
-own reset button when `disableAfterSubmit={false}`.
+own reset button when [`disableAfterSubmit`](/starlight-quiz/guides/configuration/#disableaftersubmit) is `false`.

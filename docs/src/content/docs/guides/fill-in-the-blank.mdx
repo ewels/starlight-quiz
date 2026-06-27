@@ -1,0 +1,57 @@
+---
+title: Fill-in-the-blank
+description: Text-input questions where the reader types the answer.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+Fill-in-the-blank questions let the reader type their answer. Wrap the expected answer in double square brackets:
+
+```mdx
+<Quiz title="Capital city">
+The capital of France is [[Paris]].
+</Quiz>
+```
+
+<Quiz title="Capital city" id="blank-single">
+The capital of France is [[Paris]].
+</Quiz>
+
+Answers are **case-insensitive** and surrounding whitespace is trimmed, so "Paris", " paris " and "PARIS" all pass.
+
+## Multiple blanks
+
+A question can have several blanks; every one must be correct:
+
+<Quiz title="Multiple blanks" id="blank-multiple">
+Water is made of hydrogen and [[oxygen]], with the chemical formula [[H2O]].
+</Quiz>
+
+## Content section
+
+Because there is no answer list to mark the boundary, a fill-in-the-blank quiz uses a horizontal rule (`---`) to
+separate the question from a content section that is revealed after submitting:
+
+````mdx
+<Quiz title="Chemistry">
+The chemical symbol for gold is [[Au]].
+
+---
+
+"Au" comes from the Latin *aurum*, meaning "shining dawn".
+</Quiz>
+````
+
+<Quiz title="Chemistry" id="blank-content">
+The chemical symbol for gold is [[Au]].
+
+---
+
+"Au" comes from the Latin _aurum_, meaning "shining dawn".
+
+</Quiz>
+
+:::note
+When the reader gets a blank wrong and [`showCorrect`](/starlight-quiz/guides/configuration/#showcorrect) is enabled
+(the default), the correct answer is shown alongside what they typed.
+:::

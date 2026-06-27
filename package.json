@@ -5,7 +5,7 @@
   "type": "module",
   "license": "Apache-2.0",
   "author": "Phil Ewels",
-  "description": "Monorepo for the starlight-quiz package and its documentation site.",
+  "description": "Private development monorepo for starlight-quiz — the published package lives in packages/starlight-quiz.",
   "homepage": "https://ewels.github.io/starlight-quiz",
   "repository": {
     "type": "git",

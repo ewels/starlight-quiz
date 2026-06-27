@@ -1,0 +1,92 @@
+---
+title: Configuration
+description: Every plugin option and component prop.
+---
+
+Starlight Quiz needs no configuration to get started — `plugins: [starlightQuiz()]` is enough. This page lists
+everything you _can_ change.
+
+## Plugin options
+
+The plugin takes a single options object:
+
+```js title="astro.config.mjs"
+starlightQuiz({
+  injectStyles: true, // append the bundled theme CSS to Starlight (default true)
+});
+```
+
+### `injectStyles`
+
+**Type:** `boolean` · **Default:** `true`
+
+Appends the bundled theme to Starlight's `customCss`. Set to `false` if you want to provide all quiz styling yourself;
+import `starlight-quiz/styles` manually, or write your own.
+
+## `<Quiz>` props
+
+| Prop                 | Type      | Default | Description                                                  |
+| -------------------- | --------- | ------- | ------------------------------------------------------------ |
+| `id`                 | `string`  | —       | Stable id for persistence (falls back to a hash of `title`). |
+| `title`              | `string`  | —       | Heading shown above the quiz.                                |
+| `shuffle`            | `boolean` | `false` | Shuffle answer order on load.                                |
+| `autoSubmit`         | `boolean` | `true`  | Single-choice: grade on click/tap. `false` shows a Submit button. |
+| `disableAfterSubmit` | `boolean` | `true`  | Lock after submitting; `false` shows a reset button.         |
+| `showCorrect`        | `boolean` | `true`  | Reveal the correct answer(s) after a wrong submission.       |
+
+### `autoSubmit`
+
+**Type:** `boolean` · **Default:** `true`
+
+Single-choice quizzes grade as soon as an answer is clicked or tapped, with no Submit button. Keyboard users arrowing
+through the options are **not** locked in — only an explicit click, tap or Space activation submits. Set `false` to
+show a Submit button instead. Multiple-choice and fill-in-the-blank quizzes always use a Submit button.
+
+### `disableAfterSubmit`
+
+**Type:** `boolean` · **Default:** `true`
+
+After submitting, the quiz is locked and cannot be changed. Set `false` to show a **Try again** reset button so readers
+can retry.
+
+### `showCorrect`
+
+**Type:** `boolean` · **Default:** `true`
+
+When a reader submits a wrong answer, the correct answer(s) are highlighted. Set `false` to tell them only whether they
+were right or wrong, without revealing the answer.
+
+### Label overrides
+
+Every UI string can be overridden per quiz — useful outside Starlight or for custom wording: `submitLabel`,
+`resetLabel`, `correctLabel`, `incorrectLabel` and `tryAgainLabel`.
+
+```mdx
+<Quiz title="Quick check" submitLabel="Check answer" correctLabel="Spot on!">
+  …
+</Quiz>
+```
+
+## `<QuizResults>` props
+
+| Prop            | Type      | Default | Description                                            |
+| --------------- | --------- | ------- | ------------------------------------------------------ |
+| `confetti`      | `boolean` | `false` | Fire confetti on a first-time completion (score ≥ 10%). |
+| `titleLabel`    | `string`  | —       | Override the panel title.                              |
+| `progressLabel` | `string`  | —       | Override the progress label.                           |
+| `answeredLabel` | `string`  | —       | Override the word after the `answered / total` count.  |
+| `correctLabel`  | `string`  | —       | Override the word after the `correct / total` count.   |
+| `resetLabel`    | `string`  | —       | Override the reset-all button label.                   |
+
+## Internationalisation
+
+When used as a Starlight plugin, every label is translated through Starlight's i18n. These locales ship out of the box:
+
+- `en` — English (the source)
+- `fr` — French
+- `de` — German
+- `es` — Spanish
+
+Strings resolve in this order: an explicit prop wins, then the Starlight translation for the current locale, then the
+bundled English default. Outside Starlight there is no translation function, so pass label props for anything you want
+to change — see [Vanilla Astro](/starlight-quiz/guides/vanilla-astro/).

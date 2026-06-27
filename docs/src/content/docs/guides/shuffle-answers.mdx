@@ -1,0 +1,38 @@
+---
+title: Shuffle answers
+description: Randomise the order of answers on every page load.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+Set the `shuffle` prop to randomise the order of a choice quiz's answers. The shuffle happens in the browser on every
+load, so readers see a different order each visit — useful to stop people memorising answer positions rather than the
+content.
+
+```mdx
+<Quiz title="Planets" shuffle>
+Which is the largest planet in the Solar System?
+
+- [x] Jupiter
+- [ ] Earth
+- [ ] Mars
+- [ ] Mercury
+</Quiz>
+```
+
+<Quiz title="Planets" id="shuffle-demo" shuffle>
+Which is the largest planet in the Solar System?
+
+- [x] Jupiter
+- [ ] Earth
+- [ ] Mars
+- [ ] Mercury
+
+</Quiz>
+
+Reload the page a few times to see the order change. Correct-answer tracking is preserved regardless of display order,
+and saved progress still restores correctly.
+
+:::note
+Shuffling applies to choice questions only; fill-in-the-blank questions have no answers to reorder.
+:::

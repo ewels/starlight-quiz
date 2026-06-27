@@ -39,9 +39,12 @@
     "lib",
     "styles.css",
     "translations.ts",
-    "env.d.ts"
+    "env.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
+    "prepack": "cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
