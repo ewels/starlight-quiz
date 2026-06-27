@@ -1,0 +1,63 @@
+---
+title: Getting started
+description: Install the Starlight Quiz plugin and write your first quiz.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+## Install
+
+```sh
+npm install starlight-quiz
+```
+
+## Add the plugin
+
+Register the plugin in your Starlight configuration. It wires up the styles and translations for you.
+
+```js title="astro.config.mjs"
+import starlight from '@astrojs/starlight';
+import starlightQuiz from 'starlight-quiz';
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      title: 'My docs',
+      plugins: [starlightQuiz()],
+    }),
+  ],
+});
+```
+
+## Write a quiz
+
+Import the components in any `.mdx` page and author your quiz with markdown:
+
+```mdx
+import { Quiz } from 'starlight-quiz/components';
+
+<Quiz title="Primary colours">
+Which of these are primary colours?
+
+- [x] Red
+- [ ] Green
+- [x] Blue
+</Quiz>
+```
+
+That renders as:
+
+<Quiz title="Primary colours" id="getting-started-colours">
+Which of these are primary colours?
+
+- [x] Red
+- [ ] Green
+- [x] Blue
+
+</Quiz>
+
+Because two answers are correct, this became a multiple-choice quiz. Mark a single answer correct and it becomes a
+single-choice (radio) quiz instead.
+
+Next, learn the [full authoring syntax](/starlight-quiz/guides/authoring/).

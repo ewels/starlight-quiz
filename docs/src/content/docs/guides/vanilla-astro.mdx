@@ -1,0 +1,53 @@
+---
+title: Vanilla Astro
+description: Use the quiz components in any Astro project, without Starlight.
+---
+
+The components have no hard dependency on Starlight — the only Starlight-specific code lives in the plugin
+(`starlight-quiz`) and is never imported by `starlight-quiz/components`. That means you can use the components in any
+Astro project.
+
+## Import the styles
+
+Without the plugin to inject them, import the stylesheet yourself — once, anywhere (for example in a layout):
+
+```astro
+---
+import 'starlight-quiz/styles';
+---
+```
+
+## Use the components
+
+```astro
+---
+import { Quiz } from 'starlight-quiz/components';
+import 'starlight-quiz/styles';
+---
+
+<Quiz title="Quick check" submitLabel="Check answer">
+Is the sky blue?
+
+- [x] Yes
+- [ ] No
+</Quiz>
+```
+
+:::note
+You author the answers with the same markdown task-list syntax in `.md`/`.mdx` content. In a plain `.astro` file,
+remember that markdown is not rendered, so use a `.mdx` page if you want the task-list shorthand.
+:::
+
+## Translating labels
+
+In a Starlight site, every label is translated automatically through Starlight's i18n (English, French, German and
+Spanish ship out of the box). Without Starlight there is no `t()` function, so pass label props for any text you want
+to change:
+
+```astro
+<Quiz title="Quick check" submitLabel="Check answer" resetLabel="Start over" correctLabel="Spot on!">
+  …
+</Quiz>
+```
+
+The precedence is: an explicit prop wins, then Starlight's translation, then the bundled English default.

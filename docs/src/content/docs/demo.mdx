@@ -1,0 +1,60 @@
+---
+title: Live demo
+description: Every question type and feature on a single page.
+---
+
+import { Quiz, QuizResults } from 'starlight-quiz/components';
+
+This page exercises every question type and feature. It also doubles as the fixture for the package's end-to-end tests,
+so the quizzes here have stable ids.
+
+## Single choice
+
+<Quiz title="Single choice" id="demo-single">
+Which planet is known as the Red Planet?
+
+- [ ] Venus
+- [x] Mars
+- [ ] Jupiter
+
+</Quiz>
+
+## Multiple choice
+
+<Quiz title="Multiple choice" id="demo-multiple">
+Which of these are prime numbers?
+
+- [x] 2
+- [ ] 4
+- [x] 7
+- [ ] 9
+
+</Quiz>
+
+## Fill in the blank
+
+<Quiz title="Fill in the blank" id="demo-blank">
+The chemical symbol for water is [[H2O]].
+
+</Quiz>
+
+## Per-answer feedback and explanation
+
+<Quiz title="Feedback and explanation" id="demo-feedback" disableAfterSubmit={false}>
+Which language runs natively in the browser?
+
+- [x] JavaScript
+  > Correct — JavaScript is the language of the web.
+- [ ] Python
+  > Python needs a server or a runtime like Pyodide to run in the browser.
+- [ ] C++
+
+---
+
+JavaScript is the only one of these that browsers execute directly.
+
+</Quiz>
+
+## Results
+
+<QuizResults confetti />

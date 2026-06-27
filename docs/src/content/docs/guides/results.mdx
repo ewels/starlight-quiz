@@ -1,0 +1,65 @@
+---
+title: Results & scoring
+description: Add an aggregate score panel and confetti to a page of quizzes.
+---
+
+import { Quiz, QuizResults } from 'starlight-quiz/components';
+
+Drop a `<QuizResults>` component onto a page to show aggregate progress across every quiz on it. As readers answer, the
+panel tracks how many quizzes are done; once they have all been answered it reveals a score with an encouraging
+message.
+
+```mdx
+import { Quiz, QuizResults } from 'starlight-quiz/components';
+
+<Quiz title="Question one">…</Quiz>
+<Quiz title="Question two">…</Quiz>
+
+<QuizResults confetti />
+```
+
+## Try it
+
+Answer both quizzes to reveal the score panel below.
+
+<Quiz title="Question one" id="results-q1">
+What does HTML stand for?
+
+- [x] HyperText Markup Language
+- [ ] Hyperlink Text Mode Language
+- [ ] Home Tool Markup Language
+
+</Quiz>
+
+<Quiz title="Question two" id="results-q2">
+Which language styles a web page?
+
+- [x] CSS
+- [ ] SQL
+- [ ] JSON
+
+</Quiz>
+
+<QuizResults confetti />
+
+## Score tiers
+
+The message shown depends on the percentage of quizzes answered correctly:
+
+| Score    | Message                                    |
+| -------- | ------------------------------------------ |
+| 90–100 % | Outstanding! You aced it!                  |
+| 75–89 %  | Great job! You really know your stuff!     |
+| 60–74 %  | Good effort! Keep learning!                |
+| 40–59 %  | Not bad, but there's room for improvement! |
+| 0–39 %   | Better luck next time! Keep trying!        |
+
+## Confetti
+
+Set the `confetti` prop to celebrate a first-time completion (when the score is at least 10 %). The confetti library is
+loaded with a dynamic import, so it adds nothing to your bundle unless it actually fires.
+
+## Resetting
+
+The results panel includes a **Reset all answers** button that clears every quiz on the page. Each quiz also keeps its
+own reset button when `disableAfterSubmit={false}`.

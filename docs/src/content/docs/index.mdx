@@ -1,0 +1,34 @@
+---
+title: Starlight Quiz
+description: Interactive quizzes for Astro and Starlight, authored in markdown.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+**Starlight Quiz** adds interactive, self-marking quizzes to your Astro and Starlight documentation. Write them with
+the markdown you already know — task lists for answers, blockquotes for feedback and `[[double brackets]]` for
+fill-in-the-blank — and the package turns them into accessible, themeable quizzes that remember a reader's progress.
+
+Try it:
+
+<Quiz title="A quick taster" id="home-taster">
+Which of these does Starlight Quiz support out of the box?
+
+- [x] Single-choice questions
+- [x] Multiple-choice questions
+- [x] Fill-in-the-blank questions
+- [ ] Mind reading
+  > Not yet — but everything else here is real.
+
+---
+
+When more than one answer is correct, the quiz automatically switches to checkboxes.
+
+</Quiz>
+
+## Where next?
+
+- [Getting started](/starlight-quiz/guides/getting-started/) — install the plugin and write your first quiz.
+- [Authoring quizzes](/starlight-quiz/guides/authoring/) — the full markdown syntax.
+- [Results & scoring](/starlight-quiz/guides/results/) — add a score panel and confetti.
+- [Live demo](/starlight-quiz/demo/) — every question type on one page.
