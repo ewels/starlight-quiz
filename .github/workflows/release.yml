@@ -1,8 +1,11 @@
 name: Release
 
+# Manual only. The changesets action publishes any package version that is not
+# yet on npm, so running it on every push to main would attempt to publish — we
+# only want that to happen when a release is explicitly requested (and once the
+# NPM_TOKEN secret is configured). Trigger this from the Actions tab when ready.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions: {}
 
