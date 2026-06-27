@@ -26,6 +26,8 @@ educational content, tutorials, and documentation that requires reader engagemen
 - 🌐 **Internationalisation** – English, French, German and Spanish out of the box, with label props otherwise
 - 🧩 **Works anywhere** – a zero-config Starlight plugin or standalone in any Astro project, safe under view transitions
 - ♿ **Accessible** – real fieldsets, `aria-live` feedback, focus management and keyboard-safe auto-submit
+- 📤 **LMS export** – emit a quiz manifest and export to QTI 1.2/2.1 for Canvas, Moodle and Blackboard
+- 🖥️ **Terminal runner** – take quizzes in your terminal, from a local build or a deployed site
 
 ```mdx
 import { Quiz } from 'starlight-quiz/components';

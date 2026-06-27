@@ -1,0 +1,55 @@
+---
+title: Command-line tools
+description: Take quizzes in the terminal and export them to QTI for an LMS.
+---
+
+`starlight-quiz` ships a small CLI for working with quizzes outside the browser. Both commands read the
+[quiz manifest](/starlight-quiz/guides/configuration/#manifest) — never your MDX — so enable it first:
+
+```js title="astro.config.mjs"
+starlight({ plugins: [starlightQuiz({ manifest: true })] });
+```
+
+The manifest (`quiz-manifest.json`) is written to your build output, and is served at the root of your deployed site.
+
+## Take a quiz in the terminal
+
+Run quizzes interactively from a local build or a deployed site:
+
+```sh
+# From a local build directory (or a manifest file directly)
+npx starlight-quiz run ./dist
+
+# From a deployed site — its manifest is fetched automatically
+npx starlight-quiz run https://my-docs.example.com
+```
+
+The runner presents each question, grades your answers, reveals the correct ones when you are wrong, and prints a final
+score with a tier message. If a site has no manifest, the CLI falls back to scraping the page's HTML.
+
+## Export to QTI for an LMS
+
+Export every quiz as [QTI](https://www.imsglobal.org/question/index.html) assessment items — the interchange format
+understood by Canvas, Moodle, Blackboard and others:
+
+```sh
+# QTI 2.1 (default)
+npx starlight-quiz export-qti ./dist --out ./qti
+
+# QTI 1.2
+npx starlight-quiz export-qti ./dist --version 1.2 --out ./qti
+```
+
+This writes one XML item per quiz plus an `imsmanifest.xml` into the output directory — an unzipped IMS Content
+Package. Zip the folder to import it into your LMS. Single-choice, multiple-choice and fill-in-the-blank questions are
+all supported.
+
+## Options
+
+| Command           | Argument / flag      | Description                                               |
+| ----------------- | -------------------- | --------------------------------------------------------- |
+| `run`             | `<source>`           | A manifest file, a directory containing one, or a site URL. |
+| `run`             | `--filename`         | Manifest filename (default `quiz-manifest.json`).         |
+| `export-qti`      | `<source>`           | As above.                                                 |
+| `export-qti`      | `--out`              | Output directory (default `qti`).                         |
+| `export-qti`      | `--version`          | `2.1` (default) or `1.2`.                                 |

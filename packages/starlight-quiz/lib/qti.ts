@@ -41,8 +41,13 @@ function splitBlanks(question: string): { text: (string | number)[]; answers: st
 
 function qti21Choice(quiz: QuizManifestEntry, answers: ManifestAnswer[]): string {
   const multiple = quiz.type === 'multiple';
-  const correct = answers.map((a, i) => [a, i] as const).filter(([a]) => a.correct).map(([, i]) => choiceId(i));
-  const choices = answers.map((a, i) => `      <simpleChoice identifier="${choiceId(i)}">${esc(a.text)}</simpleChoice>`);
+  const correct = answers
+    .map((a, i) => [a, i] as const)
+    .filter(([a]) => a.correct)
+    .map(([, i]) => choiceId(i));
+  const choices = answers.map(
+    (a, i) => `      <simpleChoice identifier="${choiceId(i)}">${esc(a.text)}</simpleChoice>`,
+  );
   return `  <responseDeclaration identifier="RESPONSE" cardinality="${multiple ? 'multiple' : 'single'}" baseType="identifier">
     <correctResponse>
 ${correct.map((id) => `      <value>${id}</value>`).join('\n')}
@@ -74,7 +79,10 @@ function qti21Blank(quiz: QuizManifestEntry): string {
     )
     .join('');
   const matches = answers
-    .map((_, i) => `        <match><variable identifier="RESPONSE_${i + 1}"/><correct identifier="RESPONSE_${i + 1}"/></match>`)
+    .map(
+      (_, i) =>
+        `        <match><variable identifier="RESPONSE_${i + 1}"/><correct identifier="RESPONSE_${i + 1}"/></match>`,
+    )
     .join('\n');
   return `${declarations}
   <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"><defaultValue><value>0</value></defaultValue></outcomeDeclaration>
@@ -150,10 +158,7 @@ function qti12Blank(quiz: QuizManifestEntry): string {
     )
     .join('\n');
   const conditions = answers
-    .map(
-      (answer, i) =>
-        `          <varequal respident="RESPONSE_${i + 1}" case="No">${esc(answer)}</varequal>`,
-    )
+    .map((answer, i) => `          <varequal respident="RESPONSE_${i + 1}" case="No">${esc(answer)}</varequal>`)
     .join('\n');
   return `    <presentation>
       <material><mattext texttype="text/plain">${esc(prompt)}</mattext></material>
@@ -190,8 +195,7 @@ export function toQtiItem(quiz: QuizManifestEntry, version: QtiVersion): string 
 
 /** Build the `imsmanifest.xml` for an IMS Content Package of QTI items. */
 export function buildImsManifest(items: { identifier: string; href: string }[], version: QtiVersion): string {
-  const type =
-    version === '2.1' ? 'imsqti_item_xmlv2p1' : 'imsqti_xmlv1p2';
+  const type = version === '2.1' ? 'imsqti_item_xmlv2p1' : 'imsqti_xmlv1p2';
   const resources = items
     .map(
       (item) =>

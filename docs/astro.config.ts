@@ -41,6 +41,7 @@ export default defineConfig({
           label: 'Reference',
           items: [
             { label: 'Configuration', slug: 'guides/configuration' },
+            { label: 'Command-line tools', slug: 'guides/cli' },
             { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
             { label: 'Live demo', slug: 'demo' },
           ],

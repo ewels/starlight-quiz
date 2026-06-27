@@ -26,6 +26,9 @@
     "*.css",
     "*.astro"
   ],
+  "bin": {
+    "starlight-quiz": "./bin/starlight-quiz.ts"
+  },
   "exports": {
     ".": "./index.ts",
     "./components": "./components/index.ts",
