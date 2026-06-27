@@ -1,0 +1,13 @@
+**/dist/**
+**/node_modules/**
+**/.astro/**
+docs/playwright-report/**
+docs/test-results/**
+pnpm-lock.yaml
+CHANGELOG.md
+**/CHANGELOG.md
+
+# MDX content mixes JSX components with whitespace-sensitive markdown (task
+# lists, fill-in-the-blank). Prettier's MDX formatter reflows it in ways that
+# break the quiz authoring syntax, so it is formatted by hand.
+**/*.mdx

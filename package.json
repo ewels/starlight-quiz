@@ -1,0 +1,47 @@
+{
+  "name": "starlight-quiz-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "Phil Ewels",
+  "description": "Monorepo for the starlight-quiz package and its documentation site.",
+  "homepage": "https://ewels.github.io/starlight-quiz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewels/starlight-quiz.git"
+  },
+  "bugs": "https://github.com/ewels/starlight-quiz/issues",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "pnpm --filter starlight-quiz-docs dev",
+    "build": "pnpm --filter starlight-quiz-docs build",
+    "preview": "pnpm --filter starlight-quiz-docs preview",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write --cache --ignore-unknown .",
+    "format:check": "prettier --check --cache --ignore-unknown .",
+    "test": "pnpm --filter starlight-quiz test",
+    "test:e2e": "pnpm --filter starlight-quiz-docs test:e2e",
+    "changeset": "changeset",
+    "version": "changeset version && pnpm install --no-frozen-lockfile",
+    "release": "pnpm -r publish --access public --no-git-checks"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.0.1",
+    "eslint": "^10.6.0",
+    "eslint-plugin-astro": "^2.1.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "globals": "^17.7.0",
+    "prettier": "^3.8.5",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.0"
+  }
+}

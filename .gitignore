@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Astro / Vite caches
+.vite/
+
+# Test artefacts
+coverage/
+docs/playwright-report/
+docs/test-results/
+.playwright/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+.idea/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.*
+!.env.example
