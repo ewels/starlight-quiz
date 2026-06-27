@@ -116,12 +116,19 @@ describe('submitting', () => {
     expect(quiz.querySelector('.sl-quiz-blank--correct')).not.toBeNull();
   });
 
-  it('auto-submits a single-choice quiz on change', () => {
+  it('auto-submits a single-choice quiz when an answer is clicked', () => {
     const quiz = mountQuiz(choiceSource([1]), { autoSubmit: true });
-    const input = quiz.querySelector<HTMLInputElement>('input[value="1"]')!;
+    expect(quiz.querySelector<HTMLButtonElement>('.sl-quiz-submit')!.hidden).toBe(true);
+    quiz.querySelector<HTMLInputElement>('input[value="1"]')!.click();
+    expect(quiz.querySelector('.sl-quiz-feedback')?.hasAttribute('hidden')).toBe(false);
+  });
+
+  it('does not auto-submit on keyboard arrow navigation (change without click)', () => {
+    const quiz = mountQuiz(choiceSource([1]), { autoSubmit: true });
+    const input = quiz.querySelector<HTMLInputElement>('input[value="0"]')!;
     input.checked = true;
     input.dispatchEvent(new Event('change', { bubbles: true }));
-    expect(quiz.querySelector('.sl-quiz-feedback')?.hasAttribute('hidden')).toBe(false);
+    expect(quiz.querySelector('.sl-quiz-feedback')?.hasAttribute('hidden')).toBe(true);
   });
 });
 

@@ -11,7 +11,12 @@ interface Props {
   class?: string;
   /** Shuffle the answer order on each load (choice quizzes only). */
   shuffle?: boolean;
-  /** Submit a single-choice quiz as soon as an answer is picked. */
+  /**
+   * Submit a single-choice quiz as soon as an answer is clicked or tapped
+   * (defaults to true; keyboard arrow navigation never auto-submits). Set to
+   * false to show a Submit button instead. No effect on multiple-choice or
+   * fill-in-the-blank quizzes, which always use a Submit button.
+   */
   autoSubmit?: boolean;
   /** Lock the quiz after submitting. When false, a reset button is shown instead. */
   disableAfterSubmit?: boolean;
@@ -34,7 +39,7 @@ const {
   title,
   class: className,
   shuffle = false,
-  autoSubmit = false,
+  autoSubmit = true,
   disableAfterSubmit = true,
   showCorrect = true,
   submitLabel,

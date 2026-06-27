@@ -101,9 +101,11 @@ The Earth is an oblate spheroid — slightly flattened at the poles.
 
 ## Options
 
-Pass props to `<Quiz>` to change its behaviour:
+Pass props to `<Quiz>` to change its behaviour. Single-choice quizzes **auto-submit on click by default** — picking an
+answer grades it immediately, with no Submit button (keyboard users arrowing through the options are not locked in).
+Set `autoSubmit={false}` to show a Submit button instead. The quiz below also shuffles its answers and allows retrying:
 
-<Quiz title="Auto-submit and shuffle" id="authoring-options" autoSubmit shuffle disableAfterSubmit={false}>
+<Quiz title="Shuffle and retry" id="authoring-options" shuffle disableAfterSubmit={false}>
 Pick the odd one out.
 
 - [ ] Apple
@@ -117,6 +119,6 @@ Pick the odd one out.
 | -------------------- | ------- | ------------------------------------------------------------ |
 | `id`                 | —       | Stable id for persistence (falls back to a hash of `title`). |
 | `shuffle`            | `false` | Shuffle answer order on load.                                |
-| `autoSubmit`         | `false` | Submit a single-choice quiz when an answer is chosen.        |
+| `autoSubmit`         | `true`  | Single-choice: grade instantly on click/tap. `false` shows a Submit button. |
 | `disableAfterSubmit` | `true`  | Lock after submitting; when `false`, shows a reset button.   |
 | `showCorrect`        | `true`  | Reveal the correct answer(s) after a wrong submission.       |

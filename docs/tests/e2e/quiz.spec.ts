@@ -2,14 +2,15 @@ import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('demo/');
-  // Wait for the custom elements to upgrade (the submit button is created by JS).
-  await page.locator('#demo-single .sl-quiz-submit').waitFor();
+  // Wait for the custom elements to upgrade (the JS rewrites the task list into inputs).
+  await page.locator('#demo-single input[type="radio"]').first().waitFor();
 });
 
-test('single-choice: a correct answer is marked correct', async ({ page }) => {
+test('single-choice: auto-submits and marks a correct answer', async ({ page }) => {
   const quiz = page.locator('#demo-single');
+  // Auto-submit is on by default for single-choice: clicking grades immediately.
+  await expect(quiz.locator('.sl-quiz-submit')).toBeHidden();
   await quiz.getByText('Mars', { exact: true }).click();
-  await quiz.locator('.sl-quiz-submit').click();
 
   await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
   await expect(quiz.locator('.sl-quiz-feedback')).toContainText('Correct!');
@@ -19,14 +20,14 @@ test('single-choice: a correct answer is marked correct', async ({ page }) => {
 test('single-choice: a wrong answer reveals the correct one', async ({ page }) => {
   const quiz = page.locator('#demo-single');
   await quiz.getByText('Venus', { exact: true }).click();
-  await quiz.locator('.sl-quiz-submit').click();
 
   await expect(quiz.locator('.sl-quiz-answer--wrong')).toBeVisible();
   await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
 });
 
-test('multiple-choice: requires every correct answer', async ({ page }) => {
+test('multiple-choice: requires every correct answer and keeps a Submit button', async ({ page }) => {
   const quiz = page.locator('#demo-multiple');
+  await expect(quiz.locator('.sl-quiz-submit')).toBeVisible();
   await quiz.getByText('2', { exact: true }).click();
   await quiz.getByText('7', { exact: true }).click();
   await quiz.locator('.sl-quiz-submit').click();
@@ -42,8 +43,9 @@ test('fill-in-the-blank: grades case-insensitively', async ({ page }) => {
   await expect(quiz.locator('.sl-quiz-blank--correct')).toBeVisible();
 });
 
-test('explanation is revealed after submitting', async ({ page }) => {
+test('opting out of auto-submit keeps the Submit button and reveals the explanation', async ({ page }) => {
   const quiz = page.locator('#demo-feedback');
+  await expect(quiz.locator('.sl-quiz-submit')).toBeVisible();
   await quiz.getByText('JavaScript', { exact: true }).click();
   await quiz.locator('.sl-quiz-submit').click();
 
@@ -54,11 +56,10 @@ test('explanation is revealed after submitting', async ({ page }) => {
 test('progress persists across a reload', async ({ page }) => {
   const quiz = page.locator('#demo-single');
   await quiz.getByText('Mars', { exact: true }).click();
-  await quiz.locator('.sl-quiz-submit').click();
   await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
 
   await page.reload();
-  await page.locator('#demo-single .sl-quiz-submit').waitFor({ state: 'attached' });
+  await page.locator('#demo-single input[value="1"]').waitFor({ state: 'attached' });
 
   await expect(quiz.locator('input[value="1"]')).toBeChecked();
   await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
@@ -66,7 +67,6 @@ test('progress persists across a reload', async ({ page }) => {
 
 test('results panel completes when every quiz is answered', async ({ page }) => {
   await page.locator('#demo-single').getByText('Mars', { exact: true }).click();
-  await page.locator('#demo-single .sl-quiz-submit').click();
 
   await page.locator('#demo-multiple').getByText('2', { exact: true }).click();
   await page.locator('#demo-multiple').getByText('7', { exact: true }).click();
@@ -88,7 +88,6 @@ test('reset all clears progress', async ({ page }) => {
 
   const quiz = page.locator('#demo-single');
   await quiz.getByText('Mars', { exact: true }).click();
-  await quiz.locator('.sl-quiz-submit').click();
   await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
 
   // Answer the rest so the results panel (with its reset-all button) is shown.
@@ -103,5 +102,5 @@ test('reset all clears progress', async ({ page }) => {
   await page.locator('.sl-quiz-results-reset').click();
 
   await expect(quiz.locator('.sl-quiz-answer--correct')).toHaveCount(0);
-  await expect(quiz.locator('.sl-quiz-submit')).toBeVisible();
+  await expect(quiz.locator('input[value="1"]')).not.toBeChecked();
 });

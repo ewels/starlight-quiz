@@ -97,15 +97,15 @@ More than one correct answer turns a quiz into multiple-choice (checkboxes); a s
 
 ### `<Quiz>` props
 
-| Prop                 | Type      | Default | Description                                                  |
-| -------------------- | --------- | ------- | ------------------------------------------------------------ |
-| `id`                 | `string`  | —       | Stable id for persistence (falls back to a hash of `title`). |
-| `title`              | `string`  | —       | Heading shown above the quiz.                                |
-| `shuffle`            | `boolean` | `false` | Shuffle answer order on load.                                |
-| `autoSubmit`         | `boolean` | `false` | Submit a single-choice quiz when an answer is chosen.        |
-| `disableAfterSubmit` | `boolean` | `true`  | Lock after submitting; when `false`, shows a reset button.   |
-| `showCorrect`        | `boolean` | `true`  | Reveal the correct answer(s) after a wrong submission.       |
-| `*Label`             | `string`  | —       | Override any UI string (`submitLabel`, `resetLabel`, …).     |
+| Prop                 | Type      | Default | Description                                                                         |
+| -------------------- | --------- | ------- | ----------------------------------------------------------------------------------- |
+| `id`                 | `string`  | —       | Stable id for persistence (falls back to a hash of `title`).                        |
+| `title`              | `string`  | —       | Heading shown above the quiz.                                                       |
+| `shuffle`            | `boolean` | `false` | Shuffle answer order on load.                                                       |
+| `autoSubmit`         | `boolean` | `true`  | Single-choice: grade on click/tap (keyboard-safe). Set `false` for a Submit button. |
+| `disableAfterSubmit` | `boolean` | `true`  | Lock after submitting; when `false`, shows a reset button.                          |
+| `showCorrect`        | `boolean` | `true`  | Reveal the correct answer(s) after a wrong submission.                              |
+| `*Label`             | `string`  | —       | Override any UI string (`submitLabel`, `resetLabel`, …).                            |
 
 See the [documentation](https://ewels.github.io/starlight-quiz) for the full prop and `<QuizResults>` reference.
 

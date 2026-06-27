@@ -136,6 +136,9 @@ class StarlightQuizElement extends HTMLElement {
       this.#resetUi();
     });
 
+    // In auto-submit mode there is no Submit button — picking an answer grades it.
+    if (this.#autoSubmit) this.#submitButton.hidden = true;
+
     actions.append(this.#submitButton, this.#resetButton);
     form.append(actions);
 
@@ -176,7 +179,10 @@ class StarlightQuizElement extends HTMLElement {
 
       if (this.#autoSubmit) {
         for (const answer of this.#answers) {
-          answer.input.addEventListener('change', () => this.#handleSubmit());
+          // Submit on `click` (mouse, tap, Space-activation) rather than
+          // `change`, so keyboard users arrowing through the radios are not
+          // locked in on the first arrow press.
+          answer.input.addEventListener('click', () => this.#handleSubmit());
         }
       }
     }
@@ -458,7 +464,7 @@ class StarlightQuizElement extends HTMLElement {
     this.#feedback.hidden = true;
     this.#feedback.replaceChildren();
     if (this.#content) this.#content.hidden = true;
-    this.#submitButton.hidden = false;
+    this.#submitButton.hidden = this.#autoSubmit;
     this.#resetButton.hidden = true;
   }
 }
