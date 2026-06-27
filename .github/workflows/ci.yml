@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint & type-check
+  checks:
+    name: Format, lint & type-check (prek)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,9 +28,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm format:check
-      - run: pnpm lint
-      - run: pnpm typecheck
+      # Run the same prettier/eslint/typecheck hooks defined in prek.toml, so
+      # local pre-commit and CI stay in sync. A hook that reformats or fixes a
+      # file makes prek exit non-zero, failing the job.
+      - run: pipx install prek
+      - run: prek run --all-files --show-diff-on-failure --color always
 
   test:
     name: Unit tests
