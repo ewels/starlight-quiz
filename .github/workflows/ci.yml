@@ -77,8 +77,8 @@ jobs:
     name: Workflow audit (zizmor)
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      security-events: write
+      contents: read # check out the repository
+      security-events: write # upload the SARIF audit results to code scanning
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
