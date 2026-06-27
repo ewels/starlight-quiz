@@ -12,6 +12,9 @@ export const QUIZ_ELEMENT = 'sl-quiz';
 /** Custom element tag for the aggregate results panel. */
 export const QUIZ_RESULTS_ELEMENT = 'sl-quiz-results';
 
+/** Custom element tag for the compact progress widget (e.g. in the sidebar). */
+export const QUIZ_PROGRESS_ELEMENT = 'sl-quiz-progress';
+
 /** Prefix for the per-page localStorage key. The page pathname is appended. */
 export const STORAGE_KEY_PREFIX = 'starlight-quiz:';
 

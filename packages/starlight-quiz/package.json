@@ -37,6 +37,8 @@
     "index.ts",
     "components",
     "lib",
+    "libs",
+    "overrides",
     "styles.css",
     "translations.ts",
     "env.d.ts",

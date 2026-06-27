@@ -1,0 +1,38 @@
+---
+import { getTranslate, resolveString } from '../lib/i18n';
+
+interface Props {
+  /** Extra class names for the widget. */
+  class?: string;
+  /** Override the heading. */
+  headingLabel?: string;
+  /** Override the word after the answered/total count. */
+  answeredLabel?: string;
+  /** Override the word after the correct count. */
+  correctLabel?: string;
+}
+
+const { class: className, headingLabel, answeredLabel, correctLabel } = Astro.props;
+
+const t = getTranslate(Astro.locals);
+const heading = resolveString('starlightQuiz.results.progress', headingLabel, t);
+const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
+const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
+---
+
+<sl-quiz-progress class:list={['sl-quiz-progress', className]} hidden>
+  <p class="sl-quiz-progress-heading">{heading}</p>
+  <div class="sl-quiz-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label={heading}>
+    <span class="sl-quiz-progress-bar-fill"></span>
+  </div>
+  <p class="sl-quiz-progress-stats">
+    <span class="sl-quiz-progress-answered">0</span> / <span class="sl-quiz-progress-total">0</span>
+    {' '}{answered} · <span class="sl-quiz-progress-correct">0</span> {correct}
+  </p>
+</sl-quiz-progress>
+
+<script>
+  import { defineQuizProgressElement } from '../lib/progress-element';
+
+  defineQuizProgressElement();
+</script>

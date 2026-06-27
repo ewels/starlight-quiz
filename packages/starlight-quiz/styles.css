@@ -362,9 +362,51 @@
     border-color: var(--slq-accent);
   }
 
+  /* ---- Progress widget (e.g. in the table of contents) -------------- */
+  .sl-quiz-progress {
+    display: block;
+    margin-block: 1rem;
+    padding-block: 0.75rem;
+    border-block: 1px solid var(--slq-border);
+    font-size: var(--sl-text-xs, 0.8125rem);
+  }
+
+  .sl-quiz-progress[hidden] {
+    display: none;
+  }
+
+  .sl-quiz-progress-heading {
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slq-muted);
+  }
+
+  .sl-quiz-progress-bar {
+    height: 0.375rem;
+    background: var(--slq-border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .sl-quiz-progress-bar-fill {
+    display: block;
+    block-size: 100%;
+    inline-size: 0;
+    background: var(--slq-accent);
+    transition: inline-size 0.3s ease;
+  }
+
+  .sl-quiz-progress-stats {
+    margin: 0.5rem 0 0;
+    color: var(--slq-muted);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .sl-quiz-answer,
     .sl-quiz-results-bar-fill,
+    .sl-quiz-progress-bar-fill,
     .sl-quiz-actions button {
       transition: none;
     }

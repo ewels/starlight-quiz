@@ -1,5 +1,6 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 
+import { overrideStarlightComponent } from './libs/starlight';
 import { Translations } from './translations';
 
 /** Options for the `starlight-quiz` plugin. */
@@ -11,6 +12,15 @@ export interface StarlightQuizOptions {
    * @default true
    */
   injectStyles?: boolean;
+  /**
+   * Show an aggregate progress tracker (answered + correct across the page) in
+   * the table of contents, by overriding Starlight's `TableOfContents` and
+   * `MobileTableOfContents` components. The widget hides itself on pages with
+   * no quizzes.
+   *
+   * @default true
+   */
+  progressTracker?: boolean;
 }
 
 /**
@@ -21,7 +31,7 @@ export interface StarlightQuizOptions {
  * components themselves are imported from `starlight-quiz/components`.
  */
 export default function starlightQuiz(options: StarlightQuizOptions = {}): StarlightPlugin {
-  const { injectStyles = true } = options;
+  const { injectStyles = true, progressTracker = true } = options;
 
   return {
     name: 'starlight-quiz',
@@ -29,12 +39,28 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
       'i18n:setup'({ injectTranslations }) {
         injectTranslations(Translations);
       },
-      'config:setup'({ config, updateConfig }) {
-        if (injectStyles) {
-          updateConfig({
-            customCss: [...(config.customCss ?? []), 'starlight-quiz/styles'],
-          });
-        }
+      'config:setup'({ config, logger, updateConfig }) {
+        const customCss = injectStyles ? [...(config.customCss ?? []), 'starlight-quiz/styles'] : config.customCss;
+
+        const components = progressTracker
+          ? {
+              ...config.components,
+              ...overrideStarlightComponent(
+                config.components,
+                logger,
+                'TableOfContents',
+                'starlight-quiz/overrides/TableOfContents.astro',
+              ),
+              ...overrideStarlightComponent(
+                config.components,
+                logger,
+                'MobileTableOfContents',
+                'starlight-quiz/overrides/MobileTableOfContents.astro',
+              ),
+            }
+          : config.components;
+
+        updateConfig({ customCss, components });
       },
     },
   };

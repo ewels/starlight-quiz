@@ -83,6 +83,18 @@ test('results panel completes when every quiz is answered', async ({ page }) => 
   await expect(results.locator('.sl-quiz-results-score-value')).toHaveText('100');
 });
 
+test('the table-of-contents progress widget reflects answers', async ({ page }) => {
+  // The desktop ToC widget is rendered by the Starlight override.
+  const widget = page.locator('.sl-quiz-progress--toc');
+  await expect(widget.locator('.sl-quiz-progress-total')).toHaveText('4');
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('0');
+
+  await page.locator('#demo-single').getByText('Mars', { exact: true }).click();
+
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('1');
+  await expect(widget.locator('.sl-quiz-progress-correct')).toHaveText('1');
+});
+
 test('reset all clears progress', async ({ page }) => {
   page.on('dialog', (dialog) => dialog.accept());
 
