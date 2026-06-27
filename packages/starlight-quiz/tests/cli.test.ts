@@ -11,15 +11,27 @@ import type { QuizManifest } from '../lib/manifest';
 const manifest: QuizManifest = {
   version: 1,
   quizzes: [
-    { id: 's', type: 'single', page: '/', question: 'Q1', answers: [
-      { text: 'A', correct: false },
-      { text: 'B', correct: true },
-    ] },
-    { id: 'm', type: 'multiple', page: '/', question: 'Q2', answers: [
-      { text: 'A', correct: true },
-      { text: 'B', correct: false },
-      { text: 'C', correct: true },
-    ] },
+    {
+      id: 's',
+      type: 'single',
+      page: '/',
+      question: 'Q1',
+      answers: [
+        { text: 'A', correct: false },
+        { text: 'B', correct: true },
+      ],
+    },
+    {
+      id: 'm',
+      type: 'multiple',
+      page: '/',
+      question: 'Q2',
+      answers: [
+        { text: 'A', correct: true },
+        { text: 'B', correct: false },
+        { text: 'C', correct: true },
+      ],
+    },
     { id: 'b', type: 'blank', page: '/', question: 'Water is [[H2O]].', blanks: ['H2O'] },
   ],
 };
