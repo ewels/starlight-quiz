@@ -88,7 +88,10 @@ function extractBlanks(text: string): string[] {
   return answers;
 }
 
-function parseChoice(source: ParsedElement, list: ParsedElement): Pick<QuizManifestEntry, 'answers' | 'question' | 'explanation' | 'type'> {
+function parseChoice(
+  source: ParsedElement,
+  list: ParsedElement,
+): Pick<QuizManifestEntry, 'answers' | 'question' | 'explanation' | 'type'> {
   const items = list.querySelectorAll('li').filter((li) => li.querySelector('input[type="checkbox"]'));
   const answers: ManifestAnswer[] = items.map((li) => {
     const checkbox = li.querySelector('input[type="checkbox"]');
