@@ -23,6 +23,21 @@ starlightQuiz({
 Appends the bundled theme to Starlight's `customCss`. Set to `false` if you want to provide all quiz styling yourself;
 import `starlight-quiz/styles` manually, or write your own.
 
+### `progressTracker`
+
+**Type:** `boolean` · **Default:** `true`
+
+Shows an aggregate progress widget (answered + correct) in the table of contents, by overriding Starlight's
+`TableOfContents` and `MobileTableOfContents`. It hides itself on pages without quizzes. Set to `false` to disable.
+
+### `manifest`
+
+**Type:** `boolean | string` · **Default:** `false`
+
+Emit a structured JSON manifest of every quiz to the build output. Pass `true` for the default filename
+(`quiz-manifest.json`) or a string to choose your own. The manifest is parsed from the built HTML, so it captures all
+quizzes without touching MDX, and is the source consumed by the QTI exporter and the terminal runner.
+
 ## `<Quiz>` props
 
 | Prop                 | Type      | Default | Description                                                  |

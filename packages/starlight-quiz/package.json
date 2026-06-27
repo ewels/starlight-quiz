@@ -41,6 +41,8 @@
     "overrides",
     "styles.css",
     "translations.ts",
+    "integration.ts",
+    "bin",
     "env.d.ts",
     "README.md",
     "LICENSE"
@@ -54,7 +56,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "canvas-confetti": "^1.9.4"
+    "canvas-confetti": "^1.9.4",
+    "node-html-parser": "^8.0.3"
   },
   "peerDependencies": {
     "@astrojs/starlight": ">=0.41.0",
@@ -68,6 +71,7 @@
   "devDependencies": {
     "@astrojs/starlight": "^0.41.1",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^26.0.1",
     "@vitest/coverage-v8": "^4.1.9",
     "astro": "^7.0.3",
     "jsdom": "^29.1.1",

@@ -1,5 +1,6 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 
+import { quizManifestIntegration } from './integration';
 import { overrideStarlightComponent } from './libs/starlight';
 import { Translations } from './translations';
 
@@ -21,6 +22,14 @@ export interface StarlightQuizOptions {
    * @default true
    */
   progressTracker?: boolean;
+  /**
+   * Emit a structured JSON manifest of every quiz to the build output, for the
+   * QTI exporter and terminal runner to consume. Pass `true` for the default
+   * filename (`quiz-manifest.json`) or a string to set the filename.
+   *
+   * @default false
+   */
+  manifest?: boolean | string;
 }
 
 /**
@@ -31,7 +40,7 @@ export interface StarlightQuizOptions {
  * components themselves are imported from `starlight-quiz/components`.
  */
 export default function starlightQuiz(options: StarlightQuizOptions = {}): StarlightPlugin {
-  const { injectStyles = true, progressTracker = true } = options;
+  const { injectStyles = true, progressTracker = true, manifest = false } = options;
 
   return {
     name: 'starlight-quiz',
@@ -39,7 +48,11 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
       'i18n:setup'({ injectTranslations }) {
         injectTranslations(Translations);
       },
-      'config:setup'({ config, logger, updateConfig }) {
+      'config:setup'({ addIntegration, config, logger, updateConfig }) {
+        if (manifest) {
+          addIntegration(quizManifestIntegration(typeof manifest === 'string' ? { filename: manifest } : {}));
+        }
+
         const customCss = injectStyles ? [...(config.customCss ?? []), 'starlight-quiz/styles'] : config.customCss;
 
         const components = progressTracker

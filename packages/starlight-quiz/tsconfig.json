@@ -2,12 +2,13 @@
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "types": ["canvas-confetti"],
+    "types": ["canvas-confetti", "node"],
     "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "noEmit": true
   },
-  "//": "tsc validates the framework-agnostic runtime. The Starlight plugin (index.ts) and the .astro components are type-checked by `astro check` in the docs site, which imports them.",
-  "include": ["lib/**/*.ts", "translations.ts", "env.d.ts"],
+  "//": "tsc validates the framework-agnostic runtime and the Node CLI. The Starlight plugin (index.ts), the integration and the .astro components are type-checked by `astro check` in the docs site, which imports them.",
+  "include": ["lib/**/*.ts", "bin/**/*.ts", "integration.ts", "translations.ts", "env.d.ts"],
   "exclude": ["node_modules", "tests", "**/*.test.ts"]
 }

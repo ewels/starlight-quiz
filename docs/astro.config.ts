@@ -12,7 +12,7 @@ export default defineConfig({
       description: 'Interactive quizzes for Astro and Starlight, authored in markdown.',
       logo: { src: './src/assets/logo.svg', alt: 'Starlight Quiz' },
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/ewels/starlight-quiz' }],
-      plugins: [starlightQuiz()],
+      plugins: [starlightQuiz({ manifest: true })],
       sidebar: [
         {
           label: 'Start here',
