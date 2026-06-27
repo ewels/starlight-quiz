@@ -1,0 +1,80 @@
+---
+import { quizId } from '../lib/id';
+import { getTranslate, resolveString } from '../lib/i18n';
+
+interface Props {
+  /** A stable id for persistence. Falls back to a hash of the title. */
+  id?: string;
+  /** A heading shown above the quiz. */
+  title?: string;
+  /** Extra class names for the quiz wrapper. */
+  class?: string;
+  /** Shuffle the answer order on each load (choice quizzes only). */
+  shuffle?: boolean;
+  /** Submit a single-choice quiz as soon as an answer is picked. */
+  autoSubmit?: boolean;
+  /** Lock the quiz after submitting. When false, a reset button is shown instead. */
+  disableAfterSubmit?: boolean;
+  /** Highlight the correct answer(s) after an incorrect submission. */
+  showCorrect?: boolean;
+  /** Override the submit button label (for vanilla Astro / custom wording). */
+  submitLabel?: string;
+  /** Override the reset button label. */
+  resetLabel?: string;
+  /** Override the "correct" feedback message. */
+  correctLabel?: string;
+  /** Override the "incorrect" feedback message. */
+  incorrectLabel?: string;
+  /** Override the "try again" feedback message (used when disableAfterSubmit is false). */
+  tryAgainLabel?: string;
+}
+
+const {
+  id,
+  title,
+  class: className,
+  shuffle = false,
+  autoSubmit = false,
+  disableAfterSubmit = true,
+  showCorrect = true,
+  submitLabel,
+  resetLabel,
+  correctLabel,
+  incorrectLabel,
+  tryAgainLabel,
+} = Astro.props;
+
+const t = getTranslate(Astro.locals);
+const resolvedId = quizId(id, title);
+
+const labels = {
+  submit: resolveString('starlightQuiz.submit', submitLabel, t),
+  reset: resolveString('starlightQuiz.reset', resetLabel, t),
+  correct: resolveString('starlightQuiz.correct', correctLabel, t),
+  incorrect: resolveString('starlightQuiz.incorrect', incorrectLabel, t),
+  tryAgain: resolveString('starlightQuiz.tryAgain', tryAgainLabel, t),
+};
+---
+
+<sl-quiz
+  id={resolvedId}
+  class:list={['sl-quiz', className]}
+  data-shuffle={shuffle ? 'true' : 'false'}
+  data-auto-submit={autoSubmit ? 'true' : 'false'}
+  data-disable-after-submit={disableAfterSubmit ? 'true' : 'false'}
+  data-show-correct={showCorrect ? 'true' : 'false'}
+  data-submit-label={labels.submit}
+  data-reset-label={labels.reset}
+  data-correct-label={labels.correct}
+  data-incorrect-label={labels.incorrect}
+  data-try-again-label={labels.tryAgain}
+>
+  {title && <p class="sl-quiz-title">{title}</p>}
+  <div class="sl-quiz-source"><slot /></div>
+</sl-quiz>
+
+<script>
+  import { defineQuizElement } from '../lib/quiz-element';
+
+  defineQuizElement();
+</script>

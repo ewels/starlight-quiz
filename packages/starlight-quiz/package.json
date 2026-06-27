@@ -1,0 +1,79 @@
+{
+  "name": "starlight-quiz",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "Phil Ewels",
+  "description": "Interactive quizzes for Astro and Starlight, authored in markdown with full progress tracking.",
+  "homepage": "https://ewels.github.io/starlight-quiz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewels/starlight-quiz.git",
+    "directory": "packages/starlight-quiz"
+  },
+  "bugs": "https://github.com/ewels/starlight-quiz/issues",
+  "keywords": [
+    "starlight",
+    "starlight-plugin",
+    "quiz",
+    "astro",
+    "astro-component",
+    "withastro",
+    "documentation",
+    "mdx"
+  ],
+  "sideEffects": [
+    "*.css",
+    "*.astro"
+  ],
+  "exports": {
+    ".": "./index.ts",
+    "./components": "./components/index.ts",
+    "./styles": "./styles.css",
+    "./overrides/*": "./overrides/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.ts",
+    "components",
+    "lib",
+    "styles.css",
+    "translations.ts",
+    "env.d.ts"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4"
+  },
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.41.0",
+    "astro": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@astrojs/starlight": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.41.1",
+    "@types/canvas-confetti": "^1.9.0",
+    "@vitest/coverage-v8": "^4.1.9",
+    "astro": "^7.0.3",
+    "jsdom": "^29.1.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

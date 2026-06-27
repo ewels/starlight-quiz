@@ -1,0 +1,85 @@
+---
+import { getTranslate, resolveString } from '../lib/i18n';
+
+interface Props {
+  /** Extra class names for the results wrapper. */
+  class?: string;
+  /** Fire confetti on a first-time, in-session completion (score ≥ 10%). */
+  confetti?: boolean;
+  /** Override the panel title. */
+  titleLabel?: string;
+  /** Override the progress label. */
+  progressLabel?: string;
+  /** Override the word used after "{answered} / {total}". */
+  answeredLabel?: string;
+  /** Override the word used after "{correct} / {total}". */
+  correctLabel?: string;
+  /** Override the reset-all button label. */
+  resetLabel?: string;
+}
+
+const {
+  class: className,
+  confetti = false,
+  titleLabel,
+  progressLabel,
+  answeredLabel,
+  correctLabel,
+  resetLabel,
+} = Astro.props;
+
+const t = getTranslate(Astro.locals);
+
+const title = resolveString('starlightQuiz.results.title', titleLabel, t);
+const progress = resolveString('starlightQuiz.results.progress', progressLabel, t);
+const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
+const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
+const resetAll = resolveString('starlightQuiz.results.resetAll', resetLabel, t);
+const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
+
+const messages = {
+  excellent: resolveString('starlightQuiz.results.excellent', undefined, t),
+  good: resolveString('starlightQuiz.results.good', undefined, t),
+  average: resolveString('starlightQuiz.results.average', undefined, t),
+  poor: resolveString('starlightQuiz.results.poor', undefined, t),
+  fail: resolveString('starlightQuiz.results.fail', undefined, t),
+};
+---
+
+<sl-quiz-results
+  class:list={['sl-quiz-results', className]}
+  data-confetti={confetti ? 'true' : 'false'}
+  data-confirm-label={confirmReset}
+  data-msg-excellent={messages.excellent}
+  data-msg-good={messages.good}
+  data-msg-average={messages.average}
+  data-msg-poor={messages.poor}
+  data-msg-fail={messages.fail}
+>
+  <div class="sl-quiz-results-progress">
+    <p class="sl-quiz-results-progress-text">
+      <span class="sl-quiz-results-answered">0</span> / <span class="sl-quiz-results-total">0</span>
+      {' '}{answered}
+    </p>
+    <div class="sl-quiz-results-bar" role="progressbar" aria-label={progress} aria-valuemin="0" aria-valuemax="100">
+      <span class="sl-quiz-results-bar-fill"></span>
+    </div>
+  </div>
+
+  <div class="sl-quiz-results-complete" hidden>
+    <p class="sl-quiz-results-title">{title}</p>
+    <p class="sl-quiz-results-score"><span class="sl-quiz-results-score-value">0</span>%</p>
+    <p class="sl-quiz-results-message" role="status" aria-live="polite"></p>
+    <p class="sl-quiz-results-detail">
+      <span class="sl-quiz-results-correct">0</span> / <span class="sl-quiz-results-total">0</span>
+      {' '}{correct}
+    </p>
+    <button type="button" class="sl-quiz-results-reset">{resetAll}</button>
+  </div>
+</sl-quiz-results>
+
+<script>
+  import { defineQuizResultsElement } from '../lib/results-element';
+
+  defineQuizResultsElement();
+</script>

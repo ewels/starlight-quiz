@@ -1,0 +1,67 @@
+import { STRINGS } from './lib/strings';
+
+/**
+ * Translation tables injected into Starlight via the `i18n:setup` hook. English
+ * is the single source of truth in `lib/strings.ts`; the other locales mirror
+ * its keys. Add a locale by adding a table here.
+ */
+export const Translations: Record<string, Record<string, string>> = {
+  en: { ...STRINGS },
+  fr: {
+    'starlightQuiz.submit': 'Valider',
+    'starlightQuiz.reset': 'Réinitialiser',
+    'starlightQuiz.correct': 'Correct !',
+    'starlightQuiz.incorrect': 'Incorrect.',
+    'starlightQuiz.tryAgain': 'Incorrect — réessayez.',
+    'starlightQuiz.results.title': 'Votre score',
+    'starlightQuiz.results.progress': 'Progression',
+    'starlightQuiz.results.answered': 'répondues',
+    'starlightQuiz.results.correct': 'correctes',
+    'starlightQuiz.results.resetAll': 'Réinitialiser toutes les réponses',
+    'starlightQuiz.results.confirmReset':
+      'Réinitialiser toutes les réponses de cette page ? Cette action est irréversible.',
+    'starlightQuiz.results.excellent': 'Excellent ! Sans faute !',
+    'starlightQuiz.results.good': 'Bravo ! Vous maîtrisez le sujet !',
+    'starlightQuiz.results.average': 'Bon effort ! Continuez à apprendre !',
+    'starlightQuiz.results.poor': 'Pas mal, mais il y a encore à faire !',
+    'starlightQuiz.results.fail': 'Ce sera pour la prochaine fois ! Persévérez !',
+  },
+  de: {
+    'starlightQuiz.submit': 'Absenden',
+    'starlightQuiz.reset': 'Zurücksetzen',
+    'starlightQuiz.correct': 'Richtig!',
+    'starlightQuiz.incorrect': 'Falsch.',
+    'starlightQuiz.tryAgain': 'Falsch — versuche es erneut.',
+    'starlightQuiz.results.title': 'Dein Ergebnis',
+    'starlightQuiz.results.progress': 'Fortschritt',
+    'starlightQuiz.results.answered': 'beantwortet',
+    'starlightQuiz.results.correct': 'richtig',
+    'starlightQuiz.results.resetAll': 'Alle Antworten zurücksetzen',
+    'starlightQuiz.results.confirmReset':
+      'Alle Antworten auf dieser Seite zurücksetzen? Dies kann nicht rückgängig gemacht werden.',
+    'starlightQuiz.results.excellent': 'Hervorragend! Alles richtig!',
+    'starlightQuiz.results.good': 'Super gemacht! Du kennst dich wirklich aus!',
+    'starlightQuiz.results.average': 'Guter Versuch! Bleib dran!',
+    'starlightQuiz.results.poor': 'Nicht schlecht, aber da geht noch mehr!',
+    'starlightQuiz.results.fail': 'Beim nächsten Mal klappt es! Weiter so!',
+  },
+  es: {
+    'starlightQuiz.submit': 'Enviar',
+    'starlightQuiz.reset': 'Reiniciar',
+    'starlightQuiz.correct': '¡Correcto!',
+    'starlightQuiz.incorrect': 'Incorrecto.',
+    'starlightQuiz.tryAgain': 'Incorrecto: inténtalo de nuevo.',
+    'starlightQuiz.results.title': 'Tu puntuación',
+    'starlightQuiz.results.progress': 'Progreso',
+    'starlightQuiz.results.answered': 'respondidas',
+    'starlightQuiz.results.correct': 'correctas',
+    'starlightQuiz.results.resetAll': 'Reiniciar todas las respuestas',
+    'starlightQuiz.results.confirmReset':
+      '¿Reiniciar todas las respuestas de esta página? Esta acción no se puede deshacer.',
+    'starlightQuiz.results.excellent': '¡Excelente! ¡Lo has clavado!',
+    'starlightQuiz.results.good': '¡Buen trabajo! ¡Dominas el tema!',
+    'starlightQuiz.results.average': '¡Buen esfuerzo! ¡Sigue aprendiendo!',
+    'starlightQuiz.results.poor': '¡No está mal, pero se puede mejorar!',
+    'starlightQuiz.results.fail': '¡Más suerte la próxima vez! ¡Sigue intentándolo!',
+  },
+};
