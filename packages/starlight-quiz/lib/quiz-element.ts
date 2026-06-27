@@ -166,7 +166,12 @@ class StarlightQuizElement extends HTMLElement {
     fieldset.append(legend);
 
     if (list) {
-      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li'));
+      // Only task-list items (those with a rendered checkbox) are answers; a
+      // plain list item — e.g. an unsupported `[y]` marker that GFM left as
+      // text — is ignored rather than becoming a bogus answer.
+      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li')).filter((li) =>
+        li.querySelector<HTMLInputElement>('input[type="checkbox"]'),
+      );
       const correctCount = items.filter(
         (li) => li.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked,
       ).length;
@@ -272,7 +277,8 @@ class StarlightQuizElement extends HTMLElement {
         input.dataset['answer'] = answer;
         input.id = `${this.#quizId}-blank-${index}`;
         input.setAttribute('aria-label', `${this.#labels.submit} ${index + 1}`);
-        input.size = Math.max(answer.length + 2, 6);
+        // Width matches the original mkdocs-quiz: at least 5, else answer + 2.
+        input.size = Math.max(answer.length + 2, 5);
         this.#blanks.push(input);
         fragment.append(input);
         lastIndex = match.index + match[0].length;

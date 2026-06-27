@@ -53,6 +53,31 @@ describe('extractQuizzesFromHtml', () => {
     const quizzes = extractQuizzesFromHtml(CHOICE + SINGLE + BLANK, '/p/');
     expect(quizzes.map((q) => q.id)).toEqual(['q-choice', 'q-single', 'q-blank']);
   });
+
+  it('ignores list items without a checkbox', () => {
+    const html = `<sl-quiz id="q"><div class="sl-quiz-source"><p>Q</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Real</li>
+<li>Just a list item, not an answer</li>
+</ul></div></sl-quiz>`;
+    const [quiz] = extractQuizzesFromHtml(html, '/p/');
+    expect(quiz?.answers).toEqual([{ text: 'Real', correct: true }]);
+  });
+
+  it('handles a quiz with no correct answers', () => {
+    const html = `<sl-quiz id="q"><div class="sl-quiz-source"><p>Q</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> A</li>
+<li class="task-list-item"><input type="checkbox" disabled> B</li>
+</ul></div></sl-quiz>`;
+    const [quiz] = extractQuizzesFromHtml(html, '/p/');
+    expect(quiz?.type).toBe('single');
+    expect(quiz?.answers?.every((a) => !a.correct)).toBe(true);
+  });
+
+  it('returns nothing for HTML with no quiz elements (e.g. code-block examples)', () => {
+    expect(extractQuizzesFromHtml('<pre><code>&lt;Quiz&gt;...&lt;/Quiz&gt;</code></pre>', '/p/')).toEqual([]);
+  });
 });
 
 describe('buildManifest', () => {

@@ -162,3 +162,34 @@ describe('reset', () => {
     expect(quiz.querySelector<HTMLInputElement>('input[value="1"]')!.disabled).toBe(false);
   });
 });
+
+describe('edge cases', () => {
+  it('ignores a list item that has no checkbox', () => {
+    const source = `<p>Pick one.</p><ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Real</li>
+<li>Not an answer</li>
+</ul>`;
+    const quiz = mountQuiz(source);
+    expect(quiz.querySelectorAll('.sl-quiz-answer')).toHaveLength(1);
+  });
+
+  it('sizes blank inputs as max(answer + 2, 5), with unique ids and autocomplete off', () => {
+    const quiz = mountQuiz('<p>A [[hi]] and a [[longeranswer]].</p>', { id: 'blanks' });
+    const blanks = quiz.querySelectorAll<HTMLInputElement>('input.sl-quiz-blank');
+    expect(blanks).toHaveLength(2);
+    expect(blanks[0]!.size).toBe(5); // max('hi'.length + 2, 5) = 5
+    expect(blanks[1]!.size).toBe('longeranswer'.length + 2);
+    expect(blanks[0]!.autocomplete).toBe('off');
+    expect(blanks[0]!.id).not.toBe(blanks[1]!.id);
+  });
+
+  it('requires every blank to be correct', () => {
+    const quiz = mountQuiz('<p>[[a]] and [[b]].</p>');
+    const blanks = quiz.querySelectorAll<HTMLInputElement>('input.sl-quiz-blank');
+    blanks[0]!.value = 'a';
+    blanks[1]!.value = 'wrong';
+    submit(quiz);
+    expect(quiz.querySelector('.sl-quiz-blank--wrong')).not.toBeNull();
+    expect(quiz.querySelector('.sl-quiz-feedback')?.textContent).toContain('Incorrect');
+  });
+});
