@@ -85,7 +85,7 @@
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 0 0.625rem;
-    align-items: start;
+    align-items: center;
     padding: 0.625rem 0.75rem;
     border: 1px solid var(--slq-border);
     border-radius: var(--slq-radius);
@@ -100,7 +100,10 @@
   }
 
   .sl-quiz-answer input {
-    margin-top: 0.2em;
+    flex-shrink: 0;
+    inline-size: 1.05em;
+    block-size: 1.05em;
+    margin: 0;
     accent-color: var(--slq-accent);
   }
 
