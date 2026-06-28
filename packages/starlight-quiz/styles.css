@@ -413,6 +413,38 @@
     color: var(--slq-muted);
   }
 
+  /* ---- Compact counter badge (mobile ToC bar) ----------------------- */
+  /* It is pinned to the end of the flex `<summary>` row with an inline
+     `margin-inline-start: auto` set when injected (see progress-element.ts),
+     which beats Starlight's unlayered margin reset on that row. */
+  .sl-quiz-progress-badge {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3125rem 0.625rem;
+    border: 1px solid var(--slq-border);
+    border-radius: 999px;
+    font-size: var(--sl-text-xs, 0.8125rem);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--slq-muted);
+  }
+
+  .sl-quiz-progress-badge[hidden] {
+    display: none;
+  }
+
+  .sl-quiz-progress-badge .sl-quiz-progress-answered {
+    font-weight: 600;
+    color: var(--slq-accent);
+  }
+
+  .sl-quiz-progress-badge-sep {
+    opacity: 0.6;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .sl-quiz-answer,
     .sl-quiz-results-bar-fill,

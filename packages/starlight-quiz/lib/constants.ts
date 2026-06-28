@@ -15,6 +15,12 @@ export const QUIZ_RESULTS_ELEMENT = 'sl-quiz-results';
 /** Custom element tag for the compact progress widget (e.g. in the sidebar). */
 export const QUIZ_PROGRESS_ELEMENT = 'sl-quiz-progress';
 
+/**
+ * Custom element tag for the compact counter badge (e.g. `3 / 9`) shown on the
+ * mobile table-of-contents bar, where it stays visible while scrolling.
+ */
+export const QUIZ_PROGRESS_BADGE_ELEMENT = 'sl-quiz-progress-badge';
+
 /** Prefix for the per-page localStorage key. The page pathname is appended. */
 export const STORAGE_KEY_PREFIX = 'starlight-quiz:';
 

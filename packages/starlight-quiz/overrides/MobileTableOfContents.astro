@@ -1,7 +1,11 @@
 ---
 import Default from '@astrojs/starlight/components/MobileTableOfContents.astro';
-import QuizProgress from '../components/QuizProgress.astro';
+import QuizProgressBadge from '../components/QuizProgressBadge.astro';
 ---
 
 <Default><slot /></Default>
-<QuizProgress class="sl-quiz-progress--mobile" />
+{
+  /* A compact counter that rides along on the fixed mobile ToC bar so it stays
+    visible while scrolling. The full sidebar widget is desktop-only. */
+}
+<QuizProgressBadge />
