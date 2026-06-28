@@ -41,7 +41,7 @@ export function validateQuizHtml(html: string, page: string): QuizValidationIssu
           issues.push({
             page,
             id,
-            message: `answer "${text}" has no checkbox — only \`- [x]\`, \`- [ ]\` and \`- [X]\` mark answers (check for a typo like \`[o]\`, \`[]\` or a smart bracket)`,
+            message: `answer "${text}" has no checkbox — only \`- [x]\`, \`- [ ]\` and \`- [X]\` mark answers`,
           });
         }
       }
