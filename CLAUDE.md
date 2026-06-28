@@ -4,6 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `starlight-quiz` is a published npm package (in `packages/starlight-quiz`) that adds interactive markdown-authored quizzes to Astro and Starlight. It is a spiritual port of [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) and intentionally mirrors its quiz syntax and accumulated edge-case behaviour.
 
+## Branding
+
+Logo assets live in `docs/src/assets/logo/` (horizontal, stacked, and icon arrangements, each in light/dark; the icon SVG is mode-agnostic). The SVGs are **outlined** (text converted to vector paths) so they have **no font dependency** — they render identically without the font installed. Wired up in three places: the Starlight header logo (`logo.src` in `docs/astro.config.ts`), the favicon (`docs/public/favicon.svg`), and the README's horizontal lockup. `starlight-quiz` is part of a shared quiz-plugin logo family with `mkdocs-quiz` (same icon: a multiple-choice list in a rounded tile, distinguished by colour and a per-framework badge).
+
+- **Font:** [Sora](https://fonts.google.com/specimen/Sora) (Open Font License). Wordmark = weight 500 (Medium), letter-spacing -0.02em, lowercase; the badge mark is a star (★, Astro's cue).
+- **Brand colour:** `#490086` (the tile, the filled radio bullet, and the `starlight` wordmark prefix in light mode). Dark-mode wordmark prefix: `#C49BEC`. Note this differs from the Starlight site's own accent (`#7c3aed`).
+- **Wordmark `quiz` text:** `#13161F` (near-black ink) in light mode, `#EDEFF4` (off-white) in dark mode.
+
+If editing logos, prefer regenerating from source rather than hand-editing the outlined paths.
+
+The homepage cross-link to mkdocs-quiz (in `docs/src/content/docs/index.mdx`) uses Starlight's `<Aside type="tip">` component wrapped in a `.mkdocs-tip` div. `docs/src/styles/custom.css` then swaps that aside's default tip icon for the Material for MkDocs logo (a CSS mask scoped to the wrapper).
+
 ## Repository layout
 
 A pnpm workspace with two packages:
