@@ -58,6 +58,13 @@
     border-radius: var(--slq-radius);
   }
 
+  /* Keep scroll-to targets (from the progress badge) clear of the fixed
+     site header and mobile ToC bar. */
+  .sl-quiz,
+  .sl-quiz-results {
+    scroll-margin-top: calc(var(--sl-nav-height, 0px) + var(--sl-mobile-toc-height, 0px) + 1rem);
+  }
+
   .sl-quiz-title {
     margin: 0 0 0.75rem;
     font-weight: 600;
@@ -430,6 +437,18 @@
     line-height: 1;
     white-space: nowrap;
     color: var(--slq-muted);
+    /* It is a button: tapping jumps to the next unanswered quiz (or results). */
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .sl-quiz-progress-badge:hover {
+    border-color: var(--slq-accent);
+  }
+
+  .sl-quiz-progress-badge:focus-visible {
+    outline: 2px solid var(--slq-accent);
+    outline-offset: 2px;
   }
 
   .sl-quiz-progress-badge[hidden] {

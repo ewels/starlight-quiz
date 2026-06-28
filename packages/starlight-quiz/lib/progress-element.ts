@@ -1,4 +1,4 @@
-import { QUIZ_PROGRESS_BADGE_ELEMENT, QUIZ_PROGRESS_ELEMENT } from './constants';
+import { QUIZ_ELEMENT, QUIZ_PROGRESS_BADGE_ELEMENT, QUIZ_PROGRESS_ELEMENT, QUIZ_RESULTS_ELEMENT } from './constants';
 import { getTracker } from './tracker';
 import type { QuizProgress } from './types';
 
@@ -65,15 +65,16 @@ export function defineQuizProgressElement(): void {
  */
 class StarlightQuizProgressBadgeElement extends HTMLElement {
   #unsubscribe: (() => void) | null = null;
+  #wired = false;
 
   connectedCallback(): void {
+    this.#wire();
+
     // Relocate into the fixed mobile ToC bar so the badge scrolls with it.
     // Moving the node re-fires connectedCallback with the new parent in place,
     // so we return early and let that second pass do the subscription.
     const summary = document.querySelector('mobile-starlight-toc summary');
     if (summary && this.parentElement !== summary) {
-      // A tap on the badge should not toggle the table of contents open.
-      this.addEventListener('click', (event) => event.preventDefault());
       // Pin the badge to the end of the flex row. Set inline (not via the
       // stylesheet) so it beats Starlight's unlayered margin reset on the bar.
       this.style.marginInlineStart = 'auto';
@@ -89,6 +90,41 @@ class StarlightQuizProgressBadgeElement extends HTMLElement {
     this.#unsubscribe = null;
   }
 
+  /** Make the badge a button that jumps to the next thing to do (once). */
+  #wire(): void {
+    if (this.#wired) return;
+    this.#wired = true;
+    this.setAttribute('role', 'button');
+    this.tabIndex = 0;
+    // Inside the ToC `<summary>`, a tap would otherwise toggle the dropdown.
+    this.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.#scrollToNext();
+    });
+    this.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.#scrollToNext();
+      }
+    });
+  }
+
+  /**
+   * Scroll to the first unanswered quiz on the page, or — once every quiz is
+   * answered — to the results panel if there is one (else the last quiz).
+   */
+  #scrollToNext(): void {
+    const quizzes = Array.from(document.querySelectorAll(QUIZ_ELEMENT));
+    const target =
+      quizzes.find((quiz) => !quiz.hasAttribute('data-answered')) ??
+      document.querySelector(QUIZ_RESULTS_ELEMENT) ??
+      quizzes[quizzes.length - 1] ??
+      null;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   #update(progress: QuizProgress): void {
     this.hidden = progress.total === 0;
 
@@ -99,8 +135,12 @@ class StarlightQuizProgressBadgeElement extends HTMLElement {
       element.textContent = String(progress.total);
     }
 
-    const label = this.dataset['answeredLabel'];
-    this.setAttribute('aria-label', `${progress.answered} / ${progress.total}${label ? ` ${label}` : ''}`);
+    const prefix = this.dataset['badgeLabel'];
+    const answered = this.dataset['answeredLabel'];
+    this.setAttribute(
+      'aria-label',
+      `${prefix ? `${prefix}: ` : ''}${progress.answered} / ${progress.total}${answered ? ` ${answered}` : ''}`,
+    );
   }
 }
 

@@ -344,6 +344,8 @@ class StarlightQuizElement extends HTMLElement {
   }
 
   #showResult(correct: boolean, focus: boolean): void {
+    // Mark the host so the progress badge can find the first unanswered quiz.
+    this.dataset['answered'] = 'true';
     if (this.#content) this.#content.hidden = false;
     if (this.#type === 'blank') {
       this.#markBlanks();
@@ -471,6 +473,7 @@ class StarlightQuizElement extends HTMLElement {
   }
 
   #resetUi(): void {
+    delete this.dataset['answered'];
     for (const answer of this.#answers) {
       answer.input.checked = false;
       answer.wrapper.classList.remove('sl-quiz-answer--correct', 'sl-quiz-answer--wrong');
