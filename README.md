@@ -1,8 +1,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ewels/starlight-quiz/main/.github/assets/wordmark-dark.svg" />
-  <img alt="starlight-quiz" src="https://raw.githubusercontent.com/ewels/starlight-quiz/main/.github/assets/wordmark.svg" width="420" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ewels/starlight-quiz/main/docs/src/assets/logo/starlight-quiz-horizontal-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ewels/starlight-quiz/main/docs/src/assets/logo/starlight-quiz-horizontal-light.svg" />
+  <img alt="starlight-quiz" src="https://raw.githubusercontent.com/ewels/starlight-quiz/main/docs/src/assets/logo/starlight-quiz-horizontal-light.svg" width="640" />
 </picture>
 
 [![npm version](https://img.shields.io/npm/v/starlight-quiz.svg)](https://www.npmjs.com/package/starlight-quiz)
@@ -15,6 +16,10 @@ A spiritual port of [**mkdocs-quiz**](https://github.com/ewels/mkdocs-quiz) for 
 
 A plugin to create interactive quizzes directly in your Astro and Starlight markdown documentation. Perfect for
 educational content, tutorials, and documentation that requires reader engagement.
+
+> [!TIP]
+> **Writing docs with [MkDocs](https://www.mkdocs.org/) instead?**<br>
+> Try [**mkdocs-quiz**](https://ewels.github.io/mkdocs-quiz/), which brings the same markdown quiz syntax to MkDocs and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 ## Features
 
