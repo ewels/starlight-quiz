@@ -58,13 +58,6 @@
     border-radius: var(--slq-radius);
   }
 
-  /* Keep scroll-to targets (from the progress badge) clear of the fixed
-     site header and mobile ToC bar. */
-  .sl-quiz,
-  .sl-quiz-results {
-    scroll-margin-top: calc(var(--sl-nav-height, 0px) + var(--sl-mobile-toc-height, 0px) + 1rem);
-  }
-
   .sl-quiz-title {
     margin: 0 0 0.75rem;
     font-weight: 600;
