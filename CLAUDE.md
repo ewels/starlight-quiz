@@ -85,3 +85,14 @@ Strictest config (`astro/tsconfigs/strictest`) with `verbatimModuleSyntax` and `
 - Only `[x]`/`[X]`/`[ ]`/`[]` mark answers; don't mix `-` and `*` bullets within one quiz (it splits the answer list into separate `<ul>`s).
 - The docs deploy to GitHub Pages under base `/starlight-quiz` — keep links and Playwright `baseURL` base-path-aware.
 - Versioning/release is via Changesets (`pnpm changeset`); publishing is manual, not on push.
+- MDX is **excluded from Prettier** (`.prettierignore`) and `*.md` uses `embeddedLanguageFormatting: 'off'` — Prettier reflows task lists / fenced quiz examples in ways that break the authoring syntax. Format MDX by hand.
+
+## Starlight integration gotchas (learned the hard way)
+
+These are non-obvious and cost real time to discover — check here before fighting them again:
+
+- **Remark plugins don't run in this Astro 7 / Starlight-MDX pipeline.** Late-appended `markdown.remarkPlugins` (added from an integration's `astro:config:setup`) never execute for `.mdx`. This is *why* markdown quirks like the `[]` empty-checkbox are normalised at the DOM/HTML layer (runtime element + build-time `manifest.ts`/`validate.ts`) instead of in a remark transform. Don't reach for remark to fix authoring quirks — it won't fire.
+- **Starlight color tokens are contrast tokens, not literal colours.** `--sl-color-white` is the high-contrast foreground and *flips to dark in light mode*; `--sl-color-black` flips the other way. A button using `color: var(--sl-color-white)` over an accent background reads black-on-blue in light mode. Mirror Starlight's primary LinkButton instead: `background: var(--sl-color-text-accent)` + `color: var(--sl-color-black)`, with vanilla fallbacks.
+- **Don't add your own `scroll-margin-top` for scroll-into-view.** Starlight already sets `scroll-padding-top` (~128px) on `<html>` to clear the fixed header + mobile ToC bar. `scrollIntoView` adds the container's scroll-padding *and* the target's scroll-margin, so a custom `scroll-margin-top` roughly doubles the offset. Rely on Starlight's scroll-padding.
+- **The mobile ToC `<nav>` is `position: fixed`.** To keep a widget visible while scrolling (the progress badge), inject it into the bar's `<summary>` row at runtime. Pin it with an **inline** `margin-inline-start: auto` — `styles.css` is wrapped in `@layer starlight-quiz` (deliberately low-priority so consumers can override it), and Starlight's *unlayered* margin reset on that row beats any layered rule. Inline styles win.
+- **Custom elements query `this`, not `document`, and self-define idempotently.** Astro view transitions create a fresh element per navigation; anything relying on `document`-wide state or one-time module setup breaks on the second page. Elements moved into Starlight's DOM (e.g. the badge into `<summary>`) re-fire `connectedCallback` on the move, so guard re-entrancy.
