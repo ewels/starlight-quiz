@@ -12,8 +12,10 @@
     --slq-accent: var(--sl-color-accent, #2563eb);
     --slq-correct: var(--sl-color-green, #15803d);
     --slq-correct-bg: var(--sl-color-green-low, #dcfce7);
+    --slq-correct-high: var(--sl-color-green-high, #166534);
     --slq-wrong: var(--sl-color-red, #b91c1c);
     --slq-wrong-bg: var(--sl-color-red-low, #fee2e2);
+    --slq-wrong-high: var(--sl-color-red-high, #991b1b);
     --slq-text: var(--sl-color-text, #1f2937);
     --slq-bg: var(--sl-color-bg, #ffffff);
     --slq-surface: var(--sl-color-gray-6, #f3f4f6);
@@ -26,7 +28,9 @@
     .sl-quiz,
     .sl-quiz-results {
       --slq-correct-bg: var(--sl-color-green-low, #052e16);
+      --slq-correct-high: var(--sl-color-green-high, #86efac);
       --slq-wrong-bg: var(--sl-color-red-low, #450a0a);
+      --slq-wrong-high: var(--sl-color-red-high, #fca5a5);
       --slq-text: var(--sl-color-text, #e5e7eb);
       --slq-bg: var(--sl-color-bg, #0b0e14);
       --slq-surface: var(--sl-color-gray-6, #111827);
@@ -181,11 +185,14 @@
   }
 
   /* Feedback panel */
+  /* Styled to mirror Starlight's Asides: 0.25rem inline-start border, tinted
+     "-low" background, no border radius. The --wrong variant intentionally
+     matches the "danger" aside (red); --correct uses the green equivalents. */
   .sl-quiz-feedback {
     margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    border-radius: var(--slq-radius);
-    border-inline-start: 4px solid var(--slq-border);
+    padding: 1rem;
+    border-radius: 0;
+    border-inline-start: 0.25rem solid var(--slq-border);
     background: var(--slq-surface);
   }
 
@@ -196,10 +203,12 @@
 
   .sl-quiz-feedback--correct {
     border-inline-start-color: var(--slq-correct);
+    background: var(--slq-correct-bg);
   }
 
   .sl-quiz-feedback--wrong {
     border-inline-start-color: var(--slq-wrong);
+    background: var(--slq-wrong-bg);
   }
 
   .sl-quiz-feedback > :first-child {
@@ -212,6 +221,14 @@
 
   .sl-quiz-feedback-message {
     font-weight: 600;
+  }
+
+  .sl-quiz-feedback--correct .sl-quiz-feedback-message {
+    color: var(--slq-correct-high);
+  }
+
+  .sl-quiz-feedback--wrong .sl-quiz-feedback-message {
+    color: var(--slq-wrong-high);
   }
 
   .sl-quiz-corrections {

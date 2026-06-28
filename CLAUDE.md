@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Logo assets live in `docs/src/assets/logo/` (horizontal, stacked, and icon arrangements, each in light/dark; the icon SVG is mode-agnostic). The SVGs are **outlined** (text converted to vector paths) so they have **no font dependency** — they render identically without the font installed. Wired up in three places: the Starlight header logo (`logo.src` in `docs/astro.config.ts`), the favicon (`docs/public/favicon.svg`), and the README's horizontal lockup. `starlight-quiz` is part of a shared quiz-plugin logo family with `mkdocs-quiz` (same icon: a multiple-choice list in a rounded tile, distinguished by colour and a per-framework badge).
 
-- **Font:** [Sora](https://fonts.google.com/specimen/Sora) (Open Font License). Wordmark = weight 500 (Medium), letter-spacing -0.02em, lowercase; the badge mark is a star (★, Astro's cue).
+- **Font:** [Sora](https://fonts.google.com/specimen/Sora) (Open Font License). Wordmark = weight 500 (Medium), letter-spacing -0.02em, lowercase.
+- **Badge:** the corner badge on the correct answer carries the Starlight sparkle logo mark (recoloured to the tile colour on a white disc).
 - **Brand colour:** `#490086` (the tile, the filled radio bullet, and the `starlight` wordmark prefix in light mode). Dark-mode wordmark prefix: `#C49BEC`. Note this differs from the Starlight site's own accent (`#7c3aed`).
 - **Wordmark `quiz` text:** `#13161F` (near-black ink) in light mode, `#EDEFF4` (off-white) in dark mode.
 
@@ -27,17 +28,17 @@ A pnpm workspace with two packages:
 
 Run from the repo root unless noted. Node ≥22.12, pnpm 10.33.
 
-| Task | Command |
-| --- | --- |
-| Unit tests (Vitest, jsdom) | `pnpm test` |
-| A single test file | `pnpm --filter starlight-quiz exec vitest run tests/parse.test.ts` |
-| Tests by name | `pnpm --filter starlight-quiz exec vitest run -t "empty checkbox"` |
-| Watch / coverage | `pnpm --filter starlight-quiz test:watch` · `… test:coverage` |
-| End-to-end (Playwright) | `pnpm test:e2e` (builds + previews docs, runs `docs/tests/e2e`) |
-| Type-check everything | `pnpm typecheck` |
-| Lint / format | `pnpm lint` · `pnpm format` |
-| All checks (as CI runs them) | `prek run --all-files` |
-| Dev server / build docs | `pnpm dev` · `pnpm build` · `pnpm preview` |
+| Task                         | Command                                                            |
+| ---------------------------- | ------------------------------------------------------------------ |
+| Unit tests (Vitest, jsdom)   | `pnpm test`                                                        |
+| A single test file           | `pnpm --filter starlight-quiz exec vitest run tests/parse.test.ts` |
+| Tests by name                | `pnpm --filter starlight-quiz exec vitest run -t "empty checkbox"` |
+| Watch / coverage             | `pnpm --filter starlight-quiz test:watch` · `… test:coverage`      |
+| End-to-end (Playwright)      | `pnpm test:e2e` (builds + previews docs, runs `docs/tests/e2e`)    |
+| Type-check everything        | `pnpm typecheck`                                                   |
+| Lint / format                | `pnpm lint` · `pnpm format`                                        |
+| All checks (as CI runs them) | `prek run --all-files`                                             |
+| Dev server / build docs      | `pnpm dev` · `pnpm build` · `pnpm preview`                         |
 
 `prek.toml` defines the prettier → eslint → typecheck hooks; `prek install` wires the git pre-commit hook and CI runs the exact same `prek run --all-files`. There is no separate build step for the package — it ships its `.ts`/`.astro` source and is consumed/transpiled by the host Astro project.
 
@@ -103,8 +104,8 @@ Strictest config (`astro/tsconfigs/strictest`) with `verbatimModuleSyntax` and `
 
 These are non-obvious and cost real time to discover — check here before fighting them again:
 
-- **Remark plugins don't run in this Astro 7 / Starlight-MDX pipeline.** Late-appended `markdown.remarkPlugins` (added from an integration's `astro:config:setup`) never execute for `.mdx`. This is *why* markdown quirks like the `[]` empty-checkbox are normalised at the DOM/HTML layer (runtime element + build-time `manifest.ts`/`validate.ts`) instead of in a remark transform. Don't reach for remark to fix authoring quirks — it won't fire.
-- **Starlight color tokens are contrast tokens, not literal colours.** `--sl-color-white` is the high-contrast foreground and *flips to dark in light mode*; `--sl-color-black` flips the other way. A button using `color: var(--sl-color-white)` over an accent background reads black-on-blue in light mode. Mirror Starlight's primary LinkButton instead: `background: var(--sl-color-text-accent)` + `color: var(--sl-color-black)`, with vanilla fallbacks.
-- **Don't add your own `scroll-margin-top` for scroll-into-view.** Starlight already sets `scroll-padding-top` (~128px) on `<html>` to clear the fixed header + mobile ToC bar. `scrollIntoView` adds the container's scroll-padding *and* the target's scroll-margin, so a custom `scroll-margin-top` roughly doubles the offset. Rely on Starlight's scroll-padding.
-- **The mobile ToC `<nav>` is `position: fixed`.** To keep a widget visible while scrolling (the progress badge), inject it into the bar's `<summary>` row at runtime. Pin it with an **inline** `margin-inline-start: auto` — `styles.css` is wrapped in `@layer starlight-quiz` (deliberately low-priority so consumers can override it), and Starlight's *unlayered* margin reset on that row beats any layered rule. Inline styles win.
+- **Remark plugins don't run in this Astro 7 / Starlight-MDX pipeline.** Late-appended `markdown.remarkPlugins` (added from an integration's `astro:config:setup`) never execute for `.mdx`. This is _why_ markdown quirks like the `[]` empty-checkbox are normalised at the DOM/HTML layer (runtime element + build-time `manifest.ts`/`validate.ts`) instead of in a remark transform. Don't reach for remark to fix authoring quirks — it won't fire.
+- **Starlight color tokens are contrast tokens, not literal colours.** `--sl-color-white` is the high-contrast foreground and _flips to dark in light mode_; `--sl-color-black` flips the other way. A button using `color: var(--sl-color-white)` over an accent background reads black-on-blue in light mode. Mirror Starlight's primary LinkButton instead: `background: var(--sl-color-text-accent)` + `color: var(--sl-color-black)`, with vanilla fallbacks.
+- **Don't add your own `scroll-margin-top` for scroll-into-view.** Starlight already sets `scroll-padding-top` (~128px) on `<html>` to clear the fixed header + mobile ToC bar. `scrollIntoView` adds the container's scroll-padding _and_ the target's scroll-margin, so a custom `scroll-margin-top` roughly doubles the offset. Rely on Starlight's scroll-padding.
+- **The mobile ToC `<nav>` is `position: fixed`.** To keep a widget visible while scrolling (the progress badge), inject it into the bar's `<summary>` row at runtime. Pin it with an **inline** `margin-inline-start: auto` — `styles.css` is wrapped in `@layer starlight-quiz` (deliberately low-priority so consumers can override it), and Starlight's _unlayered_ margin reset on that row beats any layered rule. Inline styles win.
 - **Custom elements query `this`, not `document`, and self-define idempotently.** Astro view transitions create a fresh element per navigation; anything relying on `document`-wide state or one-time module setup breaks on the second page. Elements moved into Starlight's DOM (e.g. the badge into `<summary>`) re-fire `connectedCallback` on the move, so guard re-entrancy.
