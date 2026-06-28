@@ -10,16 +10,10 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ewels/starlight-quiz/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-ewels.github.io-7c3aed.svg)](https://ewels.github.io/starlight-quiz)
 
-A spiritual port of [**mkdocs-quiz**](https://github.com/ewels/mkdocs-quiz) for [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/).
-
 </div>
 
-A plugin to create interactive quizzes directly in your Astro and Starlight markdown documentation. Perfect for
+A plugin to create interactive quizzes directly in your [Starlight](https://starlight.astro.build/) or plain [Astro](https://astro.build/) markdown documentation. Perfect for
 educational content, tutorials, and documentation that requires reader engagement.
-
-> [!TIP]
-> **Writing docs with [MkDocs](https://www.mkdocs.org/) instead?**<br>
-> Try [**mkdocs-quiz**](https://ewels.github.io/mkdocs-quiz/), which brings the same markdown quiz syntax to MkDocs and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 ## Features
 
@@ -131,4 +125,8 @@ This project is licensed under the [Apache License 2.0](https://github.com/ewels
 ## Credits
 
 - Created by [Phil Ewels](https://github.com/ewels)
-- Ported from [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz), originally by [Sebastian Jörz](https://github.com/skyface753)
+- Ported from [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz), originally by [Sebastian Jörz](https://github.com/skyface753) before being rewritten by [Phil Ewels](https://github.com/ewels).
+
+> [!TIP]
+> **Writing docs with [MkDocs](https://www.mkdocs.org/) instead?**<br>
+> Try [**mkdocs-quiz**](https://ewels.github.io/mkdocs-quiz/), which brings the same markdown quiz syntax to MkDocs and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
