@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { detectType, findAnswerList, hasBlank, splitAtRule } from '../lib/parse';
+import {
+  detectType,
+  findAnswerList,
+  hasBlank,
+  isEmptyCheckboxText,
+  splitAtRule,
+  stripEmptyCheckbox,
+} from '../lib/parse';
 
 function fromHtml(html: string): HTMLElement {
   const div = document.createElement('div');
@@ -48,6 +55,27 @@ describe('detectType', () => {
       <li class="task-list-item"><input type="checkbox" checked disabled> B</li>
     </ul>`;
     expect(detectType(fromHtml(html))).toBe('multiple');
+  });
+});
+
+describe('empty checkbox `[]`', () => {
+  it('recognises a leading `[]` marker', () => {
+    expect(isEmptyCheckboxText('[] an answer')).toBe(true);
+    expect(isEmptyCheckboxText('[]no space')).toBe(true);
+    expect(isEmptyCheckboxText('  [] leading space')).toBe(true);
+  });
+
+  it('does not match other markers or mid-text brackets', () => {
+    expect(isEmptyCheckboxText('[x] checked')).toBe(false);
+    expect(isEmptyCheckboxText('[ ] spaced')).toBe(false);
+    expect(isEmptyCheckboxText('[y] typo')).toBe(false);
+    expect(isEmptyCheckboxText('an [] in the middle')).toBe(false);
+  });
+
+  it('strips the leading `[]` marker from a label', () => {
+    expect(stripEmptyCheckbox('[] an answer')).toBe('an answer');
+    expect(stripEmptyCheckbox('[]no space')).toBe('no space');
+    expect(stripEmptyCheckbox('[x] untouched')).toBe('[x] untouched');
   });
 });
 

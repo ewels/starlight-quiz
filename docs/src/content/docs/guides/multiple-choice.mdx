@@ -24,9 +24,10 @@ What is the capital of France?
 
 ## Multiple choice (checkboxes)
 
-:::caution[Only `[x]`, `[ ]` and `[X]` are recognised]
-A mistyped marker — `[o]`, an empty `[]`, or a “smart” bracket pasted from an editor — isn't a checkbox in markdown, so
-it would silently never be an answer. The build fails with an error pointing at it (disable with the
+:::caution[Recognised markers]
+`[x]`, `[ ]` and `[X]` are recognised, and `[]` (no inner space) counts as an unchecked answer. A mistyped marker —
+`[o]` or a “smart” bracket pasted from an editor — isn't a checkbox in markdown, so it would silently never be an
+answer. The build fails with an error pointing at it (disable with the
 [`validate`](/starlight-quiz/guides/configuration/#validate) option). Also don't mix `-` and `*` bullets within one
 quiz, as that splits the answer list.
 :::

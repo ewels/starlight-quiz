@@ -12,7 +12,13 @@ const malformed = `<sl-quiz id="bad"><div class="sl-quiz-source"><p>Q</p>
 <ul class="contains-task-list">
 <li class="task-list-item"><input type="checkbox" checked disabled> Right</li>
 <li>[o] typo marker</li>
-<li>[] empty</li>
+<li>[y] another typo</li>
+</ul></div></sl-quiz>`;
+
+const emptyCheckbox = `<sl-quiz id="empty"><div class="sl-quiz-source"><p>Q</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Right</li>
+<li>[] an unchecked answer</li>
 </ul></div></sl-quiz>`;
 
 describe('validateQuizHtml', () => {
@@ -20,12 +26,16 @@ describe('validateQuizHtml', () => {
     expect(validateQuizHtml(valid, '/p/')).toEqual([]);
   });
 
-  it('reports each list item without a checkbox', () => {
+  it('reports each list item with an unrecognised marker', () => {
     const issues = validateQuizHtml(malformed, '/p/');
     expect(issues).toHaveLength(2);
     expect(issues[0]).toMatchObject({ page: '/p/', id: 'bad' });
     expect(issues[0]?.message).toContain('[o] typo marker');
-    expect(issues[1]?.message).toContain('[] empty');
+    expect(issues[1]?.message).toContain('[y] another typo');
+  });
+
+  it('accepts `[]` as an unchecked answer (matching mkdocs-quiz)', () => {
+    expect(validateQuizHtml(emptyCheckbox, '/p/')).toEqual([]);
   });
 
   it('ignores pages without quizzes', () => {

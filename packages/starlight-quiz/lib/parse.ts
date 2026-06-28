@@ -3,6 +3,27 @@ import type { QuizType } from './types';
 /** Matches a fill-in-the-blank token, e.g. `[[mitochondria]]`. */
 export const BLANK_PATTERN = /\[\[([^\]]+)\]\]/g;
 
+/**
+ * Matches a leading empty checkbox `[]` (no inner space) on an answer. GFM only
+ * recognises `[ ]`/`[x]`/`[X]`, so `[]` arrives as plain text; we accept it as
+ * an unchecked answer (matching the original mkdocs-quiz) and strip this prefix.
+ */
+export const EMPTY_CHECKBOX_PATTERN = /^\s*\[\]\s*/;
+
+/**
+ * True if a list item's text begins with an `[]` empty-checkbox marker. GFM
+ * leaves `[]` as plain text, so such an item has no rendered checkbox; we still
+ * treat it as an (unchecked) answer, matching the original mkdocs-quiz.
+ */
+export function isEmptyCheckboxText(text: string): boolean {
+  return EMPTY_CHECKBOX_PATTERN.test(text);
+}
+
+/** Strip a leading `[]` empty-checkbox marker from an answer label. */
+export function stripEmptyCheckbox(text: string): string {
+  return text.replace(EMPTY_CHECKBOX_PATTERN, '');
+}
+
 /** True if the given text contains at least one `[[blank]]` token. */
 export function hasBlank(text: string): boolean {
   BLANK_PATTERN.lastIndex = 0;

@@ -42,10 +42,11 @@ quizzes without touching MDX, and is the source consumed by the QTI exporter and
 
 **Type:** `boolean` · **Default:** `true`
 
-Fails the build if a quiz has a malformed answer. Only `- [x]`, `- [ ]` and `- [X]` are recognised as answers; an
-unrecognised marker (a typo like `[o]`, an empty `[]`, or a smart bracket from an editor) is rendered by markdown as
-plain text and would silently never be an answer. Rather than dropping it, the build stops with an error naming the
-page, the quiz and the offending text. Set to `false` to ignore such items instead.
+Fails the build if a quiz has a malformed answer. `- [x]`, `- [ ]` and `- [X]` are recognised as answers, and `- []`
+(no inner space) is accepted as an unchecked answer to match mkdocs-quiz. Any other marker — a typo like `[o]` or a
+smart bracket pasted from an editor — is rendered by markdown as plain text and would silently never be an answer.
+Rather than dropping it, the build stops with an error naming the page, the quiz and the offending text. Set to `false`
+to ignore such items instead.
 
 ## `<Quiz>` props
 

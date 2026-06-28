@@ -173,6 +173,19 @@ describe('edge cases', () => {
     expect(quiz.querySelectorAll('.sl-quiz-answer')).toHaveLength(1);
   });
 
+  it('treats a `[]` item as an unchecked answer, stripping the marker from the label', () => {
+    const source = `<p>Pick one.</p><ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Right</li>
+<li>[] Also offered</li>
+</ul>`;
+    const quiz = mountQuiz(source);
+    const answers = quiz.querySelectorAll('.sl-quiz-answer');
+    expect(answers).toHaveLength(2);
+    const second = answers[1]!;
+    expect(second.querySelector('label')?.textContent?.trim()).toBe('Also offered');
+    expect(second.querySelector<HTMLInputElement>('input[type="radio"]')?.dataset['correct']).toBeUndefined();
+  });
+
   it('sizes blank inputs as max(answer + 2, 5), with unique ids and autocomplete off', () => {
     const quiz = mountQuiz('<p>A [[hi]] and a [[longeranswer]].</p>', { id: 'blanks' });
     const blanks = quiz.querySelectorAll<HTMLInputElement>('input.sl-quiz-blank');

@@ -235,14 +235,23 @@
     margin-top: 1rem;
   }
 
+  /*
+   * Buttons mirror Starlight's primary/secondary LinkButton so they sit
+   * naturally in the theme. The submit button uses the accent background with
+   * `--sl-color-black` for text — that token flips to white in light mode and
+   * dark in dark mode, so the label always contrasts the accent (a plain
+   * `--sl-color-white` would read black-on-blue in light mode). Fallbacks keep
+   * it legible when used in a vanilla Astro site without Starlight's tokens.
+   */
   .sl-quiz-actions button {
-    padding: 0.5rem 1.25rem;
+    padding: 0.4375rem 1.125rem;
     font: inherit;
     font-weight: 600;
-    color: var(--sl-color-white, #ffffff);
-    background: var(--slq-accent);
-    border: 1px solid transparent;
-    border-radius: var(--slq-radius);
+    line-height: 1.1875;
+    color: var(--sl-color-black, #ffffff);
+    background: var(--sl-color-text-accent, var(--slq-accent));
+    border: 1px solid var(--sl-color-text-accent, var(--slq-accent));
+    border-radius: 999rem;
     cursor: pointer;
     transition: opacity 0.15s ease;
   }
@@ -253,12 +262,13 @@
 
   .sl-quiz-actions button:focus-visible {
     outline: 2px solid var(--slq-accent);
-    outline-offset: 2px;
+    outline-offset: 0.25rem;
   }
 
+  /* Reset mirrors the secondary LinkButton: outlined, no accent fill. */
   .sl-quiz-reset {
-    color: var(--slq-text) !important;
-    background: var(--slq-surface) !important;
+    color: var(--sl-color-white, var(--slq-text)) !important;
+    background: transparent !important;
     border-color: var(--slq-border) !important;
   }
 

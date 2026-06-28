@@ -32,9 +32,10 @@ export interface StarlightQuizOptions {
   manifest?: boolean | string;
   /**
    * Fail the build if a quiz has malformed answers — for example an
-   * unrecognised checkbox marker (`[y]`, `[o]`, `[]`, a smart bracket) that GFM
-   * would render as plain text and silently drop. Set to `false` to allow such
-   * items to be ignored instead.
+   * unrecognised checkbox marker (`[y]`, `[o]`, a smart bracket) that GFM would
+   * render as plain text and silently drop. Set to `false` to allow such items
+   * to be ignored instead. (`[]` with no inner space is accepted as an
+   * unchecked answer, matching mkdocs-quiz.)
    *
    * @default true
    */

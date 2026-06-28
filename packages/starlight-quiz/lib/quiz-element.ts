@@ -1,6 +1,13 @@
 import { QUIZ_ELEMENT, RESET_ALL_EVENT } from './constants';
 import { gradeBlank, gradeBlanks, gradeChoice } from './grading';
-import { BLANK_PATTERN, detectType, findAnswerList, splitAtRule } from './parse';
+import {
+  BLANK_PATTERN,
+  detectType,
+  findAnswerList,
+  isEmptyCheckboxText,
+  stripEmptyCheckbox,
+  splitAtRule,
+} from './parse';
 import { shuffle } from './shuffle';
 import { getTracker } from './tracker';
 import type { QuizLabels, QuizType } from './types';
@@ -166,11 +173,13 @@ class StarlightQuizElement extends HTMLElement {
     fieldset.append(legend);
 
     if (list) {
-      // Only task-list items (those with a rendered checkbox) are answers; a
-      // plain list item — e.g. an unsupported `[y]` marker that GFM left as
-      // text — is ignored rather than becoming a bogus answer.
-      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li')).filter((li) =>
-        li.querySelector<HTMLInputElement>('input[type="checkbox"]'),
+      // Answers are task-list items (those with a rendered checkbox) plus any
+      // `[]` empty-checkbox item that GFM left as plain text. Any other plain
+      // list item — e.g. an unsupported `[y]` marker — is ignored rather than
+      // becoming a bogus answer.
+      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li')).filter(
+        (li) =>
+          li.querySelector<HTMLInputElement>('input[type="checkbox"]') || isEmptyCheckboxText(li.textContent ?? ''),
       );
       const correctCount = items.filter(
         (li) => li.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked,
@@ -224,6 +233,12 @@ class StarlightQuizElement extends HTMLElement {
     const label = document.createElement('label');
     label.setAttribute('for', input.id);
     label.append(...Array.from(li.childNodes));
+    // For a `[]` empty-checkbox answer there is no input to remove; strip the
+    // leading `[]` marker that GFM rendered as plain text from the label.
+    const firstNode = label.firstChild;
+    if (firstNode && firstNode.nodeType === Node.TEXT_NODE && firstNode.nodeValue) {
+      firstNode.nodeValue = stripEmptyCheckbox(firstNode.nodeValue);
+    }
 
     wrapper.append(input, label);
     if (feedback) wrapper.append(feedback);

@@ -64,6 +64,19 @@ describe('extractQuizzesFromHtml', () => {
     expect(quiz?.answers).toEqual([{ text: 'Real', correct: true }]);
   });
 
+  it('treats `[]` as an unchecked answer, stripping the marker', () => {
+    const html = `<sl-quiz id="q"><div class="sl-quiz-source"><p>Q</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Right</li>
+<li>[] Also an answer</li>
+</ul></div></sl-quiz>`;
+    const [quiz] = extractQuizzesFromHtml(html, '/p/');
+    expect(quiz?.answers).toEqual([
+      { text: 'Right', correct: true },
+      { text: 'Also an answer', correct: false },
+    ]);
+  });
+
   it('handles a quiz with no correct answers', () => {
     const html = `<sl-quiz id="q"><div class="sl-quiz-source"><p>Q</p>
 <ul class="contains-task-list">

@@ -2,7 +2,7 @@ import { HTMLElement as ParsedElement, parse } from 'node-html-parser';
 
 // Explicit .ts extensions on runtime relative imports so this module runs both
 // under Vite (the build integration) and directly under Node (the CLI).
-import { BLANK_PATTERN } from './parse.ts';
+import { BLANK_PATTERN, isEmptyCheckboxText, stripEmptyCheckbox } from './parse.ts';
 import type { QuizType } from './types.ts';
 
 /** A single answer in a choice quiz. */
@@ -92,7 +92,9 @@ function parseChoice(
   source: ParsedElement,
   list: ParsedElement,
 ): Pick<QuizManifestEntry, 'answers' | 'question' | 'explanation' | 'type'> {
-  const items = list.querySelectorAll('li').filter((li) => li.querySelector('input[type="checkbox"]'));
+  const items = list
+    .querySelectorAll('li')
+    .filter((li) => li.querySelector('input[type="checkbox"]') || isEmptyCheckboxText(li.text));
   const answers: ManifestAnswer[] = items.map((li) => {
     const checkbox = li.querySelector('input[type="checkbox"]');
     const correct = checkbox?.hasAttribute('checked') ?? false;
@@ -100,7 +102,8 @@ function parseChoice(
     const feedback = blockquote ? collapse(blockquote.text) : undefined;
     blockquote?.remove();
     checkbox?.remove();
-    const answer: ManifestAnswer = { text: collapse(li.text), correct };
+    // `[]` empty-checkbox answers have no input; strip the plain-text marker.
+    const answer: ManifestAnswer = { text: stripEmptyCheckbox(collapse(li.text)), correct };
     if (feedback) answer.feedback = feedback;
     return answer;
   });
