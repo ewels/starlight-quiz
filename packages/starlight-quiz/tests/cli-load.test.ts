@@ -12,7 +12,12 @@ function jsonResponse(body: unknown, ok = true): Response {
   return { ok, status: ok ? 200 : 404, json: () => Promise.resolve(body), text: () => Promise.resolve('') } as Response;
 }
 function htmlResponse(html: string, ok = true): Response {
-  return { ok, status: ok ? 200 : 404, json: () => Promise.reject(new Error()), text: () => Promise.resolve(html) } as Response;
+  return {
+    ok,
+    status: ok ? 200 : 404,
+    json: () => Promise.reject(new Error()),
+    text: () => Promise.resolve(html),
+  } as Response;
 }
 
 afterEach(() => {

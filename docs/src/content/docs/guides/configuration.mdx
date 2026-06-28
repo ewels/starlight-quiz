@@ -38,6 +38,15 @@ Emit a structured JSON manifest of every quiz to the build output. Pass `true` f
 (`quiz-manifest.json`) or a string to choose your own. The manifest is parsed from the built HTML, so it captures all
 quizzes without touching MDX, and is the source consumed by the QTI exporter and the terminal runner.
 
+### `validate`
+
+**Type:** `boolean` · **Default:** `true`
+
+Fails the build if a quiz has a malformed answer. Only `- [x]`, `- [ ]` and `- [X]` are recognised as answers; an
+unrecognised marker (a typo like `[o]`, an empty `[]`, or a smart bracket from an editor) is rendered by markdown as
+plain text and would silently never be an answer. Rather than dropping it, the build stops with an error naming the
+page, the quiz and the offending text. Set to `false` to ignore such items instead.
+
 ## `<Quiz>` props
 
 | Prop                 | Type      | Default | Description                                                  |

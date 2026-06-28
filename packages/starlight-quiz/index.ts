@@ -1,6 +1,6 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 
-import { quizManifestIntegration } from './integration';
+import { quizManifestIntegration, quizValidationIntegration } from './integration';
 import { overrideStarlightComponent } from './libs/starlight';
 import { Translations } from './translations';
 
@@ -30,6 +30,15 @@ export interface StarlightQuizOptions {
    * @default false
    */
   manifest?: boolean | string;
+  /**
+   * Fail the build if a quiz has malformed answers — for example an
+   * unrecognised checkbox marker (`[y]`, `[o]`, `[]`, a smart bracket) that GFM
+   * would render as plain text and silently drop. Set to `false` to allow such
+   * items to be ignored instead.
+   *
+   * @default true
+   */
+  validate?: boolean;
 }
 
 /**
@@ -40,7 +49,7 @@ export interface StarlightQuizOptions {
  * components themselves are imported from `starlight-quiz/components`.
  */
 export default function starlightQuiz(options: StarlightQuizOptions = {}): StarlightPlugin {
-  const { injectStyles = true, progressTracker = true, manifest = false } = options;
+  const { injectStyles = true, progressTracker = true, manifest = false, validate = true } = options;
 
   return {
     name: 'starlight-quiz',
@@ -49,6 +58,9 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
         injectTranslations(Translations);
       },
       'config:setup'({ addIntegration, config, logger, updateConfig }) {
+        if (validate) {
+          addIntegration(quizValidationIntegration());
+        }
         if (manifest) {
           addIntegration(quizManifestIntegration(typeof manifest === 'string' ? { filename: manifest } : {}));
         }

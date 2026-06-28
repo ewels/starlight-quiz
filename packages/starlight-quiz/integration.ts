@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 
 import { buildManifest, extractQuizzesFromHtml, type QuizManifestEntry } from './lib/manifest.ts';
+import { formatValidationError, validateQuizHtml, type QuizValidationIssue } from './lib/validate.ts';
 
 export interface QuizManifestIntegrationOptions {
   /** Output filename, relative to the build output directory. */
@@ -15,6 +16,41 @@ export interface QuizManifestIntegrationOptions {
 function pagePath(relativeFile: string): string {
   const normalised = relativeFile.replaceAll(path.sep, '/').replace(/index\.html$/, '');
   return '/' + normalised.replace(/^\/+/, '');
+}
+
+async function readHtmlFiles(dir: URL): Promise<{ file: string; html: string; page: string }[]> {
+  const outDir = fileURLToPath(dir);
+  const entries = await readdir(outDir, { recursive: true });
+  const htmlFiles = entries.filter((file) => file.endsWith('.html')).sort();
+  return Promise.all(
+    htmlFiles.map(async (file) => ({
+      file,
+      html: await readFile(path.join(outDir, file), 'utf8'),
+      page: pagePath(file),
+    })),
+  );
+}
+
+/**
+ * An Astro integration that fails the build if any quiz has malformed answers —
+ * for example an unrecognised checkbox marker that GFM left as plain text. This
+ * gives authors a hard error instead of a silently dropped answer.
+ */
+export function quizValidationIntegration(): AstroIntegration {
+  return {
+    name: 'starlight-quiz/validate',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        const issues: QuizValidationIssue[] = [];
+        for (const { html, page } of await readHtmlFiles(dir)) {
+          issues.push(...validateQuizHtml(html, page));
+        }
+        if (issues.length > 0) {
+          throw new Error(formatValidationError(issues));
+        }
+      },
+    },
+  };
 }
 
 /**
