@@ -20,6 +20,7 @@ export default defineConfig({
           items: [
             { label: 'Introduction', link: '/' },
             { label: 'Quick start', slug: 'guides/quick-start' },
+            { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
             { label: 'Live demo', slug: 'demo' },
           ],
         },
@@ -47,7 +48,6 @@ export default defineConfig({
             { label: 'Configuration', slug: 'guides/configuration' },
             { label: 'Translations', slug: 'guides/translations' },
             { label: 'Command-line tools', slug: 'guides/cli' },
-            { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
           ],
         },
         {
