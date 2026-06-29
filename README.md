@@ -17,16 +17,18 @@ educational content, tutorials, and documentation that requires reader engagemen
 
 ## Features
 
-- ✨ **Simple markdown syntax** – write quizzes with GitHub-flavoured task lists, no new syntax to learn
-- 🎯 **Multiple quiz types** – single choice (radio), multiple choice (checkboxes), and fill-in-the-blank
-- ⚡ **Instant feedback** – per-answer feedback and visual correct/incorrect indicators
-- 📊 **Progress &amp; results** – an aggregate results panel with score tiers and confetti :tada:
-- 💾 **Results saved** – answers persist to the browser's local storage, surviving reloads and rebuilds
-- 🌐 **Internationalisation** – 13 languages out of the box (shared with mkdocs-quiz), with label props otherwise
-- 🧩 **Works anywhere** – a zero-config Starlight plugin or standalone in any Astro project, safe under view transitions
-- ♿ **Accessible** – real fieldsets, `aria-live` feedback, focus management and keyboard-safe auto-submit
-- 📤 **LMS export** – emit a quiz manifest and export to QTI 1.2/2.1 for Canvas, Moodle and Blackboard
-- 🖥️ **Terminal runner** – take quizzes in your terminal, from a local build or a deployed site
+- ✨ **Simple markdown syntax** - write quizzes with GitHub-flavoured task lists, no new syntax to learn
+- 🎯 **Multiple quiz types** - single choice (radio), multiple choice (checkboxes), and fill-in-the-blank
+- ⚡ **Instant feedback** - per-answer feedback and visual correct/incorrect indicators
+- 📝 **Rich explanations** - reveal a markdown content section after answering, with code blocks, tables and images
+- 📊 **Progress &amp; results** - an aggregate results panel with score tiers and confetti :tada:
+- 💾 **Results saved** - answers persist to the browser's local storage, surviving reloads and rebuilds
+- 🔀 **Author controls** - shuffle answers, auto-number questions, and set site-wide behaviour defaults
+- 🌐 **Internationalisation** - 13 languages out of the box (shared with mkdocs-quiz), with label props otherwise
+- 🧩 **Works anywhere** - a zero-config Starlight plugin or standalone in any Astro project, safe under view transitions
+- ♿ **Accessible** - real fieldsets, `aria-live` feedback, focus management and keyboard-safe auto-submit
+- 📤 **LMS export** - emit a quiz manifest and export to QTI 1.2/2.1 for Canvas, Moodle and Blackboard
+- 🖥️ **Terminal runner** - take quizzes in your terminal, from a local build or a deployed site
 
 ```mdx
 import { Quiz } from 'starlight-quiz/components';
