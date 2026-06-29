@@ -16,38 +16,38 @@ export default defineConfig({
       plugins: [starlightQuiz({ manifest: true })],
       sidebar: [
         {
-          label: 'Start here',
+          label: 'Getting started',
           items: [
             { label: 'Introduction', link: '/' },
-            { label: 'Quick start', slug: 'guides/quick-start' },
-            { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
-            { label: 'Live demo', slug: 'demo' },
+            { label: 'Demo quiz', slug: 'demo' },
+            { label: 'Starlight Installation', slug: 'guides/quick-start' },
+            { label: 'Astro Installation', slug: 'guides/vanilla-astro' },
           ],
         },
         {
-          label: 'Question types',
+          label: 'Writing Quizzes',
           items: [
             { label: 'Multiple choice', slug: 'guides/multiple-choice' },
             { label: 'Fill-in-the-blank', slug: 'guides/fill-in-the-blank' },
+            { label: 'Advanced formatting', slug: 'guides/advanced-formatting' },
           ],
         },
         {
           label: 'Features',
           items: [
-            { label: 'Shuffle answers', slug: 'guides/shuffle-answers' },
-            { label: 'Auto-numbering', slug: 'guides/auto-numbering' },
             { label: 'Progress tracking', slug: 'guides/progress-tracking' },
             { label: 'Results screen', slug: 'guides/results-screen' },
             { label: 'Intro panel', slug: 'guides/intro-panel' },
-            { label: 'Advanced formatting', slug: 'guides/advanced-formatting' },
+            { label: 'Auto-numbering', slug: 'guides/auto-numbering' },
+            { label: 'Shuffle answers', slug: 'guides/shuffle-answers' },
+            { label: 'Translations', slug: 'guides/translations' },
           ],
         },
         {
-          label: 'Reference',
+          label: 'Advanced',
           items: [
             { label: 'Configuration', slug: 'guides/configuration' },
             { label: 'Custom CSS', slug: 'guides/custom-css' },
-            { label: 'Translations', slug: 'guides/translations' },
             { label: 'Command-line tools', slug: 'guides/cli' },
           ],
         },
