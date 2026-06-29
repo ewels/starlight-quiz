@@ -4,13 +4,17 @@ description: Every question type and feature on a single page.
 ---
 
 import { Quiz, QuizIntro, QuizResults } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 This page exercises every question type and feature. It also doubles as the fixture for the package's end-to-end tests,
-so the quizzes here have stable ids.
+so the quizzes here have stable ids. Switch each example to **Source** to see the markdown behind it.
 
 <QuizIntro />
 
 ## Single choice
+
+<Tabs>
+<TabItem label="Preview">
 
 <Quiz id="demo-single">
 Which planet is known as the Red Planet?
@@ -21,7 +25,26 @@ Which planet is known as the Red Planet?
 
 </Quiz>
 
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Which planet is known as the Red Planet?
+
+- [ ] Venus
+- [x] Mars
+- [ ] Jupiter
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
+
 ## Multiple choice
+
+<Tabs>
+<TabItem label="Preview">
 
 <Quiz id="demo-multiple">
 Which of these are prime numbers?
@@ -33,18 +56,53 @@ Which of these are prime numbers?
 
 </Quiz>
 
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Which of these are prime numbers?
+
+- [x] 2
+- [ ] 4
+- [x] 7
+- [ ] 9
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
+
 ## Fill in the blank
+
+<Tabs>
+<TabItem label="Preview">
 
 <Quiz id="demo-blank">
 The chemical symbol for water is [[H2O]].
 
 </Quiz>
 
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+The chemical symbol for water is [[H2O]].
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
+
 ## Kitchen sink
 
 Most opt-in features at once: a `title`, shuffled answers, a manual Submit button (`autoSubmit={false}`), a retry
 button (`disableAfterSubmit={false}`), a formatted question with a code block, per-answer feedback, and a rich content
 section — heading, table, code and an image — revealed after submitting.
+
+<Tabs>
+<TabItem label="Preview">
 
 <Quiz
   id="demo-feedback"
@@ -93,6 +151,55 @@ Images work in the content section too:
 />
 
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+`````mdx title="quiz.mdx"
+<Quiz
+  title="Which language runs in the browser?"
+  shuffle
+  autoSubmit={false}
+  disableAfterSubmit={false}
+  showCorrect
+>
+Which language runs **natively** in the browser — no server or runtime required? Picture this running straight from a
+`<script>` tag:
+
+```js
+console.log('hello from the browser');
+```
+
+- [x] JavaScript
+  > Correct — it's the language of the web.
+- [ ] Python
+  > Needs a server or a runtime like Pyodide to run in a page.
+- [ ] `C++`
+  > Compiled ahead of time; it doesn't run directly in a page.
+- [ ] Rust 🦀
+  > Only via a WebAssembly build step.
+
+---
+
+### Why?
+
+JavaScript is the only one of these that browsers execute directly. Everything else needs a server, a runtime, or a
+compile step first:
+
+| Option   | How it gets there            |
+| -------- | ---------------------------- |
+| `<script>` | Runs as-is, natively       |
+| Pyodide  | Ships a Python runtime       |
+| Wasm     | Compiled ahead of time       |
+
+Images work in the content section too:
+
+<img src="https://picsum.photos/seed/starlight-quiz/480/220" alt="A random photo" width="480" />
+</Quiz>
+`````
+
+</TabItem>
+</Tabs>
 
 ## Results
 

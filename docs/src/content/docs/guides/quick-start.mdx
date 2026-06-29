@@ -4,7 +4,6 @@ description: Install the Starlight Quiz plugin and write your first quiz.
 ---
 
 import { Quiz } from 'starlight-quiz/components';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Install
 
@@ -37,23 +36,6 @@ Quizzes are written with markdown inside an imported `<Quiz>` component. The bas
 [task list](https://github.github.com/gfm/#task-list-items-extension-) of answers, and an optional content section. A
 ticked box (`[x]`) is a correct answer; an empty box (`[ ]`) is incorrect:
 
-<Tabs>
-<TabItem label="Preview">
-
-<Quiz id="quickstart-basic">
-Question text goes here.
-
-- [x] Correct answer
-- [ ] Incorrect answer
-- [ ] Another incorrect answer
-
-Optional content, revealed after the answer is submitted.
-
-</Quiz>
-
-</TabItem>
-<TabItem label="Source">
-
 ```mdx title="quiz.mdx"
 import { Quiz } from 'starlight-quiz/components';
 
@@ -68,8 +50,18 @@ Optional content, revealed after the answer is submitted.
 </Quiz>
 ```
 
-</TabItem>
-</Tabs>
+This renders as:
+
+<Quiz id="quickstart-basic">
+Question text goes here.
+
+- [x] Correct answer
+- [ ] Incorrect answer
+- [ ] Another incorrect answer
+
+Optional content, revealed after the answer is submitted.
+
+</Quiz>
 
 :::tip[Asterisk bullets]
 You can use asterisk bullets (`*`) instead of hyphens (`-`) for answers — both are valid GitHub-flavoured markdown.
@@ -79,24 +71,6 @@ You can use asterisk bullets (`*`) instead of hyphens (`-`) for answers — both
 
 With **one** correct answer you get radio buttons. With **more than one**, the quiz switches to checkboxes
 automatically:
-
-<Tabs>
-<TabItem label="Preview">
-
-<Quiz id="quickstart-multiple">
-Which of these are programming languages?
-
-- [x] Python
-- [ ] HTML
-- [x] JavaScript
-- [ ] CSS
-
-Python and JavaScript are programming languages, while HTML and CSS are markup/styling languages.
-
-</Quiz>
-
-</TabItem>
-<TabItem label="Source">
 
 ```mdx title="quiz.mdx"
 <Quiz>
@@ -112,8 +86,19 @@ markup/styling languages.
 </Quiz>
 ```
 
-</TabItem>
-</Tabs>
+This renders as:
+
+<Quiz id="quickstart-multiple">
+Which of these are programming languages?
+
+- [x] Python
+- [ ] HTML
+- [x] JavaScript
+- [ ] CSS
+
+Python and JavaScript are programming languages, while HTML and CSS are markup/styling languages.
+
+</Quiz>
 
 All correct answers — and only the correct answers — must be selected to get the question right.
 
@@ -121,24 +106,17 @@ All correct answers — and only the correct answers — must be selected to get
 
 For questions where readers type the answer, wrap the expected answer in double square brackets:
 
-<Tabs>
-<TabItem label="Preview">
-
-<Quiz id="quickstart-blank">
-The capital of France is [[Paris]].
-</Quiz>
-
-</TabItem>
-<TabItem label="Source">
-
 ```mdx title="quiz.mdx"
 <Quiz>
 The capital of France is [[Paris]].
 </Quiz>
 ```
 
-</TabItem>
-</Tabs>
+This renders as:
+
+<Quiz id="quickstart-blank">
+The capital of France is [[Paris]].
+</Quiz>
 
 Answers are case-insensitive, so "Paris", "paris" and "PARIS" are all accepted.
 
