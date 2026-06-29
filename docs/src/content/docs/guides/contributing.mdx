@@ -30,7 +30,7 @@ pnpm dev        # run the docs site locally
 `prek install` wires the git pre-commit hook (prettier → eslint → typecheck); CI runs the same `prek run --all-files`.
 
 :::note[MDX is formatted by hand]
-Prettier is **not** run on `.mdx` files — it reflows task lists and fenced quiz examples in ways that break the
+Prettier is **not** run on `.mdx` files. It reflows task lists and fenced quiz examples in ways that break the
 authoring syntax. Format MDX manually.
 :::
 
@@ -47,7 +47,7 @@ Translations live as gettext `.po` files in `packages/starlight-quiz/locales/`, 
    ```
 
    It prints a per-locale coverage summary (translated / total strings) and warns about any locale it found no
-   translations for — a quick way to spot a broken or empty `.po` file.
+   translations for, a quick way to spot a broken or empty `.po` file.
 
 The generator maps each translation to starlight-quiz's namespaced keys; strings with no mkdocs counterpart are kept in
 the generator's `CURATED` map. See [Translations](/starlight-quiz/guides/translations/) for the user-facing side.

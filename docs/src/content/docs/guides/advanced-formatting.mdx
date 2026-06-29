@@ -6,7 +6,7 @@ description: Code blocks, tables, lists and images inside quizzes.
 import { Quiz } from 'starlight-quiz/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Because a quiz is just markdown, the question, the answers and the content section can all contain rich markdown —
+Because a quiz is just markdown, the question, the answers and the content section can all contain rich markdown:
 code blocks, tables, lists, images and inline formatting.
 
 ## Code in the question
@@ -56,7 +56,7 @@ console.log(xs.map((x) => x * 2));
 ## Code block features
 
 Code blocks in a quiz are rendered by [Expressive Code](https://expressive-code.com/), so the full meta-string syntax
-works inside a quiz too — a filename `title`, highlighted lines (`{2}`), and `ins`/`del` diff markers:
+works inside a quiz too: a filename `title`, highlighted lines (`{2}`), and `ins`/`del` diff markers:
 
 <Tabs>
 <TabItem label="Preview">
@@ -109,10 +109,10 @@ function total(items) {
 </Tabs>
 
 You can also give a marker a [label on its own line](https://expressive-code.com/key-features/text-markers/#adding-long-labels-on-their-own-lines)
-with the `{"label":line}` syntax — handy for walking through an answer in the content section:
+with the `{"label":line}` syntax, handy for walking through an answer in the content section:
 
 ````md
-```js {"This runs first — the accumulator starts at zero:":1}
+```js {"This runs first, the accumulator starts at zero:":1}
 let sum = 0;
 ```
 ````
@@ -171,7 +171,7 @@ Which status code means "Not Found"?
 
 ## Formatting in answers
 
-Answers themselves accept inline markdown — `code`, **bold**, _italic_ and links:
+Answers themselves accept inline markdown: `code`, **bold**, _italic_ and links:
 
 <Tabs>
 <TabItem label="Preview">
@@ -202,5 +202,5 @@ Which command installs the package?
 </Tabs>
 
 :::note
-Images work too — a standard markdown `![alt](src)` in the question or content section renders as you would expect.
+Images work too: a standard markdown `![alt](src)` works in the question or content section.
 :::

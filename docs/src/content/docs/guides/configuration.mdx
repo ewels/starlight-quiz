@@ -3,7 +3,7 @@ title: Configuration
 description: Every plugin option and component prop.
 ---
 
-Starlight Quiz needs no configuration to get started — `plugins: [starlightQuiz()]` is enough. This page lists
+Starlight Quiz needs no configuration to get started: `plugins: [starlightQuiz()]` is enough. This page lists
 everything you _can_ change.
 
 ## Plugin options
@@ -49,8 +49,8 @@ quizzes without touching MDX, and is the source consumed by the QTI exporter and
 **Type:** `boolean` · **Default:** `true`
 
 Fails the build if a quiz has a malformed answer. `- [x]`, `- [ ]` and `- [X]` are recognised as answers, and `- []`
-(no inner space) is accepted as an unchecked answer to match mkdocs-quiz. Any other marker — a typo like `[o]` or a
-smart bracket pasted from an editor — is rendered by markdown as plain text and would silently never be an answer.
+(no inner space) is accepted as an unchecked answer to match mkdocs-quiz. Any other marker (a typo like `[o]` or a
+smart bracket pasted from an editor) is rendered by markdown as plain text and would silently never be an answer.
 Rather than dropping it, the build stops with an error naming the page, the quiz and the offending text. Set to `false`
 to ignore such items instead.
 
@@ -60,7 +60,7 @@ to ignore such items instead.
 `true` except `shuffle` and `autoNumber`
 
 Site-wide defaults for quiz behaviour, applied to every `<Quiz>` and `<QuizResults>` that doesn't set the matching
-prop itself — so you can change behaviour everywhere without editing each quiz. An explicit prop on a component always
+prop itself, so you can change behaviour everywhere without editing each quiz. An explicit prop on a component always
 wins.
 
 ```js title="astro.config.mjs"
@@ -91,7 +91,7 @@ Each behaviour prop falls back to the [`quizDefaults`](#quizdefaults) plugin opt
 **Type:** `boolean` · **Default:** `true`
 
 Single-choice quizzes grade as soon as an answer is clicked or tapped, with no Submit button. Keyboard users arrowing
-through the options are **not** locked in — only an explicit click, tap or Space activation submits. Set `false` to
+through the options are **not** locked in. Only an explicit click, tap or Space activation submits. Set `false` to
 show a Submit button instead. Multiple-choice and fill-in-the-blank quizzes always use a Submit button.
 
 ### `disableAfterSubmit`
@@ -110,7 +110,7 @@ were right or wrong, without revealing the answer.
 
 ### Label overrides
 
-Every UI string can be overridden per quiz — useful outside Starlight or for custom wording: `submitLabel`,
+Every UI string can be overridden per quiz, useful outside Starlight or for custom wording: `submitLabel`,
 `resetLabel`, `correctLabel`, `incorrectLabel` and `tryAgainLabel`.
 
 ```mdx
@@ -145,7 +145,7 @@ markdown. The `textLabel` prop is a plain-string fallback for vanilla Astro and 
 ## `<QuizProgress>` props
 
 Under the plugin, the progress widget is injected into the table of contents for you. You can also import and place
-`<QuizProgress />` yourself — useful in [vanilla Astro](/starlight-quiz/guides/vanilla-astro/) or to control where it
+`<QuizProgress />` yourself, useful in [vanilla Astro](/starlight-quiz/guides/vanilla-astro/) or to control where it
 appears. It hides itself on pages with no quizzes. (The compact badge shown in the mobile ToC bar is an internal
 variant of this widget and isn't a separate public component.)
 

@@ -4,7 +4,7 @@ description: Take quizzes in the terminal and export them to QTI for an LMS.
 ---
 
 `starlight-quiz` ships a small CLI for working with quizzes outside the browser. Both commands read the
-[quiz manifest](/starlight-quiz/guides/configuration/#manifest) — never your MDX — so enable it first:
+[quiz manifest](/starlight-quiz/guides/configuration/#manifest) (never your MDX), so enable it first:
 
 ```js title="astro.config.mjs"
 starlight({ plugins: [starlightQuiz({ manifest: true })] });
@@ -20,7 +20,7 @@ Run quizzes interactively from a local build or a deployed site:
 # From a local build directory (or a manifest file directly)
 npx starlight-quiz run ./dist
 
-# From a deployed site — its manifest is fetched automatically
+# From a deployed site, its manifest is fetched automatically
 npx starlight-quiz run https://my-docs.example.com
 ```
 
@@ -48,7 +48,7 @@ npx starlight-quiz history --clear  # wipe it
 
 ## Export to QTI for an LMS
 
-Export every quiz as [QTI](https://www.imsglobal.org/question/index.html) assessment items — the interchange format
+Export every quiz as [QTI](https://www.imsglobal.org/question/index.html) assessment items, the interchange format
 understood by Canvas, Moodle, Blackboard and others:
 
 ```sh
@@ -59,7 +59,7 @@ npx starlight-quiz export-qti ./dist --out ./qti
 npx starlight-quiz export-qti ./dist --version 1.2 --out ./qti
 ```
 
-This writes one XML item per quiz plus an `imsmanifest.xml` into the output directory — an unzipped IMS Content
+This writes one XML item per quiz plus an `imsmanifest.xml` into the output directory, an unzipped IMS Content
 Package. Zip the folder to import it into your LMS. Single-choice, multiple-choice and fill-in-the-blank questions are
 all supported.
 

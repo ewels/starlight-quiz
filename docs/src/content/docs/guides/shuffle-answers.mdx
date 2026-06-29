@@ -7,7 +7,7 @@ import { Quiz } from 'starlight-quiz/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Set the `shuffle` prop to randomise the order of a choice quiz's answers. The shuffle happens in the browser on every
-load, so readers see a different order each visit — useful to stop people memorising answer positions rather than the
+load, so readers see a different order each visit, which helps stop people memorising answer positions rather than the
 content.
 
 <Tabs>
@@ -40,8 +40,8 @@ Which is the largest planet in the Solar System?
 </TabItem>
 </Tabs>
 
-Reload the page a few times to see the order change. Correct-answer tracking is preserved regardless of display order,
-and saved progress still restores correctly.
+Reload the page a few times to see the order change. Correct-answer tracking and saved progress are both preserved
+regardless of display order.
 
 :::note
 Shuffling applies to choice questions only; fill-in-the-blank questions have no answers to reorder.

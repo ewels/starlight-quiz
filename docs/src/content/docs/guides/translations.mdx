@@ -5,7 +5,7 @@ description: Built-in locales, how labels resolve, and overriding text per quiz.
 
 import { Quiz } from 'starlight-quiz/components';
 
-Every user-facing string — buttons, feedback, the results panel, the score messages — is translatable. Under Starlight
+Every user-facing string (buttons, feedback, the results panel, the score messages) is translatable. Under Starlight
 the right locale is chosen automatically; outside Starlight you pass labels as props.
 
 ## Built-in locales
@@ -24,12 +24,12 @@ Starlight Quiz ships translations for **13 languages**, shared verbatim with its
 | `id`    | Indonesian            |         |                        |
 
 When the plugin is installed, these are injected into Starlight's i18n. A quiz on a page served under a configured
-locale (e.g. `/fr/…`) picks up that locale's strings automatically — you don't pass anything. Strings a locale hasn't
+locale (e.g. `/fr/…`) picks up that locale's strings automatically. Strings a locale hasn't
 translated fall back to English.
 
 ## How a label is resolved
 
-Each label is resolved in this order — the first that exists wins:
+Each label is resolved in this order (the first that exists wins):
 
 1. An **explicit prop** (or, for `<QuizIntro>`, slot content) on the component.
 2. The **Starlight translation** for the current locale.
@@ -40,7 +40,7 @@ project.
 
 ## Overriding text per quiz
 
-Any string can be overridden per instance — handy for custom wording or when you're outside Starlight. See the
+Any string can be overridden per instance, handy for custom wording or when you're outside Starlight. See the
 [`<Quiz>`](/starlight-quiz/guides/configuration/#quiz-props), [`<QuizResults>`](/starlight-quiz/guides/configuration/#quizresults-props)
 and [`<QuizIntro>`](/starlight-quiz/guides/configuration/#quizintro-props) prop tables for every label.
 
@@ -64,7 +64,7 @@ Is the sky blue?
 ## Override the bundled wording
 
 To change a label everywhere on your site (rather than per quiz), override the key in **your own** Starlight UI
-translations. The plugin injects its strings as defaults, and Starlight lets your site's translations take precedence —
+translations. The plugin injects its strings as defaults, and Starlight lets your site's translations take precedence,
 so any `starlightQuiz.*` key you define wins. Add the keys to your i18n data, per locale:
 
 ```json title="src/content/i18n/en.json"

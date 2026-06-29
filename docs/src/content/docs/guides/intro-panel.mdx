@@ -30,7 +30,7 @@ Where are your quiz answers stored?
 
 - [x] The browser's local storage
 - [ ] A remote database
-- [ ] Nowhere — they're lost on reload
+- [ ] Nowhere, they're lost on reload
 
 </Quiz>
 
@@ -45,7 +45,7 @@ Where are your quiz answers stored?
 
 - [x] The browser's local storage
 - [ ] A remote database
-- [ ] Nowhere — they're lost on reload
+- [ ] Nowhere, they're lost on reload
 </Quiz>
 ```
 
@@ -63,15 +63,15 @@ panel is optional.
 
 ## Customising the text
 
-Pass your own message as the component's children to override the default — markdown works here, so you can add
+Pass your own message as the component's children to override the default. Markdown works here, so you can add
 emphasis or a link:
 
 ```mdx
-<QuizIntro>Your answers are **saved locally** — clear them any time.</QuizIntro>
+<QuizIntro>Your answers are **saved locally**, clear them any time.</QuizIntro>
 ```
 
 The message and the button label are also translatable (English, French, German and Spanish out of the box). Outside
-Starlight — where markdown children aren't available in a plain `.astro` file — set them with props instead:
+Starlight (where markdown children aren't available in a plain `.astro` file), set them with props instead:
 
 ```astro
 <QuizIntro textLabel="Your answers are saved locally." resetLabel="Start over" />

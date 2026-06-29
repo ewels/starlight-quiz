@@ -6,7 +6,7 @@ description: Single-choice and multiple-choice questions, answer syntax and per-
 import { Quiz } from 'starlight-quiz/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Choice questions are written as a markdown task list. The number of correct answers decides the question type — you
+Choice questions are written as a markdown task list. The number of correct answers decides the question type. You
 never set it explicitly.
 
 ## Single choice (radio buttons)
@@ -45,8 +45,8 @@ What is the capital of France?
 ## Multiple choice (checkboxes)
 
 :::caution[Recognised markers]
-`[x]`, `[ ]` and `[X]` are recognised, and `[]` (no inner space) counts as an unchecked answer. A mistyped marker —
-`[o]` or a “smart” bracket pasted from an editor — isn't a checkbox in markdown, so it would silently never be an
+`[x]`, `[ ]` and `[X]` are recognised, and `[]` (no inner space) counts as an unchecked answer. A mistyped marker
+(`[o]` or a “smart” bracket pasted from an editor) isn't a checkbox in markdown, so it would silently never be an
 answer. The build fails with an error pointing at it (disable with the
 [`validate`](/starlight-quiz/guides/configuration/#validate) option). Also don't mix `-` and `*` bullets within one
 quiz, as that splits the answer list.
@@ -96,7 +96,7 @@ Add a blockquote (`>`) indented underneath an answer to show feedback specific t
 Which language runs natively in the browser?
 
 - [x] JavaScript
-  > Correct — JavaScript is the language of the web.
+  > Correct. JavaScript is the language of the web.
 - [ ] Python
   > Python needs a server or a runtime like Pyodide to run in the browser.
 - [ ] C++
@@ -111,7 +111,7 @@ Which language runs natively in the browser?
 Which language runs natively in the browser?
 
 - [x] JavaScript
-  > Correct — JavaScript is the language of the web.
+  > Correct. JavaScript is the language of the web.
 - [ ] Python
   > Python needs a server or a runtime like Pyodide to run in the browser.
 - [ ] C++
@@ -123,7 +123,7 @@ Which language runs natively in the browser?
 
 ## Content section
 
-Any markdown after the answers becomes a content section that is revealed once the quiz is submitted — handy for
+Any markdown after the answers becomes a content section that is revealed once the quiz is submitted, handy for
 explanations. See [Advanced formatting](/starlight-quiz/guides/advanced-formatting/) for richer content.
 
 <Tabs>
