@@ -54,11 +54,23 @@ the generator's `CURATED` map. See [Translations](/starlight-quiz/guides/transla
 
 ## Releases
 
-Versioning is handled with [Changesets](https://github.com/changesets/changesets). Add one in the same PR as your
-change:
+Notable changes are added under the **Unreleased** heading at the top of
+[`CHANGELOG.md`](https://github.com/ewels/starlight-quiz/blob/main/CHANGELOG.md), in the same PR as the change.
 
-```sh
-pnpm changeset
-```
+To cut a release:
 
-Pick the bump (`patch`/`minor`) and describe the change for the changelog. Publishing is done manually by a maintainer.
+1. Move the **Unreleased** entries into a new `## **Version X.Y.Z** (YYYY-MM-DD)` section, and bump `version` in
+   `packages/starlight-quiz/package.json` to match.
+2. Commit and push to `main`.
+3. Publish a [GitHub release](https://github.com/ewels/starlight-quiz/releases/new) with a tag matching the version
+   (e.g. `v0.1.0`).
+
+Publishing the release triggers the [Release workflow](https://github.com/ewels/starlight-quiz/blob/main/.github/workflows/release.yml),
+which publishes to npm via trusted publishing (no token to manage). It first checks that the release tag matches the
+package version, so a mismatch fails the run rather than shipping the wrong version.
+
+:::note[First publish is manual]
+npm trusted publishing can only be configured on a package that already exists, so the very first release is published
+by hand (`pnpm release` after `npm login`). After that, add the GitHub repository as a trusted publisher in the package
+settings on npmjs.com, and every later release publishes automatically.
+:::

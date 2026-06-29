@@ -32,4 +32,5 @@ pnpm-debug.log*
 
 # Generated for npm publish from the repo root (see package prepack)
 packages/starlight-quiz/README.md
+packages/starlight-quiz/CHANGELOG.md
 packages/starlight-quiz/LICENSE

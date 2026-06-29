@@ -49,10 +49,11 @@
     "bin",
     "env.d.ts",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
-    "prepack": "cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
+    "prepack": "cp ../../README.md ./README.md && cp ../../CHANGELOG.md ./CHANGELOG.md && cp ../../LICENSE ./LICENSE",
     "gen:i18n": "node --experimental-strip-types scripts/build-i18n.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -97,7 +97,7 @@ Strictest config (`astro/tsconfigs/strictest`) with `verbatimModuleSyntax` and `
 - `BLANK_PATTERN` (and other global regexes) are shared — reset `.lastIndex = 0` before each `.test()`/`.exec()`.
 - Only `[x]`/`[X]`/`[ ]`/`[]` mark answers; don't mix `-` and `*` bullets within one quiz (it splits the answer list into separate `<ul>`s).
 - The docs deploy to GitHub Pages under base `/starlight-quiz` — keep links and Playwright `baseURL` base-path-aware.
-- Versioning/release is via Changesets (`pnpm changeset`); publishing is manual, not on push.
+- Releases are manual: add entries under the `CHANGELOG.md` **Unreleased** heading per PR, then to release move them into a dated `## **Version X.Y.Z**` section, bump `version` in `packages/starlight-quiz/package.json`, and publish a GitHub release tagged `vX.Y.Z`. That triggers `.github/workflows/release.yml`, which publishes to npm via trusted publishing (OIDC, no token). The workflow guards that the tag matches the package version. The first publish is manual (`pnpm release`) since trusted publishing needs an existing package.
 - MDX is **excluded from Prettier** (`.prettierignore`) and `*.md` uses `embeddedLanguageFormatting: 'off'` — Prettier reflows task lists / fenced quiz examples in ways that break the authoring syntax. Format MDX by hand.
 
 ## Starlight integration gotchas (learned the hard way)
