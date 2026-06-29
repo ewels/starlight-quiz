@@ -12,6 +12,9 @@ export const QUIZ_ELEMENT = 'sl-quiz';
 /** Custom element tag for the aggregate results panel. */
 export const QUIZ_RESULTS_ELEMENT = 'sl-quiz-results';
 
+/** Custom element tag for the intro panel (info text + page reset button). */
+export const QUIZ_INTRO_ELEMENT = 'sl-quiz-intro';
+
 /** Custom element tag for the compact progress widget (e.g. in the sidebar). */
 export const QUIZ_PROGRESS_ELEMENT = 'sl-quiz-progress';
 

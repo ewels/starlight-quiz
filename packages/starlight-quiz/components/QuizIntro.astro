@@ -1,0 +1,30 @@
+---
+import { getTranslate, resolveString } from '../lib/i18n';
+
+interface Props {
+  /** Extra class names for the panel. */
+  class?: string;
+  /** Override the intro text. */
+  textLabel?: string;
+  /** Override the reset button label. */
+  resetLabel?: string;
+}
+
+const { class: className, textLabel, resetLabel } = Astro.props;
+
+const t = getTranslate(Astro.locals);
+const text = resolveString('starlightQuiz.intro.text', textLabel, t);
+const reset = resolveString('starlightQuiz.results.resetAll', resetLabel, t);
+const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
+---
+
+<sl-quiz-intro class:list={['sl-quiz-intro', className]} data-confirm-label={confirmReset}>
+  <p class="sl-quiz-intro-text">{text}</p>
+  <button type="button" class="sl-quiz-intro-reset">{reset}</button>
+</sl-quiz-intro>
+
+<script>
+  import { defineQuizIntroElement } from '../lib/intro-element';
+
+  defineQuizIntroElement();
+</script>

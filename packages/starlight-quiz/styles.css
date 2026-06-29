@@ -9,7 +9,8 @@
 @layer starlight-quiz {
   .sl-quiz,
   .sl-quiz-results,
-  .sl-quiz-progress {
+  .sl-quiz-progress,
+  .sl-quiz-intro {
     --slq-accent: var(--sl-color-accent, #2563eb);
     --slq-correct: var(--sl-color-green, #15803d);
     --slq-correct-bg: var(--sl-color-green-low, #dcfce7);
@@ -28,7 +29,8 @@
   @media (prefers-color-scheme: dark) {
     .sl-quiz,
     .sl-quiz-results,
-    .sl-quiz-progress {
+    .sl-quiz-progress,
+    .sl-quiz-intro {
       --slq-correct-bg: var(--sl-color-green-low, #052e16);
       --slq-correct-high: var(--sl-color-green-high, #86efac);
       --slq-wrong-bg: var(--sl-color-red-low, #450a0a);
@@ -376,7 +378,9 @@
     font-size: 0.9375rem;
   }
 
-  .sl-quiz-results-reset {
+  .sl-quiz-results-reset,
+  .sl-quiz-intro-reset {
+    flex-shrink: 0;
     padding: 0.5rem 1.25rem;
     font: inherit;
     font-weight: 600;
@@ -387,8 +391,30 @@
     cursor: pointer;
   }
 
-  .sl-quiz-results-reset:hover {
+  .sl-quiz-results-reset:hover,
+  .sl-quiz-intro-reset:hover {
     border-color: var(--slq-accent);
+  }
+
+  /* ---- Intro panel (info text + page reset) -------------------------- */
+  .sl-quiz-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-block: 1.5rem;
+    padding: 1rem 1.25rem;
+    color: var(--slq-text);
+    background: var(--slq-surface);
+    border: 1px solid var(--slq-border);
+    border-radius: var(--slq-radius);
+  }
+
+  .sl-quiz-intro-text {
+    flex: 1 1 16rem;
+    margin: 0;
+    color: var(--slq-muted);
+    font-size: 0.9375rem;
   }
 
   /* ---- Progress widget (e.g. in the table of contents) -------------- */

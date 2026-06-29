@@ -1,0 +1,51 @@
+---
+title: Intro panel
+description: A short panel telling readers their answers are saved, with a reset button.
+---
+
+import { Quiz, QuizIntro } from 'starlight-quiz/components';
+
+Drop a `<QuizIntro>` component near the top of a page to reassure readers that their answers are saved between visits,
+and to give them a one-click button to clear every quiz on the page. It is the equivalent of mkdocs-quiz's
+`<!-- mkdocs-quiz intro -->` placeholder.
+
+```mdx
+import { Quiz, QuizIntro } from 'starlight-quiz/components';
+
+<QuizIntro />
+
+<Quiz>…</Quiz>
+```
+
+## Try it
+
+<QuizIntro />
+
+<Quiz id="intro-demo">
+Where are your quiz answers stored?
+
+- [x] The browser's local storage
+- [ ] A remote database
+- [ ] Nowhere — they're lost on reload
+
+</Quiz>
+
+Answer the quiz, then press **Reset all answers** to clear it.
+
+## Reset behaviour
+
+The button clears the saved progress for **every** quiz on the current page (the same action as the
+[results panel](/starlight-quiz/guides/results-screen/) reset). On pages with the
+[progress sidebar](/starlight-quiz/guides/progress-tracking/), that widget already offers a reset link, so an intro
+panel is optional.
+
+## Customising the text
+
+Both the message and the button label are translatable (English, French, German and Spanish out of the box) and can be
+overridden per-instance — handy in a vanilla Astro project:
+
+```astro
+<QuizIntro textLabel="Your answers are saved locally." resetLabel="Start over" />
+```
+
+See [Configuration](/starlight-quiz/guides/configuration/) for the full list of component props.

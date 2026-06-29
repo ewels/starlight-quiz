@@ -13,6 +13,8 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.correct': 'Correct !',
     'starlightQuiz.incorrect': 'Incorrect.',
     'starlightQuiz.tryAgain': 'Incorrect — réessayez.',
+    'starlightQuiz.intro.text':
+      'Les réponses de cette page sont enregistrées dans le stockage local de votre navigateur et persistent entre les visites.',
     'starlightQuiz.results.title': 'Votre score',
     'starlightQuiz.results.progress': 'Progression',
     'starlightQuiz.progressHeading': 'Progression du quiz',
@@ -34,6 +36,8 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.correct': 'Richtig!',
     'starlightQuiz.incorrect': 'Falsch.',
     'starlightQuiz.tryAgain': 'Falsch — versuche es erneut.',
+    'starlightQuiz.intro.text':
+      'Die Antworten auf dieser Seite werden im lokalen Speicher deines Browsers gespeichert und bleiben zwischen Besuchen erhalten.',
     'starlightQuiz.results.title': 'Dein Ergebnis',
     'starlightQuiz.results.progress': 'Fortschritt',
     'starlightQuiz.progressHeading': 'Quiz-Fortschritt',
@@ -55,6 +59,8 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.correct': '¡Correcto!',
     'starlightQuiz.incorrect': 'Incorrecto.',
     'starlightQuiz.tryAgain': 'Incorrecto: inténtalo de nuevo.',
+    'starlightQuiz.intro.text':
+      'Las respuestas de esta página se guardan en el almacenamiento local de tu navegador y se conservan entre visitas.',
     'starlightQuiz.results.title': 'Tu puntuación',
     'starlightQuiz.results.progress': 'Progreso',
     'starlightQuiz.progressHeading': 'Progreso del cuestionario',

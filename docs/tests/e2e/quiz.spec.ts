@@ -129,3 +129,16 @@ test('reset all clears progress', async ({ page }) => {
   await expect(quiz.locator('.sl-quiz-answer--correct')).toHaveCount(0);
   await expect(quiz.locator('input[value="1"]')).not.toBeChecked();
 });
+
+test('the intro panel resets every quiz on the page', async ({ page }) => {
+  page.on('dialog', (dialog) => dialog.accept());
+
+  const quiz = page.locator('#demo-single');
+  await quiz.getByText('Mars', { exact: true }).click();
+  await expect(quiz.locator('.sl-quiz-answer--correct')).toBeVisible();
+
+  await page.locator('.sl-quiz-intro-reset').click();
+
+  await expect(quiz.locator('.sl-quiz-answer--correct')).toHaveCount(0);
+  await expect(quiz.locator('input[value="1"]')).not.toBeChecked();
+});

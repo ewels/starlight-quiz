@@ -35,6 +35,7 @@ export default defineConfig({
             { label: 'Shuffle answers', slug: 'guides/shuffle-answers' },
             { label: 'Progress tracking', slug: 'guides/progress-tracking' },
             { label: 'Results screen', slug: 'guides/results-screen' },
+            { label: 'Intro panel', slug: 'guides/intro-panel' },
             { label: 'Advanced formatting', slug: 'guides/advanced-formatting' },
           ],
         },
