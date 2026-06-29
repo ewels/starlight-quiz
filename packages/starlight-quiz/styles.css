@@ -102,6 +102,7 @@
   }
 
   .sl-quiz-answer {
+    position: relative;
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 0 0.625rem;
@@ -125,10 +126,22 @@
     block-size: 1.05em;
     margin: 0;
     accent-color: var(--slq-accent);
+    /* Keep the native control above the label overlay so it stays clickable. */
+    position: relative;
+    z-index: 1;
   }
 
   .sl-quiz-answer label {
     cursor: inherit;
+  }
+
+  /* Make the whole answer row a click target, not just the label text: the
+     label (tied to the input via `for`) stretches to cover the entire wrapper,
+     padding included. */
+  .sl-quiz-answer label::before {
+    content: '';
+    position: absolute;
+    inset: 0;
   }
 
   .sl-quiz-answer label > :first-child {
