@@ -54,7 +54,7 @@
   ],
   "scripts": {
     "prepack": "cp ../../README.md ./README.md && cp ../../CHANGELOG.md ./CHANGELOG.md && cp ../../LICENSE ./LICENSE",
-    "gen:i18n": "node --experimental-strip-types scripts/build-i18n.ts",
+    "gen:i18n": "node --experimental-strip-types scripts/build-i18n.ts && pnpm exec prettier --write translations.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
