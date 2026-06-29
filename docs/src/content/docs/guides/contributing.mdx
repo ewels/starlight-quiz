@@ -46,6 +46,9 @@ Translations live as gettext `.po` files in `packages/starlight-quiz/locales/`, 
    pnpm --filter starlight-quiz gen:i18n
    ```
 
+   It prints a per-locale coverage summary (translated / total strings) and warns about any locale it found no
+   translations for — a quick way to spot a broken or empty `.po` file.
+
 The generator maps each translation to starlight-quiz's namespaced keys; strings with no mkdocs counterpart are kept in
 the generator's `CURATED` map. See [Translations](/starlight-quiz/guides/translations/) for the user-facing side.
 

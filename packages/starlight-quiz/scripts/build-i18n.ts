@@ -160,4 +160,20 @@ ${body}
 `;
 
 writeFileSync(outFile, output);
-console.log(`Wrote ${outFile} with locales: en, ${Object.keys(tables).join(', ')}`);
+
+// Coverage report — how many of the source strings each locale translates.
+const totalKeys = Object.keys(STRINGS).length;
+const codes = Object.keys(tables).sort();
+console.log(`Wrote ${outFile} — en + ${codes.length} locales.\n`);
+console.log(`Coverage (translated / ${totalKeys} strings):`);
+const empty: string[] = [];
+for (const code of codes) {
+  const translated = Object.keys(tables[code]!).length;
+  const pct = Math.round((translated / totalKeys) * 100);
+  console.log(`  ${code.padEnd(6)} ${String(translated).padStart(2)}/${totalKeys}  ${String(pct).padStart(3)}%`);
+  if (translated === 0) empty.push(code);
+}
+if (empty.length > 0) {
+  // A locale that translates nothing usually means a broken or empty .po file.
+  console.warn(`\nWarning: no translations found for: ${empty.join(', ')}`);
+}
