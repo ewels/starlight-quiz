@@ -69,7 +69,9 @@ When used as a Starlight plugin, a compact progress widget appears in the table 
 and the mobile ToC), showing how many quizzes on the page are answered and how many are correct. On narrow screens —
 where there is no right sidebar — a full-width version with a reset link is rendered at the foot of the page instead.
 The widget hides itself on pages without quizzes, and you can turn it off with the
-[`progressTracker`](/starlight-quiz/guides/configuration/#plugin-options) plugin option.
+[`progressTracker`](/starlight-quiz/guides/configuration/#plugin-options) plugin option. To place it somewhere specific
+(or to use it [without Starlight](/starlight-quiz/guides/vanilla-astro/)), import and drop in the
+[`<QuizProgress />`](/starlight-quiz/guides/configuration/#quizprogress-props) component yourself.
 
 A [`<QuizResults>`](/starlight-quiz/guides/results-screen/) panel shows the same progress in-page and lets the reader
 reset every quiz at once. Both read from a central tracker that also broadcasts window events, so you can build your own
