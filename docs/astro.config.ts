@@ -34,6 +34,7 @@ export default defineConfig({
           label: 'Features',
           items: [
             { label: 'Shuffle answers', slug: 'guides/shuffle-answers' },
+            { label: 'Auto-numbering', slug: 'guides/auto-numbering' },
             { label: 'Progress tracking', slug: 'guides/progress-tracking' },
             { label: 'Results screen', slug: 'guides/results-screen' },
             { label: 'Intro panel', slug: 'guides/intro-panel' },

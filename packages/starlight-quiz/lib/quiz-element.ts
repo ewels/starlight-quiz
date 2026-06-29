@@ -64,10 +64,31 @@ class StarlightQuizElement extends HTMLElement {
     this.#labels = this.#readLabels();
     this.#type = detectType(source);
 
+    this.#applyNumber();
     this.#build(source);
     this.#restore();
 
     window.addEventListener(RESET_ALL_EVENT, this.#onResetAll);
+  }
+
+  /**
+   * When auto-numbering is on, prepend a "Question N" heading. N is this
+   * quiz's 1-based position among the auto-numbered quizzes on the page, so
+   * numbering needs document scope (the page-wide exception to querying `this`).
+   */
+  #applyNumber(): void {
+    if (this.dataset['autoNumber'] !== 'true') return;
+    if (this.querySelector(':scope > .sl-quiz-number')) return;
+
+    const numbered = document.querySelectorAll('sl-quiz[data-auto-number="true"]');
+    const index = Array.prototype.indexOf.call(numbered, this) + 1;
+    if (index < 1) return;
+
+    const label = this.dataset['numberLabel'] || 'Question {n}';
+    const heading = document.createElement('p');
+    heading.className = 'sl-quiz-number';
+    heading.textContent = label.replace('{n}', String(index));
+    this.prepend(heading);
   }
 
   disconnectedCallback(): void {

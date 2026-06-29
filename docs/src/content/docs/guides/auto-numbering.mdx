@@ -1,0 +1,64 @@
+---
+title: Auto-numbering
+description: Prefix each quiz with a numbered "Question N" heading.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Turn on auto-numbering to prefix every quiz with a **"Question N"** heading, numbered in order down the page. It's off
+by default.
+
+## Enable it everywhere
+
+Set it once as a [site-wide default](/starlight-quiz/guides/configuration/#quizdefaults) so every quiz is numbered:
+
+```js title="astro.config.mjs"
+starlightQuiz({
+  quizDefaults: { autoNumber: true },
+});
+```
+
+## Per quiz
+
+Or opt a single quiz in (or out) with the `autoNumber` prop, which overrides the site default:
+
+<Tabs>
+<TabItem label="Preview">
+
+<Quiz id="autonum-1" autoNumber>
+What does HTTP stand for?
+
+- [x] HyperText Transfer Protocol
+- [ ] High Throughput Transfer Path
+
+</Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz autoNumber>
+What does HTTP stand for?
+
+- [x] HyperText Transfer Protocol
+- [ ] High Throughput Transfer Path
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
+
+The count continues across the page, so a second numbered quiz becomes **Question 2**:
+
+<Quiz id="autonum-2" autoNumber>
+Which port does HTTPS use by default?
+
+- [x] 443
+- [ ] 80
+
+</Quiz>
+
+The number is the quiz's position among the auto-numbered quizzes on the page, computed in the browser — so it stays
+correct even with [shuffled answers](/starlight-quiz/guides/shuffle-answers/) or after an Astro view transition. The
+heading is a `.sl-quiz-number` element you can [restyle](/starlight-quiz/guides/configuration/#custom-styling).

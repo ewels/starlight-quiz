@@ -20,6 +20,8 @@ export interface QuizDefaults {
   shuffle: boolean;
   /** Fire confetti from `<QuizResults>` on a first-time completion. */
   confetti: boolean;
+  /** Prefix each quiz with a "Question N" heading, numbered down the page. */
+  autoNumber: boolean;
 }
 
 /** The built-in defaults, used when nothing overrides them. */
@@ -29,6 +31,7 @@ export const DEFAULT_QUIZ_DEFAULTS: QuizDefaults = {
   showCorrect: true,
   shuffle: false,
   confetti: true,
+  autoNumber: false,
 };
 
 /**

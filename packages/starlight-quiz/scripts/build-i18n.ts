@@ -24,6 +24,7 @@ const outFile = join(here, '..', 'translations.ts');
 
 /** starlight-quiz key -> mkdocs-quiz msgid (the English source string). */
 const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
+  'starlightQuiz.questionNumber': 'Question {n}',
   'starlightQuiz.submit': 'Submit',
   'starlightQuiz.reset': 'Reset',
   'starlightQuiz.correct': 'Correct answer!',

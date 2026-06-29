@@ -4,6 +4,7 @@
  * defaults drifting from the translations.
  */
 export const STRINGS = {
+  'starlightQuiz.questionNumber': 'Question {n}',
   'starlightQuiz.submit': 'Submit',
   'starlightQuiz.reset': 'Reset',
   'starlightQuiz.correct': 'Correct!',

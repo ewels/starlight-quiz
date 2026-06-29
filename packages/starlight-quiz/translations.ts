@@ -10,6 +10,7 @@ import { STRINGS } from './lib/strings';
 export const Translations: Record<string, Record<string, string>> = {
   en: { ...STRINGS },
   de: {
+    'starlightQuiz.questionNumber': 'Frage {n}',
     'starlightQuiz.submit': 'Absenden',
     'starlightQuiz.reset': 'Zurücksetzen',
     'starlightQuiz.correct': 'Richtige Antwort!',
@@ -32,6 +33,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Viel Glück beim nächsten Mal! Versuch es weiter!',
   },
   eo: {
+    'starlightQuiz.questionNumber': 'Demando {n}',
     'starlightQuiz.submit': 'Sendi',
     'starlightQuiz.reset': 'Restarigi',
     'starlightQuiz.correct': 'Ĝusta respondo!',
@@ -47,6 +49,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Pli bona ŝanco venontfoje! Daŭrigu provi!',
   },
   es: {
+    'starlightQuiz.questionNumber': 'Pregunta {n}',
     'starlightQuiz.submit': 'Enviar',
     'starlightQuiz.reset': 'Reiniciar',
     'starlightQuiz.correct': '¡Respuesta correcta!',
@@ -91,6 +94,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': "Ça sera mieux la prochaine fois ! Continuez d'essayer !",
   },
   hi: {
+    'starlightQuiz.questionNumber': 'प्रश्न {n}',
     'starlightQuiz.submit': 'जमा करें',
     'starlightQuiz.reset': 'रीसेट',
     'starlightQuiz.correct': 'सही उत्तर!',
@@ -106,6 +110,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'अगली बार बेहतर होगा! कोशिश करते रहें!',
   },
   id: {
+    'starlightQuiz.questionNumber': 'Pertanyaan {n}',
     'starlightQuiz.submit': 'Kirim',
     'starlightQuiz.reset': 'Atur ulang',
     'starlightQuiz.correct': 'Jawaban benar!',
@@ -121,6 +126,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Semoga lebih baik lain kali! Terus mencoba!',
   },
   ja: {
+    'starlightQuiz.questionNumber': '問題 {n}',
     'starlightQuiz.submit': '送信',
     'starlightQuiz.reset': 'リセット',
     'starlightQuiz.correct': '正解です！',
@@ -136,6 +142,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': '次回はもっと頑張りましょう！諦めずに！',
   },
   ko: {
+    'starlightQuiz.questionNumber': '문제 {n}',
     'starlightQuiz.submit': '제출',
     'starlightQuiz.reset': '초기화',
     'starlightQuiz.correct': '정답입니다!',
@@ -151,6 +158,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': '다음에는 더 잘할 거예요! 계속 도전하세요!',
   },
   no: {
+    'starlightQuiz.questionNumber': 'Spørsmål {n}',
     'starlightQuiz.submit': 'Send inn',
     'starlightQuiz.reset': 'Tilbakestill',
     'starlightQuiz.correct': 'Riktig svar!',
@@ -166,6 +174,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Bedre lykke neste gang! Ikke gi opp!',
   },
   'pt-br': {
+    'starlightQuiz.questionNumber': 'Questão {n}',
     'starlightQuiz.submit': 'Enviar',
     'starlightQuiz.reset': 'Reiniciar',
     'starlightQuiz.correct': 'Resposta correta!',
@@ -181,6 +190,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Boa sorte na próxima vez! Continue tentando!',
   },
   sv: {
+    'starlightQuiz.questionNumber': 'Fråga {n}',
     'starlightQuiz.submit': 'Skicka',
     'starlightQuiz.reset': 'Återställ',
     'starlightQuiz.correct': 'Rätt svar!',
@@ -196,6 +206,7 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.results.fail': 'Bättre lycka nästa gång! Fortsätt försöka!',
   },
   zh: {
+    'starlightQuiz.questionNumber': '问题 {n}',
     'starlightQuiz.submit': '提交',
     'starlightQuiz.reset': '重置',
     'starlightQuiz.correct': '回答正确！',

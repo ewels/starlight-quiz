@@ -50,8 +50,8 @@ to ignore such items instead.
 
 ### `quizDefaults`
 
-**Type:** `Partial<{ autoSubmit; disableAfterSubmit; showCorrect; shuffle; confetti }>` · **Default:** all `true`
-except `shuffle`
+**Type:** `Partial<{ autoSubmit; disableAfterSubmit; showCorrect; shuffle; confetti; autoNumber }>` · **Default:** all
+`true` except `shuffle` and `autoNumber`
 
 Site-wide defaults for quiz behaviour, applied to every `<Quiz>` and `<QuizResults>` that doesn't set the matching
 prop itself — so you can change behaviour everywhere without editing each quiz. An explicit prop on a component always
@@ -78,6 +78,7 @@ Each behaviour prop falls back to the [`quizDefaults`](#quizdefaults) plugin opt
 | `autoSubmit`         | `boolean` | `true`  | Single-choice: grade on click/tap. `false` shows a Submit button. |
 | `disableAfterSubmit` | `boolean` | `true`  | Lock after submitting; `false` shows a reset button.         |
 | `showCorrect`        | `boolean` | `true`  | Reveal the correct answer(s) after a wrong submission.       |
+| `autoNumber`         | `boolean` | `false` | Prefix with a numbered "Question N" heading. See [Auto-numbering](/starlight-quiz/guides/auto-numbering/). |
 
 ### `autoSubmit`
 

@@ -23,6 +23,8 @@ interface Props {
   disableAfterSubmit?: boolean;
   /** Highlight the correct answer(s) after an incorrect submission. */
   showCorrect?: boolean;
+  /** Prefix the quiz with a "Question N" heading, numbered down the page. */
+  autoNumber?: boolean;
   /** Override the submit button label (for vanilla Astro / custom wording). */
   submitLabel?: string;
   /** Override the reset button label. */
@@ -52,6 +54,7 @@ const shuffle = Astro.props.shuffle ?? defaults.shuffle;
 const autoSubmit = Astro.props.autoSubmit ?? defaults.autoSubmit;
 const disableAfterSubmit = Astro.props.disableAfterSubmit ?? defaults.disableAfterSubmit;
 const showCorrect = Astro.props.showCorrect ?? defaults.showCorrect;
+const autoNumber = Astro.props.autoNumber ?? defaults.autoNumber;
 
 const t = getTranslate(Astro.locals);
 const resolvedId = quizId(id, title);
@@ -62,6 +65,7 @@ const labels = {
   correct: resolveString('starlightQuiz.correct', correctLabel, t),
   incorrect: resolveString('starlightQuiz.incorrect', incorrectLabel, t),
   tryAgain: resolveString('starlightQuiz.tryAgain', tryAgainLabel, t),
+  questionNumber: resolveString('starlightQuiz.questionNumber', undefined, t),
 };
 ---
 
@@ -72,6 +76,8 @@ const labels = {
   data-auto-submit={autoSubmit ? 'true' : 'false'}
   data-disable-after-submit={disableAfterSubmit ? 'true' : 'false'}
   data-show-correct={showCorrect ? 'true' : 'false'}
+  data-auto-number={autoNumber ? 'true' : 'false'}
+  data-number-label={labels.questionNumber}
   data-submit-label={labels.submit}
   data-reset-label={labels.reset}
   data-correct-label={labels.correct}
