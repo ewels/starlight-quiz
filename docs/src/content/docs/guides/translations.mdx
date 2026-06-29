@@ -1,12 +1,34 @@
 ---
 title: Translations
-description: Built-in locales, how labels resolve, and overriding text per quiz.
+description: How quiz labels are localised under Starlight, the built-in locales, and overriding text.
 ---
 
-import { Quiz } from 'starlight-quiz/components';
+import { Quiz, QuizResults } from 'starlight-quiz/components';
 
 Every user-facing string (buttons, feedback, the results panel, the score messages) is translatable. Under Starlight
 the right locale is chosen automatically; outside Starlight you pass labels as props.
+
+## A quick primer on Starlight i18n
+
+If you have not set up a multilingual Starlight site before, here is the short version. You declare your languages in
+the Starlight config:
+
+```js title="astro.config.mjs"
+starlight({
+  defaultLocale: 'en',
+  locales: {
+    en: { label: 'English' },
+    fr: { label: 'Français', lang: 'fr' },
+  },
+  plugins: [starlightQuiz()],
+});
+```
+
+Your content then lives in a folder per language (`src/content/docs/en/…`, `src/content/docs/fr/…`), and Starlight
+serves each under its own route (`/fr/…`). For UI strings (navigation, the search box, and plugin strings like the quiz
+buttons), Starlight keeps a translation table per locale and exposes the current one to components. Starlight Quiz hooks
+into exactly that mechanism, so **a quiz on a French page renders its buttons and messages in French with no extra
+work**. For the full picture, see Starlight's [i18n guide](https://starlight.astro.build/guides/i18n/).
 
 ## Built-in locales
 
@@ -24,8 +46,8 @@ Starlight Quiz ships translations for **13 languages**, shared verbatim with its
 | `id`    | Indonesian            |         |                        |
 
 When the plugin is installed, these are injected into Starlight's i18n. A quiz on a page served under a configured
-locale (e.g. `/fr/…`) picks up that locale's strings automatically. Strings a locale hasn't
-translated fall back to English.
+locale (e.g. `/fr/…`) picks up that locale's strings automatically. Strings a locale hasn't translated fall back to
+English.
 
 ## How a label is resolved
 
@@ -37,6 +59,24 @@ Each label is resolved in this order (the first that exists wins):
 
 This is what lets the same component work translated inside Starlight and with explicit labels in a plain Astro
 project.
+
+## See it translated
+
+Here is a quiz and a results panel with their labels in French. On a real French page you would not pass any of these
+props; Starlight would supply them from the locale. They are set here only because this page is served in English:
+
+<Quiz id="fr-demo" submitLabel="Vérifier" correctLabel="Correct !" incorrectLabel="Pas tout à fait…" resetLabel="Recommencer">
+Quelle est la capitale de la France ?
+
+- [ ] Londres
+- [x] Paris
+- [ ] Berlin
+
+Paris est la capitale de la France depuis le Moyen Âge.
+
+</Quiz>
+
+<QuizResults titleLabel="Quiz terminé !" progressLabel="Progression" answeredLabel="répondues" correctLabel="correctes" resetLabel="Réinitialiser toutes les réponses" />
 
 ## Overriding text per quiz
 
@@ -82,15 +122,9 @@ translation file, and it works for the bundled locales as well as any you add. S
 ## Outside Starlight
 
 In a plain Astro project there is no translation function, so only steps 1 and 3 above apply: pass label props for any
-text you want changed, otherwise you get English. See [Vanilla Astro](/starlight-quiz/guides/vanilla-astro/).
+text you want changed, otherwise you get English. See [Astro installation](/starlight-quiz/guides/vanilla-astro/).
 
 ## Adding or updating a language
 
-Translations live in `.po` files under `packages/starlight-quiz/locales/`, copied from mkdocs-quiz so the two plugins
-stay in sync. To add or edit a language, edit its `.po` file and regenerate the tables:
-
-```sh
-pnpm --filter starlight-quiz gen:i18n
-```
-
-See [Contributing](/starlight-quiz/guides/contributing/) for the full workflow.
+The translations are shared with mkdocs-quiz through gettext `.po` files. To add a language or improve an existing one,
+see [Contributing translations](/starlight-quiz/guides/contributing-translations/).
