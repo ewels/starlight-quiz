@@ -88,4 +88,24 @@ describe('sl-quiz-results', () => {
     await new Promise((resolve) => setTimeout(resolve, 10));
     expect(confettiMock).not.toHaveBeenCalled();
   });
+
+  it('does not fire confetti when the user prefers reduced motion', async () => {
+    const original = window.matchMedia;
+    window.matchMedia = ((query: string) => ({
+      matches: query.includes('reduce'),
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })) as unknown as typeof window.matchMedia;
+    try {
+      mount(true);
+      const tracker = getTracker();
+      tracker.register('a');
+      tracker.record('a', true, ['1']);
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      expect(confettiMock).not.toHaveBeenCalled();
+    } finally {
+      window.matchMedia = original;
+    }
+  });
 });

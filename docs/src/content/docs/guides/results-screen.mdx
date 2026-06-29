@@ -93,7 +93,9 @@ to turn it off:
 <QuizResults confetti={false} />
 ```
 
-The confetti library is loaded with a dynamic import, so it adds nothing to your bundle unless it actually fires.
+The confetti library is loaded with a dynamic import, so it adds nothing to your bundle unless it actually fires. It
+also respects the reader's **`prefers-reduced-motion`** setting — confetti is skipped entirely for readers who ask for
+reduced motion.
 
 ## Resetting
 

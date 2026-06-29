@@ -5,6 +5,15 @@ import type { QuizProgress } from './types';
 
 const TIER_CLASSES = ['excellent', 'good', 'average', 'poor', 'fail'] as const;
 
+/** Whether the user has asked for reduced motion (no confetti, instant scroll). */
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
 /**
  * The `<sl-quiz-results>` custom element: an aggregate score panel.
  *
@@ -75,8 +84,10 @@ class StarlightQuizResultsElement extends HTMLElement {
       this.dataset['confetti'] === 'true' &&
       progress.score >= CONFETTI_MIN_SCORE
     ) {
-      void this.#fireConfetti();
-      this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const reduced = prefersReducedMotion();
+      // Confetti is motion — skip it entirely when the user prefers reduced motion.
+      if (!reduced) void this.#fireConfetti();
+      this.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
     }
   }
 
