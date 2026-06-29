@@ -1,7 +1,7 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 
 import { quizManifestIntegration, quizValidationIntegration } from './integration';
-import { DEFAULT_QUIZ_DEFAULTS, type QuizDefaults } from './lib/config';
+import { DEFAULT_QUIZ_DEFAULTS, type ProgressPosition, type QuizDefaults } from './lib/config';
 import { quizConfigIntegration } from './libs/config-integration';
 import { overrideStarlightComponent } from './libs/starlight';
 import { Translations } from './translations';
@@ -24,6 +24,13 @@ export interface StarlightQuizOptions {
    * @default true
    */
   progressTracker?: boolean;
+  /**
+   * Where the progress widget sits relative to the table of contents:
+   * `'top'` (above the on-this-page links) or `'bottom'`.
+   *
+   * @default 'top'
+   */
+  progressPosition?: ProgressPosition;
   /**
    * Emit a structured JSON manifest of every quiz to the build output, for the
    * QTI exporter and terminal runner to consume. Pass `true` for the default
@@ -61,7 +68,13 @@ export interface StarlightQuizOptions {
  * components themselves are imported from `starlight-quiz/components`.
  */
 export default function starlightQuiz(options: StarlightQuizOptions = {}): StarlightPlugin {
-  const { injectStyles = true, progressTracker = true, manifest = false, validate = true } = options;
+  const {
+    injectStyles = true,
+    progressTracker = true,
+    progressPosition = 'top',
+    manifest = false,
+    validate = true,
+  } = options;
   const quizDefaults: QuizDefaults = { ...DEFAULT_QUIZ_DEFAULTS, ...options.quizDefaults };
 
   return {
@@ -71,7 +84,7 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
         injectTranslations(Translations);
       },
       'config:setup'({ addIntegration, config, logger, updateConfig }) {
-        addIntegration(quizConfigIntegration(quizDefaults));
+        addIntegration(quizConfigIntegration({ defaults: quizDefaults, progressPosition }));
 
         if (validate) {
           addIntegration(quizValidationIntegration());

@@ -1,7 +1,11 @@
 ---
 import Default from '@astrojs/starlight/components/TableOfContents.astro';
 import QuizProgress from '../components/QuizProgress.astro';
+import { getProgressPosition } from '../lib/config';
+
+const position = getProgressPosition(Astro.locals);
 ---
 
-<QuizProgress class="sl-quiz-progress--toc" />
+{position === 'top' && <QuizProgress class="sl-quiz-progress--toc" />}
 <Default><slot /></Default>
+{position === 'bottom' && <QuizProgress class="sl-quiz-progress--toc" />}

@@ -51,3 +51,17 @@ export function getQuizDefaults(locals: unknown): QuizDefaults {
   }
   return DEFAULT_QUIZ_DEFAULTS;
 }
+
+/** Where the table-of-contents progress widget sits relative to the ToC. */
+export type ProgressPosition = 'top' | 'bottom';
+
+/** Read the progress-widget position off `Astro.locals`; defaults to `'top'`. */
+export function getProgressPosition(locals: unknown): ProgressPosition {
+  if (typeof locals === 'object' && locals !== null) {
+    const holder = (locals as Record<string, unknown>)['starlightQuiz'];
+    if (typeof holder === 'object' && holder !== null) {
+      if ((holder as Record<string, unknown>)['progressPosition'] === 'bottom') return 'bottom';
+    }
+  }
+  return 'top';
+}

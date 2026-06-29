@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { DEFAULT_QUIZ_DEFAULTS, getQuizDefaults } from '../lib/config';
+import { DEFAULT_QUIZ_DEFAULTS, getProgressPosition, getQuizDefaults } from '../lib/config';
 
 describe('getQuizDefaults', () => {
   it('returns the built-in defaults when locals carry nothing', () => {
@@ -22,5 +22,18 @@ describe('getQuizDefaults', () => {
   it('ignores a malformed holder', () => {
     expect(getQuizDefaults({ starlightQuiz: 'nope' })).toEqual(DEFAULT_QUIZ_DEFAULTS);
     expect(getQuizDefaults({ starlightQuiz: { defaults: 42 } })).toEqual(DEFAULT_QUIZ_DEFAULTS);
+  });
+});
+
+describe('getProgressPosition', () => {
+  it("defaults to 'top'", () => {
+    expect(getProgressPosition(undefined)).toBe('top');
+    expect(getProgressPosition({})).toBe('top');
+    expect(getProgressPosition({ starlightQuiz: {} })).toBe('top');
+    expect(getProgressPosition({ starlightQuiz: { progressPosition: 'nonsense' } })).toBe('top');
+  });
+
+  it("reads 'bottom' from locals", () => {
+    expect(getProgressPosition({ starlightQuiz: { progressPosition: 'bottom' } })).toBe('bottom');
   });
 });
