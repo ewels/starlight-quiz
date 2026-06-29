@@ -72,5 +72,32 @@ The widget hides itself on pages without quizzes, and you can turn it off with t
 [`progressTracker`](/starlight-quiz/guides/configuration/#plugin-options) plugin option.
 
 A [`<QuizResults>`](/starlight-quiz/guides/results-screen/) panel shows the same progress in-page and lets the reader
-reset every quiz at once. Both read from a central tracker that also dispatches a `starlight-quiz:progress` window
-event, so you can build your own progress UI on top of it.
+reset every quiz at once. Both read from a central tracker that also broadcasts window events, so you can build your own
+progress UI on top of it.
+
+## Build your own progress UI
+
+The tracker dispatches two events on `window` whenever progress changes:
+
+| Event                       | Detail                                                                      |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `starlight-quiz:progress`   | `{ total, answered, correct, percentage, score }` (counts plus 0–100 %)     |
+| `starlight-quiz:reset-all`  | _(none)_ — fired when every quiz on the page is reset                        |
+
+`percentage` is `answered / total`; `score` is `correct / total`. Both events are typed on `WindowEventMap`, so
+TypeScript knows `event.detail` in editors. Listen for them to drive a custom widget:
+
+```js
+window.addEventListener('starlight-quiz:progress', (event) => {
+  const { answered, total, correct, percentage, score } = event.detail;
+  console.log(`Answered ${answered}/${total} (${percentage}%), score ${score}%`);
+  document.querySelector('#my-progress')?.style.setProperty('--done', String(percentage));
+});
+
+window.addEventListener('starlight-quiz:reset-all', () => {
+  console.log('All quizzes on this page were reset');
+});
+```
+
+The `progress` event fires whenever progress changes — including as each quiz registers on load (restoring saved
+answers) — so a listener gets the current totals without special-casing the initial render.
