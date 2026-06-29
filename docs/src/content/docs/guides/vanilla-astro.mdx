@@ -1,15 +1,30 @@
 ---
-title: Vanilla Astro
-description: Use the quiz components in any Astro project, without Starlight.
+title: Astro installation
+description: Use the quiz components in any Astro project, without Starlight, and wire up the pieces the plugin would normally inject for you.
 ---
 
-The components have no hard dependency on Starlight. The only Starlight-specific code lives in the plugin
-(`starlight-quiz`) and is never imported by `starlight-quiz/components`. That means you can use the components in any
+The quiz components have no hard dependency on Starlight: the Starlight-specific code lives only in the plugin
+(`starlight-quiz`) and is never imported by `starlight-quiz/components`. So you can use `<Quiz>` and friends in any
 Astro project.
 
-## Import the styles
+The trade-off is that the [Starlight plugin](/starlight-quiz/guides/quick-start/) does a lot of wiring for you. Without
+it, you do that wiring yourself. Here is the whole list, and the rest of this page walks through each one.
 
-Without the plugin to inject them, import the stylesheet yourself once, anywhere (for example in a layout):
+| The Starlight plugin… | Without it, you… |
+| --------------------- | ---------------- |
+| Injects the theme CSS | [import the stylesheet](#1-import-the-styles) once yourself |
+| Injects 13 locales and picks one per page | [pass label props](#4-translate-the-labels) (or get English) |
+| Adds the progress widget to the table of contents and page footer | [place `<QuizProgress />`](#3-show-aggregate-progress-optional) where you want it |
+| Applies site-wide `quizDefaults` via middleware | [set props per component](#5-site-wide-defaults-optional) (or add your own middleware) |
+| Emits the [quiz manifest](/starlight-quiz/guides/cli/#the-quiz-manifest) and [validates](/starlight-quiz/guides/configuration/#validate) quizzes at build time | don't get these — they are [plugin-only](#what-you-dont-get) |
+
+## 1. Import the styles
+
+Install the package, then import the stylesheet once (for example in a shared layout) so every quiz is styled:
+
+```sh
+npm install starlight-quiz
+```
 
 ```astro title="src/layouts/Layout.astro"
 ---
@@ -17,13 +32,20 @@ import 'starlight-quiz/styles';
 ---
 ```
 
-## Use the components
+The theme follows [CSS variables](/starlight-quiz/guides/custom-css/) that fall back to sensible light/dark defaults
+when Starlight's colour tokens aren't present, so quizzes look right on a plain Astro site too.
 
-```astro title="src/pages/quiz.astro"
+## 2. Author quizzes in MDX
+
+Quizzes are written as markdown (a task list, `[[blanks]]`, blockquote feedback). That markdown only renders in `.md`
+/ `.mdx` files, **not** in a plain `.astro` file, so author your quizzes on an MDX page:
+
+```mdx title="src/pages/quiz.mdx"
 ---
+layout: ../layouts/Layout.astro
+---
+
 import { Quiz } from 'starlight-quiz/components';
-import 'starlight-quiz/styles';
----
 
 <Quiz submitLabel="Check answer">
 Is the sky blue?
@@ -33,20 +55,71 @@ Is the sky blue?
 </Quiz>
 ```
 
-:::note
-You author the answers with the same markdown task-list syntax in `.md`/`.mdx` content. In a plain `.astro` file,
-remember that markdown is not rendered, so use a `.mdx` page if you want the task-list shorthand.
+:::caution[Not in `.astro` files]
+Inside a plain `.astro` component the text between `<Quiz>` tags is treated as HTML, so `- [x] Yes` renders literally
+instead of becoming a checkbox. Use an `.mdx` page (or the MDX integration's components) for the task-list shorthand.
 :::
 
-## Translating labels
+## 3. Show aggregate progress (optional)
 
-In a Starlight site, every label is translated automatically through Starlight's i18n (13 languages ship out of the
-box). Without Starlight there is no `t()` function, so pass label props for any text you want to change:
+Under Starlight, the progress widget is injected into the table of contents and the page footer automatically. There is
+no equivalent to hook into here, so drop [`<QuizProgress />`](/starlight-quiz/guides/configuration/#quizprogress-props)
+wherever you want it. It hides itself on pages with no quizzes:
+
+```mdx title="src/pages/quiz.mdx"
+import { Quiz, QuizProgress, QuizResults } from 'starlight-quiz/components';
+
+<QuizProgress />
+
+<Quiz>…</Quiz>
+<Quiz>…</Quiz>
+
+<QuizResults />
+```
+
+[`<QuizResults>`](/starlight-quiz/guides/results-screen/) (the score panel) and
+[`<QuizIntro>`](/starlight-quiz/guides/intro-panel/) work the same way, with no Starlight needed.
+
+## 4. Translate the labels
+
+With Starlight, every label is translated automatically through Starlight's i18n. Without it there is no translation
+function, so each label falls back to its bundled English default unless you pass a prop:
 
 ```astro
-<Quiz submitLabel="Check answer" resetLabel="Start over" correctLabel="Spot on!">
+<Quiz submitLabel="Vérifier" resetLabel="Recommencer" correctLabel="Correct !" incorrectLabel="Pas tout à fait…">
   …
 </Quiz>
 ```
 
-The precedence is: an explicit prop wins, then Starlight's translation, then the bundled English default.
+The precedence is: an explicit prop wins, then Starlight's translation (absent here), then the bundled English default.
+Every overridable label is listed in [Configuration](/starlight-quiz/guides/configuration/), and
+[Translations](/starlight-quiz/guides/translations/) explains the full resolution order.
+
+## 5. Site-wide defaults (optional)
+
+The plugin's [`quizDefaults`](/starlight-quiz/guides/configuration/#quizdefaults) option (turn confetti off everywhere,
+switch to manual submit, and so on) is delivered to the components through `Astro.locals`. In a plain Astro project the
+simplest approach is to set the relevant prop on each component. If you want true site-wide defaults, add a small
+middleware that publishes them, and every quiz will pick them up:
+
+```ts title="src/middleware.ts"
+import { defineMiddleware } from 'astro:middleware';
+
+export const onRequest = defineMiddleware((context, next) => {
+  context.locals.starlightQuiz = { defaults: { confetti: false, autoSubmit: false } };
+  return next();
+});
+```
+
+An explicit prop on a component still overrides these.
+
+## What you don't get
+
+The [quiz manifest](/starlight-quiz/guides/cli/#the-quiz-manifest) and build-time
+[validation](/starlight-quiz/guides/configuration/#validate) are wired up by the Starlight plugin's build integration,
+so they are not available in a plain Astro project. That means the [terminal runner](/starlight-quiz/guides/cli/) and
+[QTI export](/starlight-quiz/guides/qti-export/), which read the manifest, need the plugin (or a manifest produced some
+other way).
+
+Everything else, including view transitions, works without Starlight: the components are self-initialising custom
+elements that re-initialise on navigation.
