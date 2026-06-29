@@ -495,6 +495,52 @@
     border-radius: 2px;
   }
 
+  /* ---- Full-width variant for narrow screens (page footer) ---------- */
+  /* The right-sidebar widget is hidden below Starlight's `lg` breakpoint, so a
+     copy is rendered in the page flow above the footer. The bar spans the full
+     width on top; the two counts and the reset link share one row beneath it,
+     split into even thirds. */
+  .sl-quiz-progress--mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.5rem;
+    /* `padding`, not `margin`: Starlight's reset layer zeroes margins here. */
+    padding-block: 2rem 0;
+    border-block-start: 1px solid var(--slq-border);
+  }
+
+  .sl-quiz-progress--mobile .sl-quiz-progress-bar {
+    order: -1;
+    flex-basis: 100%;
+    margin-block: 0;
+  }
+
+  /* Flatten the footer wrapper so the correct count and reset link sit on the
+     same flex row as the answered count. */
+  .sl-quiz-progress--mobile .sl-quiz-progress-footer {
+    display: contents;
+  }
+
+  .sl-quiz-progress--mobile > .sl-quiz-progress-stats,
+  .sl-quiz-progress--mobile .sl-quiz-progress-footer .sl-quiz-progress-stats {
+    flex: 1 1 0;
+  }
+
+  .sl-quiz-progress--mobile .sl-quiz-progress-footer .sl-quiz-progress-stats {
+    text-align: center;
+  }
+
+  .sl-quiz-progress--mobile .sl-quiz-progress-reset {
+    flex: 1 1 0;
+    text-align: end;
+  }
+
+  /* The bar already conveys the percentage; keep the counts terse here. */
+  .sl-quiz-progress--mobile .sl-quiz-progress-percent {
+    display: none;
+  }
+
   /* ---- Compact counter badge (mobile ToC bar) ----------------------- */
   /* It is pinned to the end of the flex `<summary>` row with an inline
      `margin-inline-start: auto` set when injected (see progress-element.ts),

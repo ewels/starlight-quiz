@@ -45,9 +45,10 @@ It is saved to local storage and restored when the page loads.
 ## Aggregate progress
 
 When used as a Starlight plugin, a compact progress widget appears in the table of contents (right sidebar on desktop,
-and the mobile ToC), showing how many quizzes on the page are answered and how many are correct. It hides itself on
-pages without quizzes, and you can turn it off with the [`progressTracker`](/starlight-quiz/guides/configuration/#plugin-options)
-plugin option.
+and the mobile ToC), showing how many quizzes on the page are answered and how many are correct. On narrow screens —
+where there is no right sidebar — a full-width version with a reset link is rendered at the foot of the page instead.
+The widget hides itself on pages without quizzes, and you can turn it off with the
+[`progressTracker`](/starlight-quiz/guides/configuration/#plugin-options) plugin option.
 
 A [`<QuizResults>`](/starlight-quiz/guides/results-screen/) panel shows the same progress in-page and lets the reader
 reset every quiz at once. Both read from a central tracker that also dispatches a `starlight-quiz:progress` window

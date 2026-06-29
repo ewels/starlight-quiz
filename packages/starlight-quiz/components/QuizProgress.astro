@@ -12,9 +12,11 @@ interface Props {
   correctLabel?: string;
   /** Override the reset button label. */
   resetLabel?: string;
+  /** Render the heading. Set false for compact placements (e.g. page footer). */
+  showHeading?: boolean;
 }
 
-const { class: className, headingLabel, answeredLabel, correctLabel, resetLabel } = Astro.props;
+const { class: className, headingLabel, answeredLabel, correctLabel, resetLabel, showHeading = true } = Astro.props;
 
 const t = getTranslate(Astro.locals);
 const heading = resolveString('starlightQuiz.progressHeading', headingLabel, t);
@@ -25,11 +27,11 @@ const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefin
 ---
 
 <sl-quiz-progress class:list={['sl-quiz-progress', className]} data-confirm-label={confirmReset} hidden>
-  <h2 class="sl-quiz-progress-heading">{heading}</h2>
+  {showHeading && <h2 class="sl-quiz-progress-heading">{heading}</h2>}
   <p class="sl-quiz-progress-stats">
     <span class="sl-quiz-progress-label">{answered}</span>:{' '}
     <span class="sl-quiz-progress-answered">0</span> / <span class="sl-quiz-progress-total">0</span>
-    {' '}(<span class="sl-quiz-progress-percentage">0%</span>)
+    {' '}<span class="sl-quiz-progress-percent">(<span class="sl-quiz-progress-percentage">0%</span>)</span>
   </p>
   <div class="sl-quiz-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label={heading}>
     <span class="sl-quiz-progress-bar-fill"></span>
@@ -38,7 +40,7 @@ const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefin
     <p class="sl-quiz-progress-stats">
       <span class="sl-quiz-progress-label">{correct}</span>:{' '}
       <span class="sl-quiz-progress-correct">0</span> / <span class="sl-quiz-progress-total">0</span>
-      {' '}(<span class="sl-quiz-progress-score">0%</span>)
+      {' '}<span class="sl-quiz-progress-percent">(<span class="sl-quiz-progress-score">0%</span>)</span>
     </p>
     <button type="button" class="sl-quiz-progress-reset">{reset}</button>
   </div>

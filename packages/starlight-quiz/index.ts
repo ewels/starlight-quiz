@@ -83,6 +83,12 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
                 'MobileTableOfContents',
                 'starlight-quiz/overrides/MobileTableOfContents.astro',
               ),
+              ...overrideStarlightComponent(
+                config.components,
+                logger,
+                'Footer',
+                'starlight-quiz/overrides/Footer.astro',
+              ),
             }
           : config.components;
 

@@ -142,3 +142,22 @@ test('the intro panel resets every quiz on the page', async ({ page }) => {
   await expect(quiz.locator('.sl-quiz-answer--correct')).toHaveCount(0);
   await expect(quiz.locator('input[value="1"]')).not.toBeChecked();
 });
+
+test('on narrow screens a full-width progress widget appears in the page footer', async ({ page }) => {
+  page.on('dialog', (dialog) => dialog.accept());
+  // Below Starlight's `lg` breakpoint (72rem) the right-sidebar widget is hidden.
+  await page.setViewportSize({ width: 600, height: 900 });
+
+  const widget = page.locator('.sl-quiz-progress--mobile');
+  const sidebar = page.locator('.sl-quiz-progress--toc');
+  await expect(widget).toBeVisible();
+  await expect(sidebar).toBeHidden();
+
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('0');
+  await page.locator('#demo-single').getByText('Mars', { exact: true }).click();
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('1');
+  await expect(widget.locator('.sl-quiz-progress-correct')).toHaveText('1');
+
+  await widget.locator('.sl-quiz-progress-reset').click();
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('0');
+});
