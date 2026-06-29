@@ -13,6 +13,7 @@ coverage/
 docs/playwright-report/
 docs/test-results/
 .playwright/
+.playwright-mcp/
 
 # Logs
 *.log
