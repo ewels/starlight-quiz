@@ -4,11 +4,15 @@ description: Code blocks, tables, lists and images inside quizzes.
 ---
 
 import { Quiz } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Because a quiz is just markdown, the question, the answers and the content section can all contain rich markdown —
 code blocks, tables, lists, images and inline formatting.
 
 ## Code in the question
+
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
 
 <Quiz id="adv-code">
 What does this snippet log?
@@ -26,9 +30,35 @@ console.log(xs.map((x) => x * 2));
 
 </Quiz>
 
+</TabItem>
+<TabItem label="Source">
+
+`````mdx title="quiz.mdx"
+<Quiz>
+What does this snippet log?
+
+```js
+const xs = [1, 2, 3];
+console.log(xs.map((x) => x * 2));
+```
+
+- [ ] `[1, 2, 3]`
+- [x] `[2, 4, 6]`
+- [ ] `[1, 4, 9]`
+
+`Array.prototype.map` returns a new array with the callback applied to each element.
+</Quiz>
+`````
+
+</TabItem>
+</Tabs>
+
 ## Rich content section
 
 The content section revealed after submitting can hold headings, lists, tables and more:
+
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
 
 <Quiz id="adv-content">
 Which status code means "Not Found"?
@@ -49,9 +79,38 @@ Which status code means "Not Found"?
 
 </Quiz>
 
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Which status code means "Not Found"?
+
+- [ ] 200
+- [ ] 301
+- [x] 404
+- [ ] 500
+
+### Common status codes
+
+| Code | Meaning               |
+| ---- | --------------------- |
+| 200  | OK                    |
+| 301  | Moved Permanently     |
+| 404  | Not Found             |
+| 500  | Internal Server Error |
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
+
 ## Formatting in answers
 
 Answers themselves accept inline markdown — `code`, **bold**, _italic_ and links:
+
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
 
 <Quiz id="adv-answers">
 Which command installs the package?
@@ -61,6 +120,22 @@ Which command installs the package?
 - [ ] `npm run starlight-quiz`
 
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Which command installs the package?
+
+- [x] `npm install starlight-quiz`
+- [ ] `npm start starlight-quiz`
+- [ ] `npm run starlight-quiz`
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
 
 :::note
 Images work too — a standard markdown `![alt](src)` in the question or content section renders as you would expect.

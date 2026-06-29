@@ -4,6 +4,7 @@ description: How quiz progress is saved and restored.
 ---
 
 import { Quiz, QuizResults } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Every quiz records whether it has been answered and whether the answer was correct. That progress is saved to the
 browser's `localStorage`, so it survives reloads and revisits.
@@ -32,6 +33,9 @@ the fallback hash) changes.
 
 Answer this quiz, then reload the page — your answer is restored automatically:
 
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
+
 <Quiz id="progress-demo">
 Will this answer still be here after a reload?
 
@@ -41,6 +45,23 @@ Will this answer still be here after a reload?
 It is saved to local storage and restored when the page loads.
 
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Will this answer still be here after a reload?
+
+- [x] Yes
+- [ ] No
+
+It is saved to local storage and restored when the page loads.
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
 
 ## Aggregate progress
 

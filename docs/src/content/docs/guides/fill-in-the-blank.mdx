@@ -4,18 +4,28 @@ description: Text-input questions where the reader types the answer.
 ---
 
 import { Quiz } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Fill-in-the-blank questions let the reader type their answer. Wrap the expected answer in double square brackets:
 
-```mdx
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
+
+<Quiz id="blank-single">
+The capital of France is [[Paris]].
+</Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
 <Quiz>
 The capital of France is [[Paris]].
 </Quiz>
 ```
 
-<Quiz id="blank-single">
-The capital of France is [[Paris]].
-</Quiz>
+</TabItem>
+</Tabs>
 
 Answers are **case-insensitive** and surrounding whitespace is trimmed, so "Paris", " paris " and "PARIS" all pass.
 
@@ -23,24 +33,32 @@ Answers are **case-insensitive** and surrounding whitespace is trimmed, so "Pari
 
 A question can have several blanks; every one must be correct:
 
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
+
 <Quiz id="blank-multiple">
 Water is made of hydrogen and [[oxygen]], with the chemical formula [[H2O]].
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+Water is made of hydrogen and [[oxygen]], with the chemical formula [[H2O]].
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
 
 ## Content section
 
 Because there is no answer list to mark the boundary, a fill-in-the-blank quiz uses a horizontal rule (`---`) to
 separate the question from a content section that is revealed after submitting:
 
-````mdx
-<Quiz>
-The chemical symbol for gold is [[Au]].
-
----
-
-"Au" comes from the Latin *aurum*, meaning "shining dawn".
-</Quiz>
-````
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
 
 <Quiz id="blank-content">
 The chemical symbol for gold is [[Au]].
@@ -50,6 +68,22 @@ The chemical symbol for gold is [[Au]].
 "Au" comes from the Latin _aurum_, meaning "shining dawn".
 
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+````mdx title="quiz.mdx"
+<Quiz>
+The chemical symbol for gold is [[Au]].
+
+---
+
+"Au" comes from the Latin _aurum_, meaning "shining dawn".
+</Quiz>
+````
+
+</TabItem>
+</Tabs>
 
 :::note
 When the reader gets a blank wrong and [`showCorrect`](/starlight-quiz/guides/configuration/#showcorrect) is enabled

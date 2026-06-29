@@ -4,6 +4,7 @@ description: Add an aggregate score panel with score tiers and confetti.
 ---
 
 import { Quiz, QuizResults } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Drop a `<QuizResults>` component onto a page to show aggregate progress across every quiz on it. As readers answer, the
 panel tracks how many quizzes are done; once they have all been answered it reveals a score with an encouraging
@@ -21,6 +22,9 @@ import { Quiz, QuizResults } from 'starlight-quiz/components';
 ## Try it
 
 Answer both quizzes to reveal the score panel below.
+
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
 
 <Quiz id="results-q1">
 What does HTML stand for?
@@ -41,6 +45,32 @@ Which language styles a web page?
 </Quiz>
 
 <QuizResults confetti />
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<Quiz>
+What does HTML stand for?
+
+- [x] HyperText Markup Language
+- [ ] Hyperlink Text Mode Language
+- [ ] Home Tool Markup Language
+</Quiz>
+
+<Quiz>
+Which language styles a web page?
+
+- [x] CSS
+- [ ] SQL
+- [ ] JSON
+</Quiz>
+
+<QuizResults confetti />
+```
+
+</TabItem>
+</Tabs>
 
 ## Score tiers
 

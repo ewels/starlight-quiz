@@ -11,7 +11,7 @@ Astro project.
 
 Without the plugin to inject them, import the stylesheet yourself — once, anywhere (for example in a layout):
 
-```astro
+```astro title="src/layouts/Layout.astro"
 ---
 import 'starlight-quiz/styles';
 ---
@@ -19,7 +19,7 @@ import 'starlight-quiz/styles';
 
 ## Use the components
 
-```astro
+```astro title="src/pages/quiz.astro"
 ---
 import { Quiz } from 'starlight-quiz/components';
 import 'starlight-quiz/styles';

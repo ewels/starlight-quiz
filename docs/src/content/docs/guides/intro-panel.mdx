@@ -4,6 +4,7 @@ description: A short panel telling readers their answers are saved, with a reset
 ---
 
 import { Quiz, QuizIntro } from 'starlight-quiz/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Drop a `<QuizIntro>` component near the top of a page to reassure readers that their answers are saved between visits,
 and to give them a one-click button to clear every quiz on the page. It is the equivalent of mkdocs-quiz's
@@ -19,6 +20,9 @@ import { Quiz, QuizIntro } from 'starlight-quiz/components';
 
 ## Try it
 
+<Tabs syncKey="quiz-source">
+<TabItem label="Preview">
+
 <QuizIntro />
 
 <Quiz id="intro-demo">
@@ -29,6 +33,24 @@ Where are your quiz answers stored?
 - [ ] Nowhere — they're lost on reload
 
 </Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+```mdx title="quiz.mdx"
+<QuizIntro />
+
+<Quiz>
+Where are your quiz answers stored?
+
+- [x] The browser's local storage
+- [ ] A remote database
+- [ ] Nowhere — they're lost on reload
+</Quiz>
+```
+
+</TabItem>
+</Tabs>
 
 Answer the quiz, then press **Reset all answers** to clear it.
 
