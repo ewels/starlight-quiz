@@ -20,7 +20,7 @@ import { Quiz, QuizIntro } from 'starlight-quiz/components';
 
 ## Try it
 
-<Tabs syncKey="quiz-source">
+<Tabs>
 <TabItem label="Preview">
 
 <QuizIntro />
@@ -63,11 +63,19 @@ panel is optional.
 
 ## Customising the text
 
-Both the message and the button label are translatable (English, French, German and Spanish out of the box) and can be
-overridden per-instance — handy in a vanilla Astro project:
+Pass your own message as the component's children to override the default — markdown works here, so you can add
+emphasis or a link:
+
+```mdx
+<QuizIntro>Your answers are **saved locally** — clear them any time.</QuizIntro>
+```
+
+The message and the button label are also translatable (English, French, German and Spanish out of the box). Outside
+Starlight — where markdown children aren't available in a plain `.astro` file — set them with props instead:
 
 ```astro
 <QuizIntro textLabel="Your answers are saved locally." resetLabel="Start over" />
 ```
 
-See [Configuration](/starlight-quiz/guides/configuration/) for the full list of component props.
+A slot, when given, wins over `textLabel`, which in turn wins over the translated default. See
+[Configuration](/starlight-quiz/guides/configuration/) for the full list of component props.

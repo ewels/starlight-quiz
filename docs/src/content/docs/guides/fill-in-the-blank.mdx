@@ -8,7 +8,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Fill-in-the-blank questions let the reader type their answer. Wrap the expected answer in double square brackets:
 
-<Tabs syncKey="quiz-source">
+<Tabs>
 <TabItem label="Preview">
 
 <Quiz id="blank-single">
@@ -33,7 +33,7 @@ Answers are **case-insensitive** and surrounding whitespace is trimmed, so "Pari
 
 A question can have several blanks; every one must be correct:
 
-<Tabs syncKey="quiz-source">
+<Tabs>
 <TabItem label="Preview">
 
 <Quiz id="blank-multiple">
@@ -57,7 +57,7 @@ Water is made of hydrogen and [[oxygen]], with the chemical formula [[H2O]].
 Because there is no answer list to mark the boundary, a fill-in-the-blank quiz uses a horizontal rule (`---`) to
 separate the question from a content section that is revealed after submitting:
 
-<Tabs syncKey="quiz-source">
+<Tabs>
 <TabItem label="Preview">
 
 <Quiz id="blank-content">

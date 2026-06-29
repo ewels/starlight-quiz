@@ -16,14 +16,14 @@ import { Quiz, QuizResults } from 'starlight-quiz/components';
 <Quiz>…</Quiz>
 <Quiz>…</Quiz>
 
-<QuizResults confetti />
+<QuizResults />
 ```
 
 ## Try it
 
 Answer both quizzes to reveal the score panel below.
 
-<Tabs syncKey="quiz-source">
+<Tabs>
 <TabItem label="Preview">
 
 <Quiz id="results-q1">
@@ -44,7 +44,7 @@ Which language styles a web page?
 
 </Quiz>
 
-<QuizResults confetti />
+<QuizResults />
 
 </TabItem>
 <TabItem label="Source">
@@ -66,7 +66,7 @@ Which language styles a web page?
 - [ ] JSON
 </Quiz>
 
-<QuizResults confetti />
+<QuizResults />
 ```
 
 </TabItem>
@@ -86,8 +86,14 @@ The message shown depends on the percentage of quizzes answered correctly:
 
 ## Confetti
 
-Set the `confetti` prop to celebrate a first-time completion (when the score is at least 10 %). The confetti library is
-loaded with a dynamic import, so it adds nothing to your bundle unless it actually fires.
+Confetti fires on a first-time completion (when the score is at least 10 %) **by default** — pass `confetti={false}`
+to turn it off:
+
+```mdx
+<QuizResults confetti={false} />
+```
+
+The confetti library is loaded with a dynamic import, so it adds nothing to your bundle unless it actually fires.
 
 ## Resetting
 

@@ -40,24 +40,54 @@ The chemical symbol for water is [[H2O]].
 
 </Quiz>
 
-## Per-answer feedback and explanation
+## Kitchen sink
 
-<Quiz id="demo-feedback" autoSubmit={false} disableAfterSubmit={false}>
-Which language runs natively in the browser?
+Most opt-in features at once: a `title`, shuffled answers, a manual Submit button (`autoSubmit={false}`), a retry
+button (`disableAfterSubmit={false}`), a formatted question with a code block, per-answer feedback, and a rich content
+section — heading, table, code and an image — revealed after submitting.
+
+<Quiz
+  id="demo-feedback"
+  title="Which language runs in the browser?"
+  shuffle
+  autoSubmit={false}
+  disableAfterSubmit={false}
+  showCorrect
+>
+Which language runs **natively** in the browser — no server or runtime required? Picture this running straight from a
+`<script>` tag:
+
+```js
+console.log('hello from the browser');
+```
 
 - [x] JavaScript
-  > Correct — JavaScript is the language of the web.
+  > Correct — it's the language of the web.
 - [ ] Python
-  > Python needs a server or a runtime like Pyodide to run in the browser.
-- [ ] C++
+  > Needs a server or a runtime like Pyodide to run in a page.
+- [ ] `C++`
+  > Compiled ahead of time; it doesn't run directly in a page.
+- [ ] Rust 🦀
+  > Only via a WebAssembly build step.
 
 ---
 
-JavaScript is the only one of these that browsers execute directly. Here's a random cat for getting this far:
+### Why?
+
+JavaScript is the only one of these that browsers execute directly. Everything else needs a server, a runtime, or a
+compile step first:
+
+| Option   | How it gets there            |
+| -------- | ---------------------------- |
+| `<script>` | Runs as-is, natively       |
+| Pyodide  | Ships a Python runtime       |
+| Wasm     | Compiled ahead of time       |
+
+Images work in the content section too:
 
 <img
-  src="https://cataas.com/cat?width=480"
-  alt="A random cat, served fresh by cataas.com"
+  src="https://picsum.photos/seed/starlight-quiz/480/220"
+  alt="A placeholder photo demonstrating images inside a quiz"
   width="480"
   style="max-width: 100%; height: auto; border-radius: 0.5rem;"
 />
@@ -66,4 +96,4 @@ JavaScript is the only one of these that browsers execute directly. Here's a ran
 
 ## Results
 
-<QuizResults confetti />
+<QuizResults />

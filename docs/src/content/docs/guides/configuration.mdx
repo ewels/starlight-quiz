@@ -96,7 +96,7 @@ Every UI string can be overridden per quiz — useful outside Starlight or for c
 
 | Prop            | Type      | Default | Description                                            |
 | --------------- | --------- | ------- | ------------------------------------------------------ |
-| `confetti`      | `boolean` | `false` | Fire confetti on a first-time completion (score ≥ 10%). |
+| `confetti`      | `boolean` | `true`  | Fire confetti on a first-time completion (score ≥ 10%). Pass `confetti={false}` to disable. |
 | `titleLabel`    | `string`  | —       | Override the panel title.                              |
 | `progressLabel` | `string`  | —       | Override the progress label.                           |
 | `answeredLabel` | `string`  | —       | Override the word after the `answered / total` count.  |
@@ -107,10 +107,13 @@ Every UI string can be overridden per quiz — useful outside Starlight or for c
 
 See [Intro panel](/starlight-quiz/guides/intro-panel/) for what this component does.
 
-| Prop         | Type     | Default | Description                                  |
-| ------------ | -------- | ------- | -------------------------------------------- |
-| `textLabel`  | `string` | —       | Override the intro text.                     |
-| `resetLabel` | `string` | —       | Override the reset-all button label.         |
+The intro message is best set by passing content in the **default slot** (`<QuizIntro>…</QuizIntro>`), which accepts
+markdown. The `textLabel` prop is a plain-string fallback for vanilla Astro and i18n overrides.
+
+| Prop         | Type     | Default | Description                                                   |
+| ------------ | -------- | ------- | ------------------------------------------------------------- |
+| `textLabel`  | `string` | —       | Plain-string intro text (the default slot takes precedence).  |
+| `resetLabel` | `string` | —       | Override the reset-all button label.                          |
 
 ## Internationalisation
 

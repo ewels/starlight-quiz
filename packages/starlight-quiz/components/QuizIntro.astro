@@ -4,7 +4,11 @@ import { getTranslate, resolveString } from '../lib/i18n';
 interface Props {
   /** Extra class names for the panel. */
   class?: string;
-  /** Override the intro text. */
+  /**
+   * Override the intro text. Prefer passing content in the default slot
+   * (`<QuizIntro>your **markdown** here</QuizIntro>`); this prop is the
+   * plain-string fallback for vanilla Astro and i18n overrides.
+   */
   textLabel?: string;
   /** Override the reset button label. */
   resetLabel?: string;
@@ -19,7 +23,7 @@ const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefin
 ---
 
 <sl-quiz-intro class:list={['sl-quiz-intro', className]} data-confirm-label={confirmReset}>
-  <p class="sl-quiz-intro-text">{text}</p>
+  <p class="sl-quiz-intro-text"><slot>{text}</slot></p>
   <button type="button" class="sl-quiz-intro-reset">{reset}</button>
 </sl-quiz-intro>
 

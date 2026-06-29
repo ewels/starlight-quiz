@@ -4,7 +4,10 @@ import { getTranslate, resolveString } from '../lib/i18n';
 interface Props {
   /** Extra class names for the results wrapper. */
   class?: string;
-  /** Fire confetti on a first-time, in-session completion (score ≥ 10%). */
+  /**
+   * Fire confetti on a first-time, in-session completion (score ≥ 10%).
+   * On by default — pass `confetti={false}` to disable.
+   */
   confetti?: boolean;
   /** Override the panel title. */
   titleLabel?: string;
@@ -20,7 +23,7 @@ interface Props {
 
 const {
   class: className,
-  confetti = false,
+  confetti = true,
   titleLabel,
   progressLabel,
   answeredLabel,
