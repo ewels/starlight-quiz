@@ -36,21 +36,9 @@ authoring syntax. Format MDX manually.
 
 ## Translations
 
-Translations live as gettext `.po` files in `packages/starlight-quiz/locales/`, shared verbatim with
-[mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) so both plugins stay in sync. To add or change a language:
-
-1. Edit (or add) the locale's `.po` file under `locales/`.
-2. Regenerate the runtime tables and commit the result:
-
-   ```sh
-   pnpm --filter starlight-quiz gen:i18n
-   ```
-
-   It prints a per-locale coverage summary (translated / total strings) and warns about any locale it found no
-   translations for, a quick way to spot a broken or empty `.po` file.
-
-The generator maps each translation to starlight-quiz's namespaced keys; strings with no mkdocs counterpart are kept in
-the generator's `CURATED` map. See [Translations](/starlight-quiz/guides/translations/) for the user-facing side.
+Translations are gettext `.po` files in `packages/starlight-quiz/locales/`, shared verbatim with
+[mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) so both plugins stay in sync. See
+[Contributing translations](/starlight-quiz/guides/contributing-translations/) for how to add or improve a language.
 
 ## Releases
 

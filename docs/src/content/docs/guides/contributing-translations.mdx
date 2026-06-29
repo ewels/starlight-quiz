@@ -1,0 +1,88 @@
+---
+title: Contributing translations
+description: Add a new language or improve an existing translation for Starlight Quiz.
+---
+
+Community translations are very welcome. This page explains how to add a new language or improve an existing one.
+
+## How translations are stored
+
+Starlight Quiz shares its translations **verbatim with [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz)** so the two
+sibling plugins always read the same way. The source of truth is a set of standard gettext `.po` files:
+
+```
+packages/starlight-quiz/locales/
+  de.po   eo.po   es.po   fr.po   hi.po   id.po
+  ja.po   ko.po   no.po   pt-BR.po  sv.po   zh.po
+```
+
+There is no `en.po`: English is the source text, used as the fallback when a string is untranslated.
+
+A build step, `gen:i18n`, compiles these `.po` files into `translations.ts` (the table the plugin injects into
+Starlight). Two kinds of string feed into it:
+
+- **Shared strings** (buttons, feedback, score messages) are pulled from the `.po` files by matching the mkdocs-quiz
+  source text.
+- A few **Starlight-only strings** with no mkdocs counterpart (the intro-panel text and a couple of results-panel
+  labels) live in a hand-maintained `CURATED` map in `packages/starlight-quiz/scripts/build-i18n.ts`.
+
+## Add or improve a language
+
+1. **Edit the `.po` file** for the locale under `packages/starlight-quiz/locales/` (create `<code>.po` from an existing
+   one if the language is new). Fill in each `msgstr`:
+
+   ```po
+   msgid "Submit"
+   msgstr "Vérifier"
+
+   msgid "Question {n}"
+   msgstr "Question {n}"
+   ```
+
+2. _(Optional)_ For full coverage, add the Starlight-only strings for your locale to the `CURATED` map in
+   `scripts/build-i18n.ts`. Locales missing from `CURATED` simply fall back to English for those few keys.
+
+3. **Regenerate** the runtime table:
+
+   ```sh
+   pnpm --filter starlight-quiz gen:i18n
+   ```
+
+   It rewrites `translations.ts` and prints a coverage summary, a quick way to see what is still missing:
+
+   ```text
+   Coverage (translated / 21 strings):
+     de     20/21   95%
+     es     20/21   95%
+     fr     19/21   90%
+     …
+   ```
+
+4. **Commit** the regenerated `translations.ts` alongside your `.po` change (and `build-i18n.ts` if you edited
+   `CURATED`).
+
+5. **Open a pull request.** Because the `.po` files are shared with mkdocs-quiz, please mention if the same change
+   should land there too, so the two stay in sync.
+
+## Test it locally
+
+Configure a locale in the docs site (or your own Starlight site) and view a quiz under it:
+
+```js title="astro.config.mjs"
+starlight({
+  locales: { en: { label: 'English' }, fr: { label: 'Français', lang: 'fr' } },
+  plugins: [starlightQuiz()],
+});
+```
+
+A quiz on a page served under `/fr/…` should now show your translated buttons and messages. See
+[Translations](/starlight-quiz/guides/translations/) for the reader-facing side and how labels resolve.
+
+## Guidelines
+
+- **Preserve placeholders.** Keep `{n}` intact: `"Question {n}"` → `"Question {n}"`, never `"Question numéro"`.
+- **Keep it concise.** Buttons and labels need to fit; the intro text has more room.
+- **Match tone.** Feedback and score messages should stay friendly and encouraging.
+- **Use UTF-8** for the `.po` file.
+- **Language codes** follow Starlight's: a 2-letter code, with a region suffix where needed. Note mkdocs-quiz's
+  `pt-BR.po` is lower-cased to `pt-br` in the generated Starlight table.

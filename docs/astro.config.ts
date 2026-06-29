@@ -56,6 +56,7 @@ export default defineConfig({
           label: 'Project',
           items: [
             { label: 'Contributing', slug: 'guides/contributing' },
+            { label: 'Contributing translations', slug: 'guides/contributing-translations' },
             { label: 'Changelog', slug: 'guides/changelog' },
           ],
         },
