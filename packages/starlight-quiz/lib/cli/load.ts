@@ -8,9 +8,13 @@ function isUrl(source: string): boolean {
   return /^https?:\/\//.test(source);
 }
 
+/** Resolve a source to its manifest location: a `.json` source is used as-is, otherwise treated as a directory. */
+function manifestLocation(source: string, filename: string): string {
+  return source.endsWith('.json') ? source : `${source.replace(/\/$/, '')}/${filename}`;
+}
+
 async function loadFromUrl(source: string, filename: string): Promise<QuizManifest> {
-  const manifestUrl = source.endsWith('.json') ? source : `${source.replace(/\/$/, '')}/${filename}`;
-  const manifestResponse = await fetch(manifestUrl);
+  const manifestResponse = await fetch(manifestLocation(source, filename));
   if (manifestResponse.ok) {
     return (await manifestResponse.json()) as QuizManifest;
   }
@@ -31,7 +35,5 @@ async function loadFromUrl(source: string, filename: string): Promise<QuizManife
  */
 export async function loadManifest(source: string, filename = DEFAULT_FILENAME): Promise<QuizManifest> {
   if (isUrl(source)) return loadFromUrl(source, filename);
-
-  const filePath = source.endsWith('.json') ? source : `${source.replace(/\/$/, '')}/${filename}`;
-  return JSON.parse(await readFile(filePath, 'utf8')) as QuizManifest;
+  return JSON.parse(await readFile(manifestLocation(source, filename), 'utf8')) as QuizManifest;
 }

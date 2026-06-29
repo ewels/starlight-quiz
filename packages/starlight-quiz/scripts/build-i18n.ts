@@ -114,12 +114,15 @@ function parsePo(text: string): Record<string, string> {
 }
 
 /** Build one locale's table: only keys that genuinely differ from English. */
-function buildLocale(po: Record<string, string>, curated: Partial<Record<StringKey, string>>) {
+function buildLocale(
+  po: Record<string, string>,
+  curated: Partial<Record<StringKey, string>>,
+): Partial<Record<StringKey, string>> {
   const table: Partial<Record<StringKey, string>> = {};
   for (const key of Object.keys(STRINGS) as StringKey[]) {
     const msgid = KEY_TO_MSGID[key];
     const fromPo = msgid ? po[msgid] : undefined;
-    const value = fromPo && fromPo.trim() !== '' ? fromPo : curated[key];
+    const value = fromPo?.trim() ? fromPo : curated[key];
     if (value !== undefined && value !== STRINGS[key]) table[key] = value;
   }
   return table;

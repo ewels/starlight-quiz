@@ -38,10 +38,7 @@ async function runChoice(quiz: QuizManifestEntry, io: RunnerIo): Promise<boolean
   const input = await io.ask(multiple ? 'Your answers (e.g. 1,3): ' : 'Your answer: ');
 
   const selected = parseSelection(input, answers.length);
-  const correctIndices = answers
-    .map((a, i) => [a, i] as const)
-    .filter(([a]) => a.correct)
-    .map(([, i]) => i);
+  const correctIndices = answers.flatMap((answer, i) => (answer.correct ? [i] : []));
   const correct = gradeChoice(selected, correctIndices);
 
   if (!correct) {

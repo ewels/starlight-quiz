@@ -3,6 +3,9 @@ import type { AstroIntegrationLogger } from 'astro';
 
 type Components = NonNullable<StarlightUserConfig['components']>;
 
+/** The name of a Starlight component that can be overridden. */
+export type StarlightComponentName = keyof Components;
+
 /**
  * Build a component-override entry for Starlight, warning (and backing off)
  * if the user already overrides that component themselves, so we never clobber
@@ -11,7 +14,7 @@ type Components = NonNullable<StarlightUserConfig['components']>;
 export function overrideStarlightComponent(
   components: StarlightUserConfig['components'],
   logger: AstroIntegrationLogger,
-  component: keyof Components,
+  component: StarlightComponentName,
   entrypoint: string,
 ): Partial<Components> {
   if (components?.[component]) {

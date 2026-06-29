@@ -1,6 +1,7 @@
 import { CONFETTI_MIN_SCORE, QUIZ_RESULTS_ELEMENT } from './constants';
 import { isComplete, tierForScore, type ScoreTier } from './score';
 import { getTracker } from './tracker';
+import { setTextAll, wireResetButton } from './widget-dom';
 import type { QuizProgress } from './types';
 
 const TIER_CLASSES = ['excellent', 'good', 'average', 'poor', 'fail'] as const;
@@ -30,13 +31,7 @@ class StarlightQuizResultsElement extends HTMLElement {
   #firstUpdate = true;
 
   connectedCallback(): void {
-    const resetButton = this.querySelector<HTMLButtonElement>('.sl-quiz-results-reset');
-    resetButton?.addEventListener('click', () => {
-      const confirmMessage = this.dataset['confirmLabel'];
-      if (confirmMessage && !window.confirm(confirmMessage)) return;
-      getTracker().resetAll();
-    });
-
+    wireResetButton(this, '.sl-quiz-results-reset');
     this.#unsubscribe = getTracker().subscribe((progress) => this.#update(progress));
   }
 
@@ -46,10 +41,10 @@ class StarlightQuizResultsElement extends HTMLElement {
   }
 
   #update(progress: QuizProgress): void {
-    this.#setText('.sl-quiz-results-answered', String(progress.answered));
-    this.#setText('.sl-quiz-results-total', String(progress.total));
-    this.#setText('.sl-quiz-results-correct', String(progress.correct));
-    this.#setText('.sl-quiz-results-percentage', `${progress.percentage}%`);
+    setTextAll(this, '.sl-quiz-results-answered', String(progress.answered));
+    setTextAll(this, '.sl-quiz-results-total', String(progress.total));
+    setTextAll(this, '.sl-quiz-results-correct', String(progress.correct));
+    setTextAll(this, '.sl-quiz-results-percentage', `${progress.percentage}%`);
 
     const complete = isComplete(progress);
     const progressPanel = this.querySelector<HTMLElement>('.sl-quiz-results-progress');
@@ -65,7 +60,7 @@ class StarlightQuizResultsElement extends HTMLElement {
   }
 
   #renderComplete(progress: QuizProgress, liveUpdate: boolean): void {
-    this.#setText('.sl-quiz-results-score-value', String(progress.score));
+    setTextAll(this, '.sl-quiz-results-score-value', String(progress.score));
 
     const tier = tierForScore(progress.score);
     const panel = this.querySelector<HTMLElement>('.sl-quiz-results-complete');
@@ -73,7 +68,7 @@ class StarlightQuizResultsElement extends HTMLElement {
       for (const name of TIER_CLASSES) panel.classList.remove(`sl-quiz-results-complete--${name}`);
       panel.classList.add(`sl-quiz-results-complete--${tier.key}`);
     }
-    this.#setText('.sl-quiz-results-message', this.#messageForTier(tier));
+    setTextAll(this, '.sl-quiz-results-message', this.#messageForTier(tier));
 
     // Only react to a genuine in-session transition into completion (the last
     // quiz was just submitted) — never on the initial baseline (e.g. a
@@ -109,12 +104,6 @@ class StarlightQuizResultsElement extends HTMLElement {
       confetti({ particleCount: 560, spread: 150, startVelocity: 90, scalar: 1.5, origin: { y: 0.6 } });
     } catch {
       /* confetti is purely decorative — ignore load failures */
-    }
-  }
-
-  #setText(selector: string, value: string): void {
-    for (const element of this.querySelectorAll(selector)) {
-      element.textContent = value;
     }
   }
 }

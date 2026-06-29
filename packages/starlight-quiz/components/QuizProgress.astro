@@ -1,5 +1,5 @@
 ---
-import { getTranslate, resolveString } from '../lib/i18n';
+import { createStringResolver } from '../lib/i18n';
 
 interface Props {
   /** Extra class names for the widget. */
@@ -18,12 +18,12 @@ interface Props {
 
 const { class: className, headingLabel, answeredLabel, correctLabel, resetLabel, showHeading = true } = Astro.props;
 
-const t = getTranslate(Astro.locals);
-const heading = resolveString('starlightQuiz.progressHeading', headingLabel, t);
-const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
-const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
-const reset = resolveString('starlightQuiz.reset', resetLabel, t);
-const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
+const resolve = createStringResolver(Astro.locals);
+const heading = resolve('starlightQuiz.progressHeading', headingLabel);
+const answered = resolve('starlightQuiz.results.answered', answeredLabel);
+const correct = resolve('starlightQuiz.results.correct', correctLabel);
+const reset = resolve('starlightQuiz.reset', resetLabel);
+const confirmReset = resolve('starlightQuiz.results.confirmReset');
 ---
 
 <sl-quiz-progress class:list={['sl-quiz-progress', className]} data-confirm-label={confirmReset} hidden>
