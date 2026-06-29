@@ -66,6 +66,7 @@ const labels = {
   incorrect: resolveString('starlightQuiz.incorrect', incorrectLabel, t),
   tryAgain: resolveString('starlightQuiz.tryAgain', tryAgainLabel, t),
   questionNumber: resolveString('starlightQuiz.questionNumber', undefined, t),
+  empty: resolveString('starlightQuiz.empty', undefined, t),
 };
 ---
 
@@ -83,6 +84,7 @@ const labels = {
   data-correct-label={labels.correct}
   data-incorrect-label={labels.incorrect}
   data-try-again-label={labels.tryAgain}
+  data-empty-label={labels.empty}
 >
   {title && <p class="sl-quiz-title">{title}</p>}
   <div class="sl-quiz-source"><slot /></div>

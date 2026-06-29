@@ -26,6 +26,7 @@ const DEFAULT_LABELS: QuizLabels = {
   correct: 'Correct!',
   incorrect: 'Incorrect.',
   tryAgain: 'Incorrect — try again.',
+  empty: '(empty)',
 };
 
 /**
@@ -103,6 +104,7 @@ class StarlightQuizElement extends HTMLElement {
       correct: data['correctLabel'] || DEFAULT_LABELS.correct,
       incorrect: data['incorrectLabel'] || DEFAULT_LABELS.incorrect,
       tryAgain: data['tryAgainLabel'] || DEFAULT_LABELS.tryAgain,
+      empty: data['emptyLabel'] || DEFAULT_LABELS.empty,
     };
   }
 
@@ -460,7 +462,7 @@ class StarlightQuizElement extends HTMLElement {
       if (gradeBlank(input.value, expected)) continue;
       const item = document.createElement('li');
       const wrong = document.createElement('del');
-      wrong.textContent = input.value || '…';
+      wrong.textContent = input.value || this.#labels.empty;
       const right = document.createElement('ins');
       right.textContent = expected;
       item.append(wrong, document.createTextNode(' → '), right);

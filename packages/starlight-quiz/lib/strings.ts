@@ -10,6 +10,7 @@ export const STRINGS = {
   'starlightQuiz.correct': 'Correct!',
   'starlightQuiz.incorrect': 'Incorrect.',
   'starlightQuiz.tryAgain': 'Incorrect — try again.',
+  'starlightQuiz.empty': '(empty)',
   'starlightQuiz.intro.text':
     "Quiz answers on this page are saved to your browser's local storage and persist between visits.",
   'starlightQuiz.results.title': 'Your score',

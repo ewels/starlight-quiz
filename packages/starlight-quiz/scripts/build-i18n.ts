@@ -30,6 +30,7 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
   'starlightQuiz.correct': 'Correct answer!',
   'starlightQuiz.incorrect': 'Incorrect answer.',
   'starlightQuiz.tryAgain': 'Incorrect answer. Please try again.',
+  'starlightQuiz.empty': '(empty)',
   'starlightQuiz.results.title': 'Quiz Complete!',
   'starlightQuiz.progressHeading': 'Quiz Progress',
   'starlightQuiz.results.correct': 'correct',

@@ -36,6 +36,8 @@ export interface QuizLabels {
   correct: string;
   incorrect: string;
   tryAgain: string;
+  /** Shown in the corrections list when a fill-in-the-blank was left empty. */
+  empty: string;
 }
 
 declare global {
