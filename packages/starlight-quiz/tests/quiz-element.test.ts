@@ -102,11 +102,32 @@ describe('submitting', () => {
     expect(quiz.querySelector('input[value="1"]')!.closest('.sl-quiz-answer')!.className).not.toContain('--correct');
   });
 
-  it('shows per-answer feedback when present', () => {
+  it('shows per-answer feedback when present, badged with the answer', () => {
     const quiz = mountQuiz(choiceSource([1], 3, true));
     quiz.querySelector<HTMLInputElement>('input[value="1"]')!.checked = true;
     submit(quiz);
-    expect(quiz.querySelector('.sl-quiz-feedback')?.textContent).toContain('Feedback 1');
+    const item = quiz.querySelector('.sl-quiz-feedback-item');
+    expect(item?.textContent).toContain('Feedback 1');
+    expect(item?.className).toContain('--correct');
+    expect(item?.querySelector('.sl-quiz-feedback-badge')?.textContent).toBe('Option 1');
+  });
+
+  it('shows one badged box per selected answer that carries feedback', () => {
+    // Two correct answers -> checkboxes; select one right (0) and one wrong (1).
+    const quiz = mountQuiz(choiceSource([0, 2], 3, true));
+    quiz.querySelector<HTMLInputElement>('input[value="0"]')!.checked = true;
+    quiz.querySelector<HTMLInputElement>('input[value="1"]')!.checked = true;
+    submit(quiz);
+
+    const items = quiz.querySelectorAll('.sl-quiz-feedback-item');
+    expect(items).toHaveLength(2);
+    const badges = Array.from(quiz.querySelectorAll('.sl-quiz-feedback-badge'), (b) => b.textContent);
+    expect(badges).toEqual(['Option 0', 'Option 1']);
+    // Box for the correct selection is green, the wrong one red.
+    const byBadge = (text: string) =>
+      Array.from(items).find((i) => i.querySelector('.sl-quiz-feedback-badge')?.textContent === text)!;
+    expect(byBadge('Option 0').className).toContain('--correct');
+    expect(byBadge('Option 1').className).toContain('--wrong');
   });
 
   it('grades fill-in-the-blank case-insensitively', () => {

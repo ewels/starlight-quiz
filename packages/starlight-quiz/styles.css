@@ -200,16 +200,14 @@
     background: var(--slq-wrong-bg);
   }
 
-  /* Feedback panel */
-  /* Styled to mirror Starlight's Asides: 0.25rem inline-start border, tinted
-     "-low" background, no border radius. The --wrong variant intentionally
-     matches the "danger" aside (red); --correct uses the green equivalents. */
+  /* Feedback panel: a stack of tinted boxes — one per shown answer's feedback,
+     or a single generic message. Each box is badged with the answer it relates
+     to so multiple feedbacks stay distinguishable (mirrors mkdocs-quiz). */
   .sl-quiz-feedback {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 0;
-    border-inline-start: 0.25rem solid var(--slq-border);
-    background: var(--slq-surface);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
   }
 
   .sl-quiz-feedback:focus-visible {
@@ -217,34 +215,63 @@
     outline-offset: 2px;
   }
 
-  .sl-quiz-feedback--correct {
-    border-inline-start-color: var(--slq-correct);
+  .sl-quiz-feedback-item {
+    position: relative;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--slq-border);
+    border-radius: var(--slq-radius);
+    background: var(--slq-surface);
+    font-size: 0.875rem;
+  }
+
+  .sl-quiz-feedback-item--correct {
+    border-color: var(--slq-correct);
     background: var(--slq-correct-bg);
+    color: var(--slq-correct-high);
   }
 
-  .sl-quiz-feedback--wrong {
-    border-inline-start-color: var(--slq-wrong);
+  .sl-quiz-feedback-item--wrong {
+    border-color: var(--slq-wrong);
     background: var(--slq-wrong-bg);
+    color: var(--slq-wrong-high);
   }
 
-  .sl-quiz-feedback > :first-child {
+  .sl-quiz-feedback-item > :first-child {
     margin-top: 0;
   }
 
-  .sl-quiz-feedback > :last-child {
+  .sl-quiz-feedback-item > :last-child {
     margin-bottom: 0;
+  }
+
+  /* Badge straddling the top-inline-start edge, naming the answer. */
+  .sl-quiz-feedback-badge {
+    position: absolute;
+    top: -0.6rem;
+    inset-inline-start: 0.6rem;
+    max-inline-size: calc(100% - 1.2rem);
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sl-quiz-feedback-item--correct .sl-quiz-feedback-badge {
+    background: var(--slq-correct);
+    color: var(--slq-bg);
+  }
+
+  .sl-quiz-feedback-item--wrong .sl-quiz-feedback-badge {
+    background: var(--slq-wrong);
+    color: var(--slq-bg);
   }
 
   .sl-quiz-feedback-message {
     font-weight: 600;
-  }
-
-  .sl-quiz-feedback--correct .sl-quiz-feedback-message {
-    color: var(--slq-correct-high);
-  }
-
-  .sl-quiz-feedback--wrong .sl-quiz-feedback-message {
-    color: var(--slq-wrong-high);
   }
 
   .sl-quiz-corrections {

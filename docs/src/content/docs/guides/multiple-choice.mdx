@@ -87,7 +87,12 @@ Which of these are even numbers?
 
 ## Per-answer feedback
 
-Add a blockquote (`>`) indented underneath an answer to show feedback specific to that choice after submitting:
+Add a blockquote (`>`) indented underneath an answer to show feedback specific to that choice after submitting. Each
+feedback box is badged with the answer it belongs to, so it is always clear which choice the note responds to.
+
+### Single choice
+
+Pick an answer to reveal its feedback:
 
 <Tabs>
 <TabItem label="Preview">
@@ -115,6 +120,49 @@ Which language runs natively in the browser?
 - [ ] Python
   > Python needs a server or a runtime like Pyodide to run in the browser.
 - [ ] C++
+</Quiz>
+````
+
+</TabItem>
+</Tabs>
+
+### Multiple choice
+
+When more than one selected answer carries feedback, every box is shown together — the badges keep them apart. Select
+a few options below before submitting:
+
+<Tabs>
+<TabItem label="Preview">
+
+<Quiz id="mc-feedback-multiple">
+Which of these are programming languages?
+
+- [x] Python
+  > Yes — a general-purpose programming language.
+- [x] Rust
+  > Yes — a systems programming language.
+- [ ] HTML
+  > No — HTML is a markup language for structuring content.
+- [ ] HTTP
+  > No — HTTP is a protocol for transferring data over the web.
+
+</Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+````mdx title="quiz.mdx"
+<Quiz>
+Which of these are programming languages?
+
+- [x] Python
+  > Yes — a general-purpose programming language.
+- [x] Rust
+  > Yes — a systems programming language.
+- [ ] HTML
+  > No — HTML is a markup language for structuring content.
+- [ ] HTTP
+  > No — HTTP is a protocol for transferring data over the web.
 </Quiz>
 ````
 

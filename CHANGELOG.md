@@ -4,6 +4,10 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+### Added
+
+- Per-answer feedback boxes now carry a badge naming the answer they respond to, and each box is tinted by whether that answer was right — keeping multiple feedbacks distinguishable (matching mkdocs-quiz). The Multiple choice guide gains single- and multiple-choice examples for it.
+
 ### Changed
 
 - The table-of-contents progress bar now splits into a green (correct) and red (incorrect) segment, matching mkdocs-quiz, instead of a single accent-coloured fill.

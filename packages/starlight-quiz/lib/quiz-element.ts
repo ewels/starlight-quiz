@@ -425,10 +425,13 @@ class StarlightQuizElement extends HTMLElement {
 
     const items: HTMLElement[] = [];
     if (this.#type !== 'blank') {
+      // One box per selected answer that carries feedback, each tagged with a
+      // badge naming the answer it responds to — essential when more than one
+      // answer's feedback is shown at once.
       for (const answer of this.#answers) {
         if (answer.input.checked && answer.feedback) {
-          const item = document.createElement('div');
-          item.className = 'sl-quiz-feedback-item';
+          const item = this.#feedbackItem(answer.correct);
+          item.append(this.#feedbackBadge(answer));
           item.append(...Array.from(answer.feedback.cloneNode(true).childNodes));
           items.push(item);
         }
@@ -436,6 +439,8 @@ class StarlightQuizElement extends HTMLElement {
     }
 
     if (items.length === 0) {
+      // No per-answer feedback to show: fall back to a single generic message.
+      const item = this.#feedbackItem(correct);
       const message = document.createElement('p');
       message.className = 'sl-quiz-feedback-message';
       message.textContent = correct
@@ -443,15 +448,31 @@ class StarlightQuizElement extends HTMLElement {
         : this.#disableAfterSubmit
           ? this.#labels.incorrect
           : this.#labels.tryAgain;
-      items.push(message);
-    }
-
-    if (this.#type === 'blank' && !correct && this.#showCorrect) {
-      items.push(this.#buildBlankCorrections());
+      item.append(message);
+      if (this.#type === 'blank' && !correct && this.#showCorrect) {
+        item.append(this.#buildBlankCorrections());
+      }
+      items.push(item);
     }
 
     this.#feedback.append(...items);
     this.#feedback.hidden = false;
+  }
+
+  /** A single tinted feedback box, coloured by whether its answer was right. */
+  #feedbackItem(isCorrect: boolean): HTMLDivElement {
+    const item = document.createElement('div');
+    item.className = 'sl-quiz-feedback-item';
+    item.classList.add(isCorrect ? 'sl-quiz-feedback-item--correct' : 'sl-quiz-feedback-item--wrong');
+    return item;
+  }
+
+  /** A badge naming the answer a per-answer feedback box responds to. */
+  #feedbackBadge(answer: ChoiceAnswer): HTMLSpanElement {
+    const badge = document.createElement('span');
+    badge.className = 'sl-quiz-feedback-badge';
+    badge.textContent = answer.wrapper.querySelector('label')?.textContent?.trim() ?? '';
+    return badge;
   }
 
   #buildBlankCorrections(): HTMLElement {
