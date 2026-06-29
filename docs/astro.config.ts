@@ -13,7 +13,7 @@ export default defineConfig({
       logo: { src: './src/assets/logo/starlight-quiz-icon.svg', alt: 'Starlight Quiz' },
       customCss: ['./src/styles/custom.css'],
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/ewels/starlight-quiz' }],
-      plugins: [starlightQuiz({ manifest: true })],
+      plugins: [starlightQuiz()],
       sidebar: [
         {
           label: 'Getting started',

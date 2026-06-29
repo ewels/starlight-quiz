@@ -33,10 +33,11 @@ export interface StarlightQuizOptions {
   progressPosition?: ProgressPosition;
   /**
    * Emit a structured JSON manifest of every quiz to the build output, for the
-   * QTI exporter and terminal runner to consume. Pass `true` for the default
-   * filename (`quiz-manifest.json`) or a string to set the filename.
+   * QTI exporter and terminal runner to consume. Enabled by default; set to
+   * `false` to opt out, or pass a string to choose the filename (defaults to
+   * `quiz-manifest.json`).
    *
-   * @default false
+   * @default true
    */
   manifest?: boolean | string;
   /**
@@ -72,7 +73,7 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
     injectStyles = true,
     progressTracker = true,
     progressPosition = 'top',
-    manifest = false,
+    manifest = true,
     validate = true,
   } = options;
   const quizDefaults: QuizDefaults = { ...DEFAULT_QUIZ_DEFAULTS, ...options.quizDefaults };

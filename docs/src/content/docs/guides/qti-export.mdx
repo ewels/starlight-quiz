@@ -12,24 +12,17 @@ and most other platforms can import.
 
 Like the [terminal runner](/starlight-quiz/guides/cli/), the exporter reads a **quiz manifest**, never your MDX. The
 manifest is a single `quiz-manifest.json` file describing every quiz on your site (question, answers, which are
-correct, page path). Enable it in the plugin:
-
-```js title="astro.config.mjs"
-starlight({ plugins: [starlightQuiz({ manifest: true })] });
-```
-
-It is written to your build output (`dist/quiz-manifest.json`) by parsing the generated HTML, so you have to **build**
-the site first (`npx astro build`); it is not produced by the dev server. See
-[Configuration](/starlight-quiz/guides/configuration/#manifest) for the option, and the
-[CLI guide](/starlight-quiz/guides/cli/#the-quiz-manifest) for more on what the manifest is.
+correct, page path), and the plugin writes it by default. See the
+[CLI guide](/starlight-quiz/guides/cli/#the-quiz-manifest) for what the manifest is and where it lives, and
+[Configuration](/starlight-quiz/guides/configuration/#manifest) for the option.
 
 ## Export
 
-Point `export-qti` at a local build directory (or the manifest file), and choose an output directory:
+Point `export-qti` at your deployed site (or a local build directory), and choose an output directory:
 
 ```sh
 # QTI 2.1 (the default)
-npx starlight-quiz export-qti ./dist --out ./qti
+npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz --out ./qti
 ```
 
 ```text title="output"
@@ -61,7 +54,7 @@ Most current platforms accept **QTI 2.1** (the default). Some older Moodle and B
 **1.2** format:
 
 ```sh
-npx starlight-quiz export-qti ./dist --version 1.2 --out ./qti
+npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz --version 1.2 --out ./qti
 ```
 :::
 

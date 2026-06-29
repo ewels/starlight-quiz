@@ -38,11 +38,11 @@ Whether the progress widget sits above (`'top'`) or below (`'bottom'`) the on-th
 
 ### `manifest`
 
-**Type:** `boolean | string` · **Default:** `false`
+**Type:** `boolean | string` · **Default:** `true`
 
-Emit a structured JSON manifest of every quiz to the build output. Pass `true` for the default filename
-(`quiz-manifest.json`) or a string to choose your own. The manifest is parsed from the built HTML, so it captures all
-quizzes without touching MDX, and is the source consumed by the QTI exporter and the terminal runner.
+Emit a structured JSON manifest of every quiz to the build output (`quiz-manifest.json`). Enabled by default; set to
+`false` to opt out, or pass a string to choose a different filename. The manifest is parsed from the built HTML, so it
+captures all quizzes without touching MDX, and is the source consumed by the QTI exporter and the terminal runner.
 
 ### `validate`
 

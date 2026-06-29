@@ -10,36 +10,36 @@ command line, or running a quiz over a deployed site. The same manifest also pow
 ## The quiz manifest
 
 The CLI never parses your MDX. Instead it reads a **quiz manifest**: a single `quiz-manifest.json` file listing every
-quiz on your site, with each question, its answers and which are correct. Enable it in the plugin:
+quiz on your site, with each question, its answers and which are correct. The plugin writes it by default, so there is
+usually nothing to set up. (Opt out or rename it with the [`manifest`](/starlight-quiz/guides/configuration/#manifest)
+option.)
 
-```js title="astro.config.mjs"
-starlight({ plugins: [starlightQuiz({ manifest: true })] });
-```
+The manifest is generated **at build time** by parsing the built HTML, so:
 
-The manifest is generated **at build time** by parsing the built HTML, and written to your build output
-(`dist/quiz-manifest.json`). Two things follow from that:
-
-- You need to **build** the site (`npx astro build`) for it to exist. It is _not_ produced by the dev server, which is
-  why you won't find it while running `astro dev`.
-- On a deployed site it sits next to your pages, so the CLI can fetch it straight from a URL.
+- On a deployed site it sits at the root alongside your pages (e.g. `https://your-docs.example/quiz-manifest.json`), so
+  the CLI can fetch it straight from the URL.
+- It is part of the **built** site, not the dev server, which is why you won't find it while running `astro dev`. To
+  work against a local copy, build the site first (`npx astro build`).
 
 ## Take a quiz
 
-Point `run` at a local build directory (or the manifest file), or at a deployed site:
+Point `run` at your deployed site, and its manifest is fetched automatically:
 
 ```sh
-# A local build directory (or a manifest file directly)
-npx starlight-quiz run ./dist
+npx starlight-quiz run https://ewels.github.io/starlight-quiz
+```
 
-# A deployed site — its manifest is fetched automatically
-npx starlight-quiz run https://my-docs.example.com
+You can also run against a local build directory (or a manifest file directly), useful before you deploy:
+
+```sh
+npx starlight-quiz run ./dist
 ```
 
 Each question is printed in turn; you type the number(s) of your choice (or the text for a fill-in-the-blank) and press
 Enter. The runner grades each answer, reveals the correct one when you are wrong, and prints a final score with a tier
 message:
 
-```text title="npx starlight-quiz run ./dist --page /guides/multiple-choice/"
+```text title="npx starlight-quiz run https://ewels.github.io/starlight-quiz --page /guides/multiple-choice/"
 Question 1
 ──────────
 What is the capital of France?
@@ -78,8 +78,8 @@ Add `--shuffle` to randomise the quiz order and the answer order within each qui
 only the answers. Use `--page <substr>` to take just the quizzes whose page path contains a string:
 
 ```sh
-npx starlight-quiz run ./dist --shuffle
-npx starlight-quiz run ./dist --page /guides/multiple-choice/
+npx starlight-quiz run https://ewels.github.io/starlight-quiz --shuffle
+npx starlight-quiz run https://ewels.github.io/starlight-quiz --page /guides/multiple-choice/
 ```
 
 ## History
@@ -94,9 +94,9 @@ npx starlight-quiz history --clear  # wipe it
 ```
 
 ```text title="npx starlight-quiz history"
-Date                      Source     Result  Score
-────────────────────────  ─────────  ──────  ─────
-2026-06-29T22:05:59.208Z  docs/dist  3/4     75%
+Date                      Source                                  Result  Score
+────────────────────────  ──────────────────────────────────────  ──────  ─────
+2026-06-29T22:15:29.682Z  https://ewels.github.io/starlight-quiz  3/4     75%
 ```
 
 ## Options
