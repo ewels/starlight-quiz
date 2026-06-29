@@ -49,6 +49,13 @@ export default defineConfig({
             { label: 'Vanilla Astro', slug: 'guides/vanilla-astro' },
           ],
         },
+        {
+          label: 'Project',
+          items: [
+            { label: 'Contributing', slug: 'guides/contributing' },
+            { label: 'Changelog', slug: 'guides/changelog' },
+          ],
+        },
       ],
     }),
   ],

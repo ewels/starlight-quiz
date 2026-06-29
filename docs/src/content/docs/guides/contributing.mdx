@@ -1,0 +1,61 @@
+---
+title: Contributing
+description: Develop, test, translate and release Starlight Quiz.
+---
+
+Contributions are welcome. The repository is a pnpm workspace with the published package in
+`packages/starlight-quiz` and this documentation site (which doubles as the test fixture) in `docs`.
+
+## Set up
+
+Node ≥ 22.12 and pnpm are required.
+
+```sh
+git clone https://github.com/ewels/starlight-quiz
+cd starlight-quiz
+pnpm install
+pnpm dev        # run the docs site locally
+```
+
+## Checks
+
+| Task                       | Command                          |
+| -------------------------- | -------------------------------- |
+| Unit tests (Vitest)        | `pnpm test`                      |
+| End-to-end tests (Playwright) | `pnpm test:e2e`               |
+| Type-check                 | `pnpm typecheck`                 |
+| Lint · format              | `pnpm lint` · `pnpm format`      |
+| Everything (as CI runs it) | `prek run --all-files`           |
+
+`prek install` wires the git pre-commit hook (prettier → eslint → typecheck); CI runs the same `prek run --all-files`.
+
+:::note[MDX is formatted by hand]
+Prettier is **not** run on `.mdx` files — it reflows task lists and fenced quiz examples in ways that break the
+authoring syntax. Format MDX manually.
+:::
+
+## Translations
+
+Translations live as gettext `.po` files in `packages/starlight-quiz/locales/`, shared verbatim with
+[mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) so both plugins stay in sync. To add or change a language:
+
+1. Edit (or add) the locale's `.po` file under `locales/`.
+2. Regenerate the runtime tables and commit the result:
+
+   ```sh
+   pnpm --filter starlight-quiz gen:i18n
+   ```
+
+The generator maps each translation to starlight-quiz's namespaced keys; strings with no mkdocs counterpart are kept in
+the generator's `CURATED` map. See [Translations](/starlight-quiz/guides/translations/) for the user-facing side.
+
+## Releases
+
+Versioning is handled with [Changesets](https://github.com/changesets/changesets). Add one in the same PR as your
+change:
+
+```sh
+pnpm changeset
+```
+
+Pick the bump (`patch`/`minor`) and describe the change for the changelog. Publishing is done manually by a maintainer.
