@@ -61,6 +61,24 @@ Is the sky blue?
 
 </Quiz>
 
+## Override the bundled wording
+
+To change a label everywhere on your site (rather than per quiz), override the key in **your own** Starlight UI
+translations. The plugin injects its strings as defaults, and Starlight lets your site's translations take precedence —
+so any `starlightQuiz.*` key you define wins. Add the keys to your i18n data, per locale:
+
+```json title="src/content/i18n/en.json"
+{
+  "starlightQuiz.submit": "Check answer",
+  "starlightQuiz.results.title": "Your result"
+}
+```
+
+Every key lives under the `starlightQuiz.` namespace (e.g. `starlightQuiz.submit`, `starlightQuiz.correct`,
+`starlightQuiz.results.excellent`, `starlightQuiz.questionNumber`). This is the equivalent of supplying your own
+translation file, and it works for the bundled locales as well as any you add. See Starlight's
+[i18n guide](https://starlight.astro.build/guides/i18n/#translate-starlights-ui) for where these files live.
+
 ## Outside Starlight
 
 In a plain Astro project there is no translation function, so only steps 1 and 3 above apply: pass label props for any
