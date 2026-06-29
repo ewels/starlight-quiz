@@ -24,7 +24,10 @@ const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefin
 
 <sl-quiz-intro class:list={['sl-quiz-intro', className]} data-confirm-label={confirmReset}>
   <p class="sl-quiz-intro-text"><slot>{text}</slot></p>
-  <button type="button" class="sl-quiz-intro-reset">{reset}</button>
+  <!-- Inline margin reset: Starlight's unlayered content "* + *" rule adds a
+       top margin that our layered styles can't override, knocking the button
+       off the flex row's vertical centre. -->
+  <button type="button" class="sl-quiz-intro-reset" style="margin-block: 0">{reset}</button>
 </sl-quiz-intro>
 
 <script>
