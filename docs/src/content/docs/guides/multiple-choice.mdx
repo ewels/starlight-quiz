@@ -13,7 +13,7 @@ never set it explicitly.
 Exactly one correct answer renders as radio buttons. Single-choice quizzes [auto-submit](/starlight-quiz/guides/configuration/#autosubmit)
 on selection by default:
 
-<Quiz title="Single choice" id="mc-single">
+<Quiz id="mc-single">
 What is the capital of France?
 
 - [ ] London
@@ -35,7 +35,7 @@ quiz, as that splits the answer list.
 More than one correct answer renders as checkboxes with a Submit button. The reader must select **all** correct
 answers and **only** the correct answers:
 
-<Quiz title="Multiple choice" id="mc-multiple">
+<Quiz id="mc-multiple">
 Which of these are even numbers?
 
 - [x] 2
@@ -50,7 +50,7 @@ Which of these are even numbers?
 Add a blockquote (`>`) indented underneath an answer to show feedback specific to that choice after submitting:
 
 ````mdx
-<Quiz title="Languages">
+<Quiz>
 Which language runs natively in the browser?
 
 - [x] JavaScript
@@ -60,7 +60,7 @@ Which language runs natively in the browser?
 </Quiz>
 ````
 
-<Quiz title="Per-answer feedback" id="mc-feedback">
+<Quiz id="mc-feedback">
 Which language runs natively in the browser?
 
 - [x] JavaScript
@@ -76,7 +76,7 @@ Which language runs natively in the browser?
 Any markdown after the answers becomes a content section that is revealed once the quiz is submitted — handy for
 explanations. See [Advanced formatting](/starlight-quiz/guides/advanced-formatting/) for richer content.
 
-<Quiz title="Content section" id="mc-content">
+<Quiz id="mc-content">
 What is Astro?
 
 - [x] A web framework

@@ -8,12 +8,12 @@ import { Quiz } from 'starlight-quiz/components';
 Fill-in-the-blank questions let the reader type their answer. Wrap the expected answer in double square brackets:
 
 ```mdx
-<Quiz title="Capital city">
+<Quiz>
 The capital of France is [[Paris]].
 </Quiz>
 ```
 
-<Quiz title="Capital city" id="blank-single">
+<Quiz id="blank-single">
 The capital of France is [[Paris]].
 </Quiz>
 
@@ -23,7 +23,7 @@ Answers are **case-insensitive** and surrounding whitespace is trimmed, so "Pari
 
 A question can have several blanks; every one must be correct:
 
-<Quiz title="Multiple blanks" id="blank-multiple">
+<Quiz id="blank-multiple">
 Water is made of hydrogen and [[oxygen]], with the chemical formula [[H2O]].
 </Quiz>
 
@@ -33,7 +33,7 @@ Because there is no answer list to mark the boundary, a fill-in-the-blank quiz u
 separate the question from a content section that is revealed after submitting:
 
 ````mdx
-<Quiz title="Chemistry">
+<Quiz>
 The chemical symbol for gold is [[Au]].
 
 ---
@@ -42,7 +42,7 @@ The chemical symbol for gold is [[Au]].
 </Quiz>
 ````
 
-<Quiz title="Chemistry" id="blank-content">
+<Quiz id="blank-content">
 The chemical symbol for gold is [[Au]].
 
 ---

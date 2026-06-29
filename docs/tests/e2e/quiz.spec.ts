@@ -86,13 +86,26 @@ test('results panel completes when every quiz is answered', async ({ page }) => 
 test('the table-of-contents progress widget reflects answers', async ({ page }) => {
   // The desktop ToC widget is rendered by the Starlight override.
   const widget = page.locator('.sl-quiz-progress--toc');
-  await expect(widget.locator('.sl-quiz-progress-total')).toHaveText('4');
+  // The total appears on both the answered and correct lines.
+  await expect(widget.locator('.sl-quiz-progress-total')).toHaveText(['4', '4']);
   await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('0');
 
   await page.locator('#demo-single').getByText('Mars', { exact: true }).click();
 
   await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('1');
   await expect(widget.locator('.sl-quiz-progress-correct')).toHaveText('1');
+  await expect(widget.locator('.sl-quiz-progress-percentage')).toHaveText('25%');
+});
+
+test('the table-of-contents progress widget can reset progress', async ({ page }) => {
+  page.on('dialog', (dialog) => dialog.accept());
+
+  const widget = page.locator('.sl-quiz-progress--toc');
+  await page.locator('#demo-single').getByText('Mars', { exact: true }).click();
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('1');
+
+  await widget.locator('.sl-quiz-progress-reset').click();
+  await expect(widget.locator('.sl-quiz-progress-answered')).toHaveText('0');
 });
 
 test('reset all clears progress', async ({ page }) => {

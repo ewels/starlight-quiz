@@ -4,23 +4,39 @@ description: Interactive quizzes for Astro and Starlight, authored in markdown.
 ---
 
 import { Quiz } from 'starlight-quiz/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
 
 **Starlight Quiz** adds interactive, self-marking quizzes to your Astro and Starlight documentation.
 
 ## Features
 
-- ✨ **Simple markdown syntax** – write quizzes with GitHub-flavoured task lists, no new syntax to learn
-- 🎯 **Multiple quiz types** – single choice, multiple choice and fill-in-the-blank
-- ⚡ **Instant feedback** – per-answer feedback and visual correct/incorrect indicators
-- 📊 **Progress &amp; results** – an aggregate results panel with score tiers and confetti
-- 💾 **Results saved** – answers persist to the browser's local storage, surviving reloads and rebuilds
-- 🌐 **Internationalisation** – English, French, German and Spanish out of the box
-- ♿ **Accessible** – real fieldsets, `aria-live` feedback and keyboard-safe auto-submit
+<CardGrid stagger>
+  <Card title="✨ Simple markdown syntax">
+    Write quizzes with GitHub-flavoured task lists — no new syntax to learn.
+  </Card>
+  <Card title="🎯 Multiple quiz types">
+    Single choice, multiple choice and fill-in-the-blank.
+  </Card>
+  <Card title="⚡ Instant feedback">
+    Per-answer feedback and visual correct/incorrect indicators.
+  </Card>
+  <Card title="📊 Progress & results">
+    An aggregate results panel with score tiers and confetti.
+  </Card>
+  <Card title="💾 Results saved">
+    Answers persist to the browser's local storage, surviving reloads and rebuilds.
+  </Card>
+  <Card title="🌐 Internationalisation">
+    English, French, German and Spanish out of the box.
+  </Card>
+  <Card title="♿ Accessible">
+    Real fieldsets, `aria-live` feedback and keyboard-safe auto-submit.
+  </Card>
+</CardGrid>
 
 Try it:
 
-<Quiz title="A quick taster" id="home-taster">
+<Quiz id="home-taster">
 Which of these does Starlight Quiz support out of the box?
 
 - [x] Single-choice questions

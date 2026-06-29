@@ -11,6 +11,7 @@ export const STRINGS = {
   'starlightQuiz.tryAgain': 'Incorrect — try again.',
   'starlightQuiz.results.title': 'Your score',
   'starlightQuiz.results.progress': 'Progress',
+  'starlightQuiz.progressHeading': 'Quiz Progress',
   'starlightQuiz.results.badge': 'Quiz',
   'starlightQuiz.results.answered': 'answered',
   'starlightQuiz.results.correct': 'correct',

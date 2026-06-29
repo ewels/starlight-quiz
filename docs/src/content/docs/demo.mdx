@@ -10,7 +10,7 @@ so the quizzes here have stable ids.
 
 ## Single choice
 
-<Quiz title="Single choice" id="demo-single">
+<Quiz id="demo-single">
 Which planet is known as the Red Planet?
 
 - [ ] Venus
@@ -21,7 +21,7 @@ Which planet is known as the Red Planet?
 
 ## Multiple choice
 
-<Quiz title="Multiple choice" id="demo-multiple">
+<Quiz id="demo-multiple">
 Which of these are prime numbers?
 
 - [x] 2
@@ -33,14 +33,14 @@ Which of these are prime numbers?
 
 ## Fill in the blank
 
-<Quiz title="Fill in the blank" id="demo-blank">
+<Quiz id="demo-blank">
 The chemical symbol for water is [[H2O]].
 
 </Quiz>
 
 ## Per-answer feedback and explanation
 
-<Quiz title="Feedback and explanation" id="demo-feedback" autoSubmit={false} disableAfterSubmit={false}>
+<Quiz id="demo-feedback" autoSubmit={false} disableAfterSubmit={false}>
 Which language runs natively in the browser?
 
 - [x] JavaScript
@@ -51,7 +51,14 @@ Which language runs natively in the browser?
 
 ---
 
-JavaScript is the only one of these that browsers execute directly.
+JavaScript is the only one of these that browsers execute directly. Here's a random cat for getting this far:
+
+<img
+  src="https://cataas.com/cat?width=480"
+  alt="A random cat, served fresh by cataas.com"
+  width="480"
+  style="max-width: 100%; height: auto; border-radius: 0.5rem;"
+/>
 
 </Quiz>
 

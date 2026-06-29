@@ -10,26 +10,38 @@ interface Props {
   answeredLabel?: string;
   /** Override the word after the correct count. */
   correctLabel?: string;
+  /** Override the reset button label. */
+  resetLabel?: string;
 }
 
-const { class: className, headingLabel, answeredLabel, correctLabel } = Astro.props;
+const { class: className, headingLabel, answeredLabel, correctLabel, resetLabel } = Astro.props;
 
 const t = getTranslate(Astro.locals);
-const heading = resolveString('starlightQuiz.results.progress', headingLabel, t);
+const heading = resolveString('starlightQuiz.progressHeading', headingLabel, t);
 const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
 const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
+const reset = resolveString('starlightQuiz.reset', resetLabel, t);
+const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
 ---
 
-<sl-quiz-progress class:list={['sl-quiz-progress', className]} hidden>
-  <p class="sl-quiz-progress-heading">{heading}</p>
+<sl-quiz-progress class:list={['sl-quiz-progress', className]} data-confirm-label={confirmReset} hidden>
+  <h2 class="sl-quiz-progress-heading">{heading}</h2>
+  <p class="sl-quiz-progress-stats">
+    <span class="sl-quiz-progress-label">{answered}</span>:{' '}
+    <span class="sl-quiz-progress-answered">0</span> / <span class="sl-quiz-progress-total">0</span>
+    {' '}(<span class="sl-quiz-progress-percentage">0%</span>)
+  </p>
   <div class="sl-quiz-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label={heading}>
     <span class="sl-quiz-progress-bar-fill"></span>
   </div>
-  <p class="sl-quiz-progress-stats">
-    <span class="sl-quiz-progress-answered">0</span> / <span class="sl-quiz-progress-total">0</span>
-    {' '}{answered} · <span class="sl-quiz-progress-correct">0</span>
-    {correct}
-  </p>
+  <div class="sl-quiz-progress-footer">
+    <p class="sl-quiz-progress-stats">
+      <span class="sl-quiz-progress-label">{correct}</span>:{' '}
+      <span class="sl-quiz-progress-correct">0</span> / <span class="sl-quiz-progress-total">0</span>
+      {' '}(<span class="sl-quiz-progress-score">0%</span>)
+    </p>
+    <button type="button" class="sl-quiz-progress-reset">{reset}</button>
+  </div>
 </sl-quiz-progress>
 
 <script>

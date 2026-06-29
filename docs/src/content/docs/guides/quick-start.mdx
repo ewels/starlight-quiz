@@ -38,7 +38,7 @@ Quizzes are written with markdown inside an imported `<Quiz>` component. The bas
 ```mdx
 import { Quiz } from 'starlight-quiz/components';
 
-<Quiz title="Static site generators">
+<Quiz>
 Question text goes here.
 
 - [x] Correct answer
@@ -51,7 +51,7 @@ Optional content, revealed after the answer is submitted.
 
 A ticked box (`[x]`) is a correct answer; an empty box (`[ ]`) is incorrect. This renders as:
 
-<Quiz title="Static site generators" id="quickstart-basic">
+<Quiz id="quickstart-basic">
 Question text goes here.
 
 - [x] Correct answer
@@ -71,7 +71,7 @@ You can use asterisk bullets (`*`) instead of hyphens (`-`) for answers — both
 With **one** correct answer you get radio buttons. With **more than one**, the quiz switches to checkboxes
 automatically:
 
-<Quiz title="Programming languages" id="quickstart-multiple">
+<Quiz id="quickstart-multiple">
 Which of these are programming languages?
 
 - [x] Python
@@ -89,7 +89,7 @@ All correct answers — and only the correct answers — must be selected to get
 
 For questions where readers type the answer, wrap the expected answer in double square brackets:
 
-<Quiz title="Capital city" id="quickstart-blank">
+<Quiz id="quickstart-blank">
 The capital of France is [[Paris]].
 </Quiz>
 

@@ -14,6 +14,13 @@ class StarlightQuizProgressElement extends HTMLElement {
   #unsubscribe: (() => void) | null = null;
 
   connectedCallback(): void {
+    const resetButton = this.querySelector<HTMLButtonElement>('.sl-quiz-progress-reset');
+    resetButton?.addEventListener('click', () => {
+      const confirmMessage = this.dataset['confirmLabel'];
+      if (confirmMessage && !window.confirm(confirmMessage)) return;
+      getTracker().resetAll();
+    });
+
     this.#unsubscribe = getTracker().subscribe((progress) => this.#update(progress));
   }
 
@@ -28,6 +35,8 @@ class StarlightQuizProgressElement extends HTMLElement {
     this.#setText('.sl-quiz-progress-answered', String(progress.answered));
     this.#setText('.sl-quiz-progress-total', String(progress.total));
     this.#setText('.sl-quiz-progress-correct', String(progress.correct));
+    this.#setText('.sl-quiz-progress-percentage', `${progress.percentage}%`);
+    this.#setText('.sl-quiz-progress-score', `${progress.score}%`);
 
     const fill = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-fill');
     if (fill) fill.style.inlineSize = `${progress.percentage}%`;

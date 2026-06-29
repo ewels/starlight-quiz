@@ -25,7 +25,7 @@ import { Quiz } from 'starlight-quiz/components';
 import 'starlight-quiz/styles';
 ---
 
-<Quiz title="Quick check" submitLabel="Check answer">
+<Quiz submitLabel="Check answer">
 Is the sky blue?
 
 - [x] Yes
@@ -45,7 +45,7 @@ Spanish ship out of the box). Without Starlight there is no `t()` function, so p
 to change:
 
 ```astro
-<Quiz title="Quick check" submitLabel="Check answer" resetLabel="Start over" correctLabel="Spot on!">
+<Quiz submitLabel="Check answer" resetLabel="Start over" correctLabel="Spot on!">
   …
 </Quiz>
 ```

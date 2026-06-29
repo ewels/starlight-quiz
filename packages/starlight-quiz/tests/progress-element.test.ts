@@ -17,10 +17,14 @@ function mount(): HTMLElement {
   const el = document.createElement('sl-quiz-progress');
   el.hidden = true;
   el.innerHTML = `
-    <div class="sl-quiz-progress-bar"><span class="sl-quiz-progress-bar-fill"></span></div>
     <span class="sl-quiz-progress-answered">0</span>
     <span class="sl-quiz-progress-total">0</span>
-    <span class="sl-quiz-progress-correct">0</span>`;
+    <span class="sl-quiz-progress-percentage">0%</span>
+    <div class="sl-quiz-progress-bar"><span class="sl-quiz-progress-bar-fill"></span></div>
+    <span class="sl-quiz-progress-correct">0</span>
+    <span class="sl-quiz-progress-total">0</span>
+    <span class="sl-quiz-progress-score">0%</span>
+    <button type="button" class="sl-quiz-progress-reset">Reset</button>`;
   document.body.append(el);
   return el;
 }
@@ -51,7 +55,33 @@ describe('sl-quiz-progress', () => {
 
     expect(el.querySelector('.sl-quiz-progress-answered')?.textContent).toBe('2');
     expect(el.querySelector('.sl-quiz-progress-correct')?.textContent).toBe('1');
+    expect(el.querySelector('.sl-quiz-progress-percentage')?.textContent).toBe('100%');
+    expect(el.querySelector('.sl-quiz-progress-score')?.textContent).toBe('50%');
     expect((el.querySelector('.sl-quiz-progress-bar-fill') as HTMLElement).style.inlineSize).toBe('100%');
+  });
+
+  it('sets both total spans (answered and correct lines) to the same count', () => {
+    const el = mount();
+    const tracker = getTracker();
+    tracker.register('a');
+    tracker.register('b');
+    tracker.register('c');
+    for (const total of el.querySelectorAll('.sl-quiz-progress-total')) {
+      expect(total.textContent).toBe('3');
+    }
+  });
+
+  it('clears all progress when the reset button is pressed', () => {
+    const el = mount();
+    const tracker = getTracker();
+    tracker.register('a');
+    tracker.record('a', true, ['1']);
+    expect(el.querySelector('.sl-quiz-progress-answered')?.textContent).toBe('1');
+
+    el.querySelector<HTMLButtonElement>('.sl-quiz-progress-reset')?.click();
+
+    expect(el.querySelector('.sl-quiz-progress-answered')?.textContent).toBe('0');
+    expect(el.querySelector('.sl-quiz-progress-correct')?.textContent).toBe('0');
   });
 
   it('unsubscribes on disconnect', () => {
