@@ -18,6 +18,8 @@
     --slq-wrong: var(--sl-color-red, #b91c1c);
     --slq-wrong-bg: var(--sl-color-red-low, #fee2e2);
     --slq-wrong-high: var(--sl-color-red-high, #991b1b);
+    --slq-average: var(--sl-color-orange, #c2410c);
+    --slq-average-bg: var(--sl-color-orange-low, #ffedd5);
     --slq-text: var(--sl-color-text, #1f2937);
     --slq-bg: var(--sl-color-bg, #ffffff);
     --slq-surface: var(--sl-color-gray-6, #f3f4f6);
@@ -35,6 +37,7 @@
       --slq-correct-high: var(--sl-color-green-high, #86efac);
       --slq-wrong-bg: var(--sl-color-red-low, #450a0a);
       --slq-wrong-high: var(--sl-color-red-high, #fca5a5);
+      --slq-average-bg: var(--sl-color-orange-low, #431407);
       --slq-text: var(--sl-color-text, #e5e7eb);
       --slq-bg: var(--sl-color-bg, #0b0e14);
       --slq-surface: var(--sl-color-gray-6, #111827);
@@ -330,55 +333,71 @@
     text-align: center;
   }
 
-  .sl-quiz-results-progress-text {
+  /* In-progress state: a quiet, text-only summary (no bar). */
+  .sl-quiz-results-progress {
+    color: var(--slq-muted);
+  }
+
+  .sl-quiz-results-heading {
     margin: 0 0 0.5rem;
+    font-size: var(--sl-text-h4, 1.25rem);
     font-weight: 600;
+    color: var(--slq-text);
   }
 
-  .sl-quiz-results-bar {
-    height: 0.5rem;
-    background: var(--slq-border);
-    border-radius: 999px;
-    overflow: hidden;
+  .sl-quiz-results-stats,
+  .sl-quiz-results-correct-stats {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
   }
 
-  .sl-quiz-results-bar-fill {
-    display: block;
-    block-size: 100%;
-    inline-size: 0;
-    background: var(--slq-accent);
-    transition: inline-size 0.3s ease;
+  .sl-quiz-results-answered,
+  .sl-quiz-results-total,
+  .sl-quiz-results-percentage,
+  .sl-quiz-results-correct {
+    font-weight: 600;
+    color: var(--slq-text);
   }
 
+  /* Complete state: a bold, prominent score. */
   .sl-quiz-results-title {
     margin: 0;
-    font-weight: 600;
+    font-size: var(--sl-text-h3, 1.5rem);
+    font-weight: 700;
+    color: var(--slq-text);
   }
 
   .sl-quiz-results-score {
-    margin: 0.25rem 0;
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.1;
+    display: inline-block;
+    margin: 1.25rem 0;
+    padding: 0.5rem 1.25rem;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    border-radius: 12px;
   }
 
   .sl-quiz-results-complete--excellent .sl-quiz-results-score,
   .sl-quiz-results-complete--good .sl-quiz-results-score {
     color: var(--slq-correct);
+    background: var(--slq-correct-bg);
   }
 
-  .sl-quiz-results-complete--average .sl-quiz-results-score {
-    color: var(--sl-color-orange, #c2410c);
+  .sl-quiz-results-complete--average .sl-quiz-results-score,
+  .sl-quiz-results-complete--poor .sl-quiz-results-score {
+    color: var(--slq-average);
+    background: var(--slq-average-bg);
   }
 
-  .sl-quiz-results-complete--poor .sl-quiz-results-score,
   .sl-quiz-results-complete--fail .sl-quiz-results-score {
     color: var(--slq-wrong);
+    background: var(--slq-wrong-bg);
   }
 
   .sl-quiz-results-message {
     margin: 0 0 0.5rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 500;
   }
 
   .sl-quiz-results-detail {
@@ -452,6 +471,7 @@
   }
 
   .sl-quiz-progress-bar {
+    display: flex;
     height: 0.375rem;
     margin-block: 0.5rem;
     background: var(--slq-border);
@@ -459,12 +479,22 @@
     overflow: hidden;
   }
 
-  .sl-quiz-progress-bar-fill {
+  /* Two segments: correct (green) and incorrect (red), each sized as a
+     fraction of the total — matching mkdocs-quiz. */
+  .sl-quiz-progress-bar-incorrect,
+  .sl-quiz-progress-bar-correct {
     display: block;
     block-size: 100%;
     inline-size: 0;
-    background: var(--slq-accent);
     transition: inline-size 0.3s ease;
+  }
+
+  .sl-quiz-progress-bar-incorrect {
+    background: var(--slq-wrong);
+  }
+
+  .sl-quiz-progress-bar-correct {
+    background: var(--slq-correct);
   }
 
   .sl-quiz-progress-stats {
@@ -596,8 +626,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .sl-quiz-answer,
-    .sl-quiz-results-bar-fill,
-    .sl-quiz-progress-bar-fill,
+    .sl-quiz-progress-bar-incorrect,
+    .sl-quiz-progress-bar-correct,
     .sl-quiz-actions button {
       transition: none;
     }

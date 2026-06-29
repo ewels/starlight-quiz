@@ -20,7 +20,7 @@ function mount(): HTMLElement {
     <span class="sl-quiz-progress-answered">0</span>
     <span class="sl-quiz-progress-total">0</span>
     <span class="sl-quiz-progress-percentage">0%</span>
-    <div class="sl-quiz-progress-bar"><span class="sl-quiz-progress-bar-fill"></span></div>
+    <div class="sl-quiz-progress-bar"><span class="sl-quiz-progress-bar-incorrect"></span><span class="sl-quiz-progress-bar-correct"></span></div>
     <span class="sl-quiz-progress-correct">0</span>
     <span class="sl-quiz-progress-total">0</span>
     <span class="sl-quiz-progress-score">0%</span>
@@ -57,7 +57,9 @@ describe('sl-quiz-progress', () => {
     expect(el.querySelector('.sl-quiz-progress-correct')?.textContent).toBe('1');
     expect(el.querySelector('.sl-quiz-progress-percentage')?.textContent).toBe('100%');
     expect(el.querySelector('.sl-quiz-progress-score')?.textContent).toBe('50%');
-    expect((el.querySelector('.sl-quiz-progress-bar-fill') as HTMLElement).style.inlineSize).toBe('100%');
+    // One correct + one incorrect of two total: each segment fills half the bar.
+    expect((el.querySelector('.sl-quiz-progress-bar-correct') as HTMLElement).style.inlineSize).toBe('50%');
+    expect((el.querySelector('.sl-quiz-progress-bar-incorrect') as HTMLElement).style.inlineSize).toBe('50%');
   });
 
   it('sets both total spans (answered and correct lines) to the same count', () => {

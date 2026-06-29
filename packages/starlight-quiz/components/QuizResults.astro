@@ -30,8 +30,8 @@ const confetti = Astro.props.confetti ?? getQuizDefaults(Astro.locals).confetti;
 const t = getTranslate(Astro.locals);
 
 const title = resolveString('starlightQuiz.results.title', titleLabel, t);
-const progress = resolveString('starlightQuiz.results.progress', progressLabel, t);
-const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
+const progressHeading = resolveString('starlightQuiz.progressHeading', progressLabel, t);
+const questionsAnswered = resolveString('starlightQuiz.results.questionsAnswered', answeredLabel, t);
 const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
 const resetAll = resolveString('starlightQuiz.results.resetAll', resetLabel, t);
 const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
@@ -56,13 +56,14 @@ const messages = {
   data-msg-fail={messages.fail}
 >
   <div class="sl-quiz-results-progress">
-    <p class="sl-quiz-results-progress-text">
+    <p class="sl-quiz-results-heading">{progressHeading}</p>
+    <p class="sl-quiz-results-stats">
       <span class="sl-quiz-results-answered">0</span> / <span class="sl-quiz-results-total">0</span>
-      {' '}{answered}
+      {' '}{questionsAnswered}{' '}(<span class="sl-quiz-results-percentage">0%</span>)
     </p>
-    <div class="sl-quiz-results-bar" role="progressbar" aria-label={progress} aria-valuemin="0" aria-valuemax="100">
-      <span class="sl-quiz-results-bar-fill"></span>
-    </div>
+    <p class="sl-quiz-results-correct-stats">
+      <span class="sl-quiz-results-correct">0</span>{' '}{correct}
+    </p>
   </div>
 
   <div class="sl-quiz-results-complete" hidden>

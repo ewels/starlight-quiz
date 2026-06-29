@@ -51,9 +51,6 @@ class StarlightQuizResultsElement extends HTMLElement {
     this.#setText('.sl-quiz-results-correct', String(progress.correct));
     this.#setText('.sl-quiz-results-percentage', `${progress.percentage}%`);
 
-    const fill = this.querySelector<HTMLElement>('.sl-quiz-results-bar-fill');
-    if (fill) fill.style.inlineSize = `${progress.percentage}%`;
-
     const complete = isComplete(progress);
     const progressPanel = this.querySelector<HTMLElement>('.sl-quiz-results-progress');
     const completePanel = this.querySelector<HTMLElement>('.sl-quiz-results-complete');
@@ -67,7 +64,7 @@ class StarlightQuizResultsElement extends HTMLElement {
     this.#firstUpdate = false;
   }
 
-  #renderComplete(progress: QuizProgress, allowConfetti: boolean): void {
+  #renderComplete(progress: QuizProgress, liveUpdate: boolean): void {
     this.#setText('.sl-quiz-results-score-value', String(progress.score));
 
     const tier = tierForScore(progress.score);
@@ -78,16 +75,25 @@ class StarlightQuizResultsElement extends HTMLElement {
     }
     this.#setText('.sl-quiz-results-message', this.#messageForTier(tier));
 
-    if (
-      allowConfetti &&
-      !this.#wasComplete &&
-      this.dataset['confetti'] === 'true' &&
-      progress.score >= CONFETTI_MIN_SCORE
-    ) {
-      const reduced = prefersReducedMotion();
-      // Confetti is motion — skip it entirely when the user prefers reduced motion.
-      if (!reduced) void this.#fireConfetti();
-      this.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+    // Only react to a genuine in-session transition into completion (the last
+    // quiz was just submitted) — never on the initial baseline (e.g. a
+    // restored-on-load state) or repeat emits while already complete.
+    if (!liveUpdate || this.#wasComplete) return;
+
+    const reduced = prefersReducedMotion();
+
+    // Bring the results panel into view now that every quiz is answered. Defer
+    // to the next frame: the quiz that was just submitted records its result
+    // (which lands us here) *before* it reveals its per-answer feedback and
+    // post-answer explanation. Scrolling synchronously would aim at the panel's
+    // pre-reveal position and land short once that content grows the page.
+    const scrollToPanel = (): void => this.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(scrollToPanel);
+    else scrollToPanel();
+
+    // Confetti is motion — skip it entirely when the user prefers reduced motion.
+    if (!reduced && this.dataset['confetti'] === 'true' && progress.score >= CONFETTI_MIN_SCORE) {
+      void this.#fireConfetti();
     }
   }
 
@@ -98,7 +104,9 @@ class StarlightQuizResultsElement extends HTMLElement {
   async #fireConfetti(): Promise<void> {
     try {
       const { default: confetti } = await import('canvas-confetti');
-      confetti({ particleCount: 140, spread: 75, origin: { y: 0.6 } });
+      // 4x the particle count, a 2x-larger burst (wider spread, faster launch),
+      // and 1.5x-bigger pieces.
+      confetti({ particleCount: 560, spread: 150, startVelocity: 90, scalar: 1.5, origin: { y: 0.6 } });
     } catch {
       /* confetti is purely decorative — ignore load failures */
     }

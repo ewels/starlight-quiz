@@ -4,6 +4,13 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+### Changed
+
+- The table-of-contents progress bar now splits into a green (correct) and red (incorrect) segment, matching mkdocs-quiz, instead of a single accent-coloured fill.
+- The in-progress `<QuizResults>` panel now shows a text summary ("_N / M_ questions answered", "_N_ correct") instead of repeating the progress bar, matching mkdocs-quiz.
+- The completed `<QuizResults>` score is larger and sits in a tier-coloured background tile (green / orange / red) for more prominence.
+- Submitting the last quiz on a page now scrolls a `<QuizResults>` panel into view (previously this only happened when confetti fired, and could land off-target). The confetti burst is also larger.
+
 ## **Version 0.1.0** (2026-06-29)
 
 First public release.

@@ -7,7 +7,8 @@ import { getTracker } from '../lib/tracker';
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }));
 
 // jsdom does not implement scrollIntoView; the results panel calls it on completion.
-Element.prototype.scrollIntoView = () => {};
+const scrollIntoViewMock = vi.fn();
+Element.prototype.scrollIntoView = scrollIntoViewMock;
 
 defineQuizResultsElement();
 
@@ -18,6 +19,7 @@ function resetState(): void {
   localStorage.clear();
   delete (globalThis as Record<PropertyKey, unknown>)[TRACKER_KEY];
   confettiMock.mockClear();
+  scrollIntoViewMock.mockClear();
 }
 
 function mount(confettiEnabled: boolean): HTMLElement {
@@ -38,7 +40,11 @@ function mount(confettiEnabled: boolean): HTMLElement {
   return el;
 }
 
-beforeEach(() => {
+beforeEach(async () => {
+  // The panel defers its scroll to a rAF; let any frame scheduled by a prior
+  // test flush (harmlessly, on a now-detached element) before we clear the mock
+  // so each test sees only its own scroll calls.
+  await new Promise((resolve) => setTimeout(resolve, 20));
   document.body.innerHTML = '';
   resetState();
 });
@@ -54,6 +60,32 @@ describe('sl-quiz-results', () => {
     expect(el.querySelector('.sl-quiz-results-score-value')?.textContent).toBe('100');
     expect(el.querySelector('.sl-quiz-results-message')?.textContent).toBe('Outstanding!');
     expect(el.querySelector('.sl-quiz-results-complete')?.className).toContain('--excellent');
+  });
+
+  it('scrolls to the panel on completion even when confetti is disabled', async () => {
+    const el = mount(false);
+    const tracker = getTracker();
+    tracker.register('a'); // subscribed while incomplete -> baseline established
+    tracker.record('a', true, ['1']);
+    // The scroll is deferred to the next frame so the just-submitted quiz's
+    // revealed content is laid out first.
+    await vi.waitFor(() => expect(scrollIntoViewMock).toHaveBeenCalledTimes(1));
+    expect(scrollIntoViewMock.mock.contexts[0]).toBe(el);
+  });
+
+  it('does not scroll when restored already-complete on load', async () => {
+    const seed = getTracker();
+    seed.register('a');
+    seed.record('a', true, ['1']);
+    delete (globalThis as Record<PropertyKey, unknown>)[TRACKER_KEY];
+    scrollIntoViewMock.mockClear();
+
+    const tracker = getTracker();
+    tracker.register('a'); // restored from storage: complete on first emit
+    mount(false);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(scrollIntoViewMock).not.toHaveBeenCalled();
   });
 
   it('fires confetti on a genuine in-session completion', async () => {

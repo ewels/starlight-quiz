@@ -18,6 +18,7 @@ export const STRINGS = {
   'starlightQuiz.progressHeading': 'Quiz Progress',
   'starlightQuiz.results.badge': 'Quiz',
   'starlightQuiz.results.answered': 'answered',
+  'starlightQuiz.results.questionsAnswered': 'questions answered',
   'starlightQuiz.results.correct': 'correct',
   'starlightQuiz.results.resetAll': 'Reset all answers',
   'starlightQuiz.results.confirmReset': 'Reset every answer on this page? This cannot be undone.',

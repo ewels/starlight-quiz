@@ -38,8 +38,14 @@ class StarlightQuizProgressElement extends HTMLElement {
     this.#setText('.sl-quiz-progress-percentage', `${progress.percentage}%`);
     this.#setText('.sl-quiz-progress-score', `${progress.score}%`);
 
-    const fill = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-fill');
-    if (fill) fill.style.inlineSize = `${progress.percentage}%`;
+    // The bar splits into a correct (green) and an incorrect (red) segment,
+    // each sized as a fraction of the total — matching mkdocs-quiz.
+    const correctPercent = progress.total > 0 ? (progress.correct / progress.total) * 100 : 0;
+    const incorrectPercent = progress.total > 0 ? ((progress.answered - progress.correct) / progress.total) * 100 : 0;
+    const correctBar = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-correct');
+    if (correctBar) correctBar.style.inlineSize = `${correctPercent}%`;
+    const incorrectBar = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-incorrect');
+    if (incorrectBar) incorrectBar.style.inlineSize = `${incorrectPercent}%`;
 
     const bar = this.querySelector('.sl-quiz-progress-bar');
     if (bar) {
