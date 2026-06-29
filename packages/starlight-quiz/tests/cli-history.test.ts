@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { appendHistory, clearHistory, formatHistoryTable, readHistory } from '../lib/cli/history';
+import { appendHistory, clearHistory, formatHistoryTable, formatHistoryYaml, readHistory } from '../lib/cli/history';
 
 let dir: string;
 let previous: string | undefined;
@@ -52,5 +52,14 @@ describe('cli history', () => {
     expect(table).toContain('Date');
     expect(table).toContain('3/4');
     expect(table).toContain('75%');
+  });
+
+  it('formats YAML', () => {
+    expect(formatHistoryYaml([])).toBe('[]');
+    const yaml = formatHistoryYaml([entry(3)]);
+    expect(yaml).toContain('- date: "2026-06-29T00:00:00.000Z"');
+    expect(yaml).toContain('  source: "demo/"');
+    expect(yaml).toContain('  correct: 3');
+    expect(yaml).toContain('  score: 75');
   });
 });

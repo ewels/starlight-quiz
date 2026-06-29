@@ -4,7 +4,7 @@ import { createInterface } from 'node:readline/promises';
 import { parseArgs } from 'node:util';
 
 import { exportQti } from '../lib/cli/export.ts';
-import { appendHistory, clearHistory, formatHistoryTable, readHistory } from '../lib/cli/history.ts';
+import { appendHistory, clearHistory, formatHistoryTable, formatHistoryYaml, readHistory } from '../lib/cli/history.ts';
 import { loadManifest } from '../lib/cli/load.ts';
 import { runQuizzes, type RunnerIo } from '../lib/cli/run.ts';
 import type { QtiVersion } from '../lib/qti.ts';
@@ -56,18 +56,20 @@ function createLineReader(): { ask: (prompt: string) => Promise<string>; close: 
 const USAGE = `starlight-quiz — take or export quizzes from a manifest or a deployed site
 
 Usage:
-  starlight-quiz run <source> [--shuffle] [--filename quiz-manifest.json]
+  starlight-quiz run <source> [--shuffle] [--shuffle-answers] [--page <substr>] [--filename quiz-manifest.json]
   starlight-quiz export-qti <source> --out <dir> [--version 2.1] [--filename ...]
-  starlight-quiz history [--json] [--clear]
+  starlight-quiz history [--json | --yaml] [--clear]
 
 <source> is a local manifest JSON file, a directory containing one, or the URL
 of a deployed site (its manifest is fetched, falling back to scraping the page).
 
 run options:
-  --shuffle   Randomise quiz order and the answer order within each quiz.
+  --shuffle          Randomise quiz order and the answer order within each quiz.
+  --shuffle-answers  Randomise only the answer order within each quiz.
+  --page <substr>    Only run quizzes whose page path contains <substr>.
 
-history shows past CLI runs (most recent last); --json prints raw JSON and
---clear deletes the saved history.`;
+history shows past CLI runs (most recent last); --json / --yaml print raw data
+and --clear deletes the saved history.`;
 
 async function main(): Promise<number> {
   const [command, ...rest] = argv.slice(2);
@@ -81,7 +83,12 @@ async function main(): Promise<number> {
     const { positionals, values } = parseArgs({
       args: rest,
       allowPositionals: true,
-      options: { filename: { type: 'string' }, shuffle: { type: 'boolean' } },
+      options: {
+        filename: { type: 'string' },
+        shuffle: { type: 'boolean' },
+        'shuffle-answers': { type: 'boolean' },
+        page: { type: 'string' },
+      },
     });
     const source = positionals[0];
     if (!source) {
@@ -89,8 +96,15 @@ async function main(): Promise<number> {
       return 1;
     }
     const manifest = await loadManifest(source, values.filename);
-    if (values.shuffle) {
-      shuffle(manifest.quizzes);
+    if (values.page) {
+      manifest.quizzes = manifest.quizzes.filter((quiz) => quiz.page.includes(values.page!));
+      if (manifest.quizzes.length === 0) {
+        stdout.write(`No quizzes on a page matching "${values.page}".\n`);
+        return 1;
+      }
+    }
+    if (values.shuffle) shuffle(manifest.quizzes);
+    if (values.shuffle || values['shuffle-answers']) {
       for (const quiz of manifest.quizzes) if (quiz.answers) shuffle(quiz.answers);
     }
     const reader = createLineReader();
@@ -107,14 +121,22 @@ async function main(): Promise<number> {
   }
 
   if (command === 'history') {
-    const { values } = parseArgs({ args: rest, options: { json: { type: 'boolean' }, clear: { type: 'boolean' } } });
+    const { values } = parseArgs({
+      args: rest,
+      options: { json: { type: 'boolean' }, yaml: { type: 'boolean' }, clear: { type: 'boolean' } },
+    });
     if (values.clear) {
       await clearHistory();
       stdout.write('Cleared quiz history.\n');
       return 0;
     }
     const history = await readHistory();
-    stdout.write((values.json ? JSON.stringify(history, null, 2) : formatHistoryTable(history)) + '\n');
+    const out = values.json
+      ? JSON.stringify(history, null, 2)
+      : values.yaml
+        ? formatHistoryYaml(history)
+        : formatHistoryTable(history);
+    stdout.write(out + '\n');
     return 0;
   }
 

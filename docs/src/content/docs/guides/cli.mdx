@@ -27,10 +27,12 @@ npx starlight-quiz run https://my-docs.example.com
 The runner presents each question, grades your answers, reveals the correct ones when you are wrong, and prints a final
 score with a tier message. If a site has no manifest, the CLI falls back to scraping the page's HTML.
 
-Add `--shuffle` to randomise the quiz order and the answer order within each quiz:
+Add `--shuffle` to randomise the quiz order and the answer order within each quiz, or `--shuffle-answers` to randomise
+only the answers. Use `--page <substr>` to take just the quizzes whose page path contains a string:
 
 ```sh
 npx starlight-quiz run ./dist --shuffle
+npx starlight-quiz run ./dist --page /guides/multiple-choice/
 ```
 
 ## History
@@ -40,6 +42,7 @@ Every run is recorded to `~/.local/share/starlight-quiz/history.json` (honouring
 ```sh
 npx starlight-quiz history          # a table of past runs
 npx starlight-quiz history --json   # the raw JSON
+npx starlight-quiz history --yaml   # the same as YAML
 npx starlight-quiz history --clear  # wipe it
 ```
 
@@ -64,10 +67,12 @@ all supported.
 
 | Command           | Argument / flag      | Description                                               |
 | ----------------- | -------------------- | --------------------------------------------------------- |
-| `run`             | `<source>`           | A manifest file, a directory containing one, or a site URL. |
-| `run`             | `--shuffle`          | Randomise quiz and answer order.                          |
-| `run`             | `--filename`         | Manifest filename (default `quiz-manifest.json`).         |
-| `export-qti`      | `<source>`           | As above.                                                 |
-| `export-qti`      | `--out`              | Output directory (default `qti`).                         |
-| `export-qti`      | `--version`          | `2.1` (default) or `1.2`.                                 |
-| `history`         | `--json` · `--clear` | Print past runs as JSON · delete the saved history.       |
+| `run`             | `<source>`            | A manifest file, a directory containing one, or a site URL. |
+| `run`             | `--shuffle`           | Randomise quiz and answer order.                          |
+| `run`             | `--shuffle-answers`   | Randomise only the answer order within each quiz.         |
+| `run`             | `--page <substr>`     | Only run quizzes whose page path contains `<substr>`.     |
+| `run`             | `--filename`          | Manifest filename (default `quiz-manifest.json`).         |
+| `export-qti`      | `<source>`            | As above.                                                 |
+| `export-qti`      | `--out`               | Output directory (default `qti`).                         |
+| `export-qti`      | `--version`           | `2.1` (default) or `1.2`.                                 |
+| `history`         | `--json` · `--yaml` · `--clear` | Print past runs as JSON · as YAML · delete the saved history. |

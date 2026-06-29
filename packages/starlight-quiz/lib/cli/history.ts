@@ -62,3 +62,19 @@ export function formatHistoryTable(entries: HistoryEntry[]): string {
       .trimEnd();
   return [line(headers), widths.map((w) => '─'.repeat(w)).join('  '), ...rows.map(line)].join('\n');
 }
+
+/** Render history as YAML (a list of flat maps). JSON-quoted scalars are valid YAML. */
+export function formatHistoryYaml(entries: HistoryEntry[]): string {
+  if (entries.length === 0) return '[]';
+  return entries
+    .map((e) =>
+      [
+        `- date: ${JSON.stringify(e.date)}`,
+        `  source: ${JSON.stringify(e.source)}`,
+        `  total: ${e.total}`,
+        `  correct: ${e.correct}`,
+        `  score: ${e.score}`,
+      ].join('\n'),
+    )
+    .join('\n');
+}
