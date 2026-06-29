@@ -46,6 +46,7 @@ export default defineConfig({
           label: 'Reference',
           items: [
             { label: 'Configuration', slug: 'guides/configuration' },
+            { label: 'Custom CSS', slug: 'guides/custom-css' },
             { label: 'Translations', slug: 'guides/translations' },
             { label: 'Command-line tools', slug: 'guides/cli' },
           ],

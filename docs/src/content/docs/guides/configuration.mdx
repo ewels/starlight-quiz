@@ -159,26 +159,9 @@ variant of this widget and isn't a separate public component.)
 
 ## Custom styling
 
-All quiz styles live in a low-priority `@layer starlight-quiz`, so any unlayered CSS you write wins without
-`!important`. The theme is driven by CSS custom properties you can override on `:root` (or a scope):
-
-| Variable                                       | Purpose                                  |
-| ---------------------------------------------- | ---------------------------------------- |
-| `--slq-accent`                                 | Accent (radio bullet, progress bar fill) |
-| `--slq-text` · `--slq-muted`                   | Body text · secondary text               |
-| `--slq-bg` · `--slq-surface` · `--slq-border`  | Background · panel surface · borders      |
-| `--slq-correct` / `--slq-correct-bg` / `--slq-correct-high` | Correct-answer colours      |
-| `--slq-wrong` / `--slq-wrong-bg` / `--slq-wrong-high`       | Wrong-answer colours        |
-| `--slq-radius`                                 | Corner radius                            |
-
-```css title="custom.css"
-:root {
-  --slq-accent: #490086;
-  --slq-radius: 0.25rem;
-}
-```
-
-These default to Starlight's own colour tokens, so quizzes follow your site theme (including dark mode) out of the box.
+Quizzes are themed with CSS custom properties (`--slq-accent`, `--slq-radius` and more) that default to your Starlight
+colour tokens, so they follow your site theme out of the box, and every element carries a stable class name you can
+target. See [Custom CSS](/starlight-quiz/guides/custom-css/) for the full variable reference and class hooks.
 
 ## Internationalisation
 

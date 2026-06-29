@@ -1,0 +1,110 @@
+---
+title: Custom CSS
+description: Theme quizzes with CSS variables and style individual parts via stable class names.
+---
+
+Quizzes ship with a small theme that follows your site colours out of the box. You can retune it with a handful of CSS
+custom properties, or target individual elements directly through stable class names.
+
+## How the styles are layered
+
+All of the bundled CSS lives in a low-priority cascade layer:
+
+```css
+@layer starlight-quiz {
+  /* every bundled rule */
+}
+```
+
+Unlayered CSS always beats layered CSS, regardless of specificity. So any rule **you** write (which is unlayered unless
+you opt into a layer) wins over the bundled styles without needing `!important`, even a low-specificity selector like
+`:root`. This is what makes the variable overrides below work.
+
+## Theme variables
+
+The theme is driven by these `--slq-*` custom properties. Each one falls back to the matching Starlight colour token, and
+then to a built-in default for plain Astro projects (with a dark-mode variant via `prefers-color-scheme`):
+
+| Variable             | Purpose                                   | Falls back to                  |
+| -------------------- | ----------------------------------------- | ------------------------------ |
+| `--slq-accent`       | Radio bullet, progress-bar fill, focus    | `--sl-color-accent`            |
+| `--slq-text`         | Body text                                 | `--sl-color-text`              |
+| `--slq-muted`        | Secondary / muted text                    | `--sl-color-gray-3`            |
+| `--slq-bg`           | Quiz background                           | `--sl-color-bg`                |
+| `--slq-surface`      | Panel surface (results, progress, intro)  | `--sl-color-gray-6`            |
+| `--slq-border`       | Borders                                   | `--sl-color-gray-5`            |
+| `--slq-correct`      | Correct-answer text / marker              | `--sl-color-green`             |
+| `--slq-correct-bg`   | Correct-answer background                 | `--sl-color-green-low`         |
+| `--slq-correct-high` | Correct-answer emphasis                   | `--sl-color-green-high`        |
+| `--slq-wrong`        | Wrong-answer text / marker                | `--sl-color-red`               |
+| `--slq-wrong-bg`     | Wrong-answer background                   | `--sl-color-red-low`           |
+| `--slq-wrong-high`   | Wrong-answer emphasis                     | `--sl-color-red-high`          |
+| `--slq-radius`       | Corner radius                             | `0.5rem`                       |
+
+Because they resolve to Starlight's own tokens, quizzes inherit your site theme (including dark mode) with no
+configuration. The variables are declared on the quiz, results, progress and intro roots, so they cascade to everything
+inside each component.
+
+## Overriding the variables
+
+Set any of them in your own stylesheet. On `:root` they apply site-wide:
+
+```css title="custom.css"
+:root {
+  --slq-accent: #490086;
+  --slq-radius: 0.25rem;
+}
+```
+
+In a Starlight project, add the file to `customCss` in `astro.config.mjs`; in plain Astro, import it wherever you import
+`starlight-quiz/styles`.
+
+To restyle only some quizzes, scope the override to a wrapper or to the quiz root:
+
+```css title="custom.css"
+/* Only quizzes inside an element with this class */
+.exam .sl-quiz {
+  --slq-accent: #b91c1c;
+  --slq-radius: 0;
+}
+```
+
+## Styling individual elements
+
+For anything the variables don't cover, target the elements directly. Every part of a quiz carries a stable
+`sl-quiz-*` class, and stateful parts gain a `--correct` / `--wrong` modifier after submitting. The most useful hooks:
+
+| Class                                   | Element                                                   |
+| --------------------------------------- | --------------------------------------------------------- |
+| `.sl-quiz`                              | The quiz container (the bordered card)                    |
+| `.sl-quiz-number`                       | The auto-numbered "Question N" label                      |
+| `.sl-quiz-title`                        | The quiz title heading                                    |
+| `.sl-quiz-question`                     | The question text                                         |
+| `.sl-quiz-fieldset`                     | The group wrapping the answers                            |
+| `.sl-quiz-answer`                       | A single answer (gains `--correct` / `--wrong`)           |
+| `.sl-quiz-answer-feedback`              | Per-answer feedback text                                  |
+| `.sl-quiz-blank`                        | A fill-in-the-blank input (gains `--correct` / `--wrong`) |
+| `.sl-quiz-feedback`                     | The overall result message (gains `--correct` / `--wrong`)|
+| `.sl-quiz-corrections`                  | The correct answers shown after a wrong submission        |
+| `.sl-quiz-content`                      | The explanation section revealed after submitting         |
+| `.sl-quiz-actions` · `.sl-quiz-reset`   | The button row · the reset button                         |
+| `.sl-quiz-results`                      | The results panel (tier modifier `--excellent` … `--fail`)|
+| `.sl-quiz-progress`                     | The progress widget (`--mobile` in the mobile ToC bar)    |
+| `.sl-quiz-intro`                        | The intro panel                                           |
+
+For example, to square off answer rows and thicken the correct-answer border:
+
+```css title="custom.css"
+.sl-quiz-answer {
+  border-radius: 0;
+}
+.sl-quiz-answer--correct {
+  border-inline-start: 3px solid var(--slq-correct);
+}
+```
+
+:::caution[Don't style `.sl-quiz-source`]
+Each quiz keeps its original rendered markdown in a hidden `.sl-quiz-source` element that the component reads at
+runtime. It is an implementation detail, not a styling target. Class names other than those listed above may change
+between releases.
+:::
