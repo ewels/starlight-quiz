@@ -206,8 +206,11 @@
   .sl-quiz-feedback {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    margin-top: 1.25rem;
+    gap: 1rem;
+    /* `padding`, not `margin`: Starlight's reset layer zeroes margins here and
+       outranks this layer. The top space lets the first box's badge (which
+       overhangs the top edge) clear the answers above it. */
+    padding-top: 1.75rem;
   }
 
   .sl-quiz-feedback:focus-visible {
