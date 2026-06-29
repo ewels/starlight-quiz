@@ -53,6 +53,70 @@ console.log(xs.map((x) => x * 2));
 </TabItem>
 </Tabs>
 
+## Code block features
+
+Code blocks in a quiz are rendered by [Expressive Code](https://expressive-code.com/), so the full meta-string syntax
+works inside a quiz too — a filename `title`, highlighted lines (`{2}`), and `ins`/`del` diff markers:
+
+<Tabs>
+<TabItem label="Preview">
+
+<Quiz id="adv-eccode">
+This refactor introduced a bug. Which highlighted change causes it?
+
+```js title="cart.js" {2} del={4} ins={5}
+function total(items) {
+  let sum = 0;
+  for (const item of items) {
+    sum += item;
+    sum += item.price;
+  }
+  return sum;
+}
+```
+
+- [x] The inserted line should read `item.price`, not the removed `item`
+- [ ] The highlighted initialiser
+- [ ] The loop header
+
+</Quiz>
+
+</TabItem>
+<TabItem label="Source">
+
+`````mdx title="quiz.mdx"
+<Quiz>
+This refactor introduced a bug. Which highlighted change causes it?
+
+```js title="cart.js" {2} del={4} ins={5}
+function total(items) {
+  let sum = 0;
+  for (const item of items) {
+    sum += item;
+    sum += item.price;
+  }
+  return sum;
+}
+```
+
+- [x] The inserted line should read `item.price`, not the removed `item`
+- [ ] The highlighted initialiser
+- [ ] The loop header
+</Quiz>
+`````
+
+</TabItem>
+</Tabs>
+
+You can also give a marker a [label on its own line](https://expressive-code.com/key-features/text-markers/#adding-long-labels-on-their-own-lines)
+with the `{"label":line}` syntax — handy for walking through an answer in the content section:
+
+````md
+```js {"This runs first — the accumulator starts at zero:":1}
+let sum = 0;
+```
+````
+
 ## Rich content section
 
 The content section revealed after submitting can hold headings, lists, tables and more:
