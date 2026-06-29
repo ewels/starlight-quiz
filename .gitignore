@@ -5,6 +5,9 @@ node_modules/
 dist/
 .astro/
 
+# Generated from the repo-root CHANGELOG.md by docs/scripts/sync-changelog.mjs
+docs/src/content/docs/guides/changelog.md
+
 # Astro / Vite caches
 .vite/
 
