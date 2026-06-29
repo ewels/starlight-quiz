@@ -79,7 +79,7 @@ On `astro:build:done` the generated HTML is parsed with `node-html-parser`:
 
 ### i18n
 
-`lib/strings.ts` holds the English strings (the single source of truth and the vanilla-Astro fallback). `translations.ts` mirrors those keys per locale (en/fr/de/es) and is injected via Starlight's `i18n:setup`. Components resolve each label through `resolveString` — translation table when under Starlight, explicit prop override otherwise.
+`lib/strings.ts` holds the English strings (the single source of truth and the vanilla-Astro fallback). `translations.ts` is **generated** — `scripts/build-i18n.ts` compiles the gettext `.po` files in `locales/` (copied verbatim from mkdocs-quiz so the sibling plugins share one translation set) into per-locale tables, mapping each namespaced key to the corresponding mkdocs msgid. It ships 13 locales; each table overlays only the keys it translates, with Starlight/`resolveString` falling back to English. After editing a `.po` file, run `pnpm --filter starlight-quiz gen:i18n` and commit the regenerated `translations.ts`. Strings with no mkdocs counterpart keep hand-written translations in the generator's `CURATED` map. The result is injected via Starlight's `i18n:setup`; components resolve each label through `resolveString` — translation table when under Starlight, explicit prop override otherwise.
 
 ### Two runtime contexts for `lib/` code
 

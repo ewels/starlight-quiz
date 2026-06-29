@@ -52,6 +52,7 @@
   ],
   "scripts": {
     "prepack": "cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
+    "gen:i18n": "node --experimental-strip-types scripts/build-i18n.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

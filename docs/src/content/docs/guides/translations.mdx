@@ -1,0 +1,78 @@
+---
+title: Translations
+description: Built-in locales, how labels resolve, and overriding text per quiz.
+---
+
+import { Quiz } from 'starlight-quiz/components';
+
+Every user-facing string — buttons, feedback, the results panel, the score messages — is translatable. Under Starlight
+the right locale is chosen automatically; outside Starlight you pass labels as props.
+
+## Built-in locales
+
+Starlight Quiz ships translations for **13 languages**, shared verbatim with its sibling
+[mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) via the same gettext `.po` files:
+
+| Code    | Language              | Code    | Language               |
+| ------- | --------------------- | ------- | ---------------------- |
+| `en`    | English (source)      | `ja`    | Japanese               |
+| `de`    | German                | `ko`    | Korean                 |
+| `eo`    | Esperanto             | `no`    | Norwegian              |
+| `es`    | Spanish               | `pt-br` | Portuguese (Brazilian) |
+| `fr`    | French                | `sv`    | Swedish                |
+| `hi`    | Hindi                 | `zh`    | Chinese (Simplified)   |
+| `id`    | Indonesian            |         |                        |
+
+When the plugin is installed, these are injected into Starlight's i18n. A quiz on a page served under a configured
+locale (e.g. `/fr/…`) picks up that locale's strings automatically — you don't pass anything. Strings a locale hasn't
+translated fall back to English.
+
+## How a label is resolved
+
+Each label is resolved in this order — the first that exists wins:
+
+1. An **explicit prop** (or, for `<QuizIntro>`, slot content) on the component.
+2. The **Starlight translation** for the current locale.
+3. The bundled **English** default.
+
+This is what lets the same component work translated inside Starlight and with explicit labels in a plain Astro
+project.
+
+## Overriding text per quiz
+
+Any string can be overridden per instance — handy for custom wording or when you're outside Starlight. See the
+[`<Quiz>`](/starlight-quiz/guides/configuration/#quiz-props), [`<QuizResults>`](/starlight-quiz/guides/configuration/#quizresults-props)
+and [`<QuizIntro>`](/starlight-quiz/guides/configuration/#quizintro-props) prop tables for every label.
+
+```mdx title="quiz.mdx"
+<Quiz submitLabel="Check answer" correctLabel="Spot on!" incorrectLabel="Not quite…">
+Is the sky blue?
+
+- [x] Yes
+- [ ] No
+</Quiz>
+```
+
+<Quiz id="translations-demo" submitLabel="Check answer" correctLabel="Spot on!" incorrectLabel="Not quite…" autoSubmit={false}>
+Is the sky blue?
+
+- [x] Yes
+- [ ] No
+
+</Quiz>
+
+## Outside Starlight
+
+In a plain Astro project there is no translation function, so only steps 1 and 3 above apply: pass label props for any
+text you want changed, otherwise you get English. See [Vanilla Astro](/starlight-quiz/guides/vanilla-astro/).
+
+## Adding or updating a language
+
+Translations live in `.po` files under `packages/starlight-quiz/locales/`, copied from mkdocs-quiz so the two plugins
+stay in sync. To add or edit a language, edit its `.po` file and regenerate the tables:
+
+```sh
+pnpm --filter starlight-quiz gen:i18n
+```
+
+See [Contributing](/starlight-quiz/guides/contributing/) for the full workflow.
