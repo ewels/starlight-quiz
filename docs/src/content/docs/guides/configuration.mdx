@@ -48,7 +48,27 @@ smart bracket pasted from an editor — is rendered by markdown as plain text an
 Rather than dropping it, the build stops with an error naming the page, the quiz and the offending text. Set to `false`
 to ignore such items instead.
 
+### `quizDefaults`
+
+**Type:** `Partial<{ autoSubmit; disableAfterSubmit; showCorrect; shuffle; confetti }>` · **Default:** all `true`
+except `shuffle`
+
+Site-wide defaults for quiz behaviour, applied to every `<Quiz>` and `<QuizResults>` that doesn't set the matching
+prop itself — so you can change behaviour everywhere without editing each quiz. An explicit prop on a component always
+wins.
+
+```js title="astro.config.mjs"
+starlightQuiz({
+  quizDefaults: {
+    confetti: false, // no confetti anywhere
+    autoSubmit: false, // always show a Submit button
+  },
+});
+```
+
 ## `<Quiz>` props
+
+Each behaviour prop falls back to the [`quizDefaults`](#quizdefaults) plugin option, then to the built-in default below.
 
 | Prop                 | Type      | Default | Description                                                  |
 | -------------------- | --------- | ------- | ------------------------------------------------------------ |

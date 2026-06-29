@@ -1,6 +1,8 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 
 import { quizManifestIntegration, quizValidationIntegration } from './integration';
+import { DEFAULT_QUIZ_DEFAULTS, type QuizDefaults } from './lib/config';
+import { quizConfigIntegration } from './libs/config-integration';
 import { overrideStarlightComponent } from './libs/starlight';
 import { Translations } from './translations';
 
@@ -40,6 +42,15 @@ export interface StarlightQuizOptions {
    * @default true
    */
   validate?: boolean;
+  /**
+   * Site-wide defaults for quiz behaviour, applied to every `<Quiz>` and
+   * `<QuizResults>` that doesn't set the matching prop itself. Lets you, for
+   * example, turn confetti off or switch to manual submit everywhere without
+   * touching each quiz.
+   *
+   * @default { autoSubmit: true, disableAfterSubmit: true, showCorrect: true, shuffle: false, confetti: true }
+   */
+  quizDefaults?: Partial<QuizDefaults>;
 }
 
 /**
@@ -51,6 +62,7 @@ export interface StarlightQuizOptions {
  */
 export default function starlightQuiz(options: StarlightQuizOptions = {}): StarlightPlugin {
   const { injectStyles = true, progressTracker = true, manifest = false, validate = true } = options;
+  const quizDefaults: QuizDefaults = { ...DEFAULT_QUIZ_DEFAULTS, ...options.quizDefaults };
 
   return {
     name: 'starlight-quiz',
@@ -59,6 +71,8 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
         injectTranslations(Translations);
       },
       'config:setup'({ addIntegration, config, logger, updateConfig }) {
+        addIntegration(quizConfigIntegration(quizDefaults));
+
         if (validate) {
           addIntegration(quizValidationIntegration());
         }

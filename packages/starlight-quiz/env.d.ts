@@ -7,3 +7,8 @@ declare namespace StarlightApp {
   type QuizTranslations = typeof import('./lib/strings').STRINGS;
   interface I18n extends QuizTranslations {}
 }
+
+// The virtual module the plugin's middleware reads the site-wide defaults from.
+declare module 'virtual:starlight-quiz-config' {
+  export const quizDefaults: import('./lib/config').QuizDefaults;
+}

@@ -1,4 +1,5 @@
 ---
+import { getQuizDefaults } from '../lib/config';
 import { getTranslate, resolveString } from '../lib/i18n';
 
 interface Props {
@@ -6,7 +7,8 @@ interface Props {
   class?: string;
   /**
    * Fire confetti on a first-time, in-session completion (score ≥ 10%).
-   * On by default — pass `confetti={false}` to disable.
+   * On by default — pass `confetti={false}` to disable (or set the
+   * `quizDefaults.confetti` plugin option site-wide).
    */
   confetti?: boolean;
   /** Override the panel title. */
@@ -21,15 +23,9 @@ interface Props {
   resetLabel?: string;
 }
 
-const {
-  class: className,
-  confetti = true,
-  titleLabel,
-  progressLabel,
-  answeredLabel,
-  correctLabel,
-  resetLabel,
-} = Astro.props;
+const { class: className, titleLabel, progressLabel, answeredLabel, correctLabel, resetLabel } = Astro.props;
+
+const confetti = Astro.props.confetti ?? getQuizDefaults(Astro.locals).confetti;
 
 const t = getTranslate(Astro.locals);
 
