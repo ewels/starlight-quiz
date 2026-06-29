@@ -48,7 +48,8 @@ export default defineConfig({
           items: [
             { label: 'Configuration', slug: 'guides/configuration' },
             { label: 'Custom CSS', slug: 'guides/custom-css' },
-            { label: 'Command-line tools', slug: 'guides/cli' },
+            { label: 'Terminal runner', slug: 'guides/cli' },
+            { label: 'QTI export', slug: 'guides/qti-export' },
           ],
         },
         {

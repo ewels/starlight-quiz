@@ -1,0 +1,75 @@
+---
+title: QTI export
+description: Export your quizzes to QTI for import into Canvas, Moodle, Blackboard and other LMS platforms.
+---
+
+Already writing quizzes in your docs? You can reuse them in a Learning Management System (LMS) instead of rebuilding
+them by hand. The `export-qti` command turns every quiz on your site into [QTI](https://www.imsglobal.org/question/index.html)
+(Question & Test Interoperability), the standard interchange format that Canvas, Moodle, Blackboard, D2L Brightspace
+and most other platforms can import.
+
+## The quiz manifest
+
+Like the [terminal runner](/starlight-quiz/guides/cli/), the exporter reads a **quiz manifest**, never your MDX. The
+manifest is a single `quiz-manifest.json` file describing every quiz on your site (question, answers, which are
+correct, page path). Enable it in the plugin:
+
+```js title="astro.config.mjs"
+starlight({ plugins: [starlightQuiz({ manifest: true })] });
+```
+
+It is written to your build output (`dist/quiz-manifest.json`) by parsing the generated HTML, so you have to **build**
+the site first (`npx astro build`); it is not produced by the dev server. See
+[Configuration](/starlight-quiz/guides/configuration/#manifest) for the option, and the
+[CLI guide](/starlight-quiz/guides/cli/#the-quiz-manifest) for more on what the manifest is.
+
+## Export
+
+Point `export-qti` at a local build directory (or the manifest file), and choose an output directory:
+
+```sh
+# QTI 2.1 (the default)
+npx starlight-quiz export-qti ./dist --out ./qti
+```
+
+```text title="output"
+Wrote 28 file(s) to ./qti/
+```
+
+That writes one XML assessment item per quiz, plus an `imsmanifest.xml` index, into the output directory:
+
+```text title="./qti/"
+imsmanifest.xml        ← the package index
+demo-single.xml        ← one item per quiz, named by its id
+demo-multiple.xml
+blank-single.xml
+…
+```
+
+Single-choice, multiple-choice and fill-in-the-blank questions are all supported.
+
+## Import into your LMS
+
+The output directory is an unzipped **IMS Content Package**. To import it:
+
+1. **Zip the output directory** so `imsmanifest.xml` sits at the root of the archive.
+2. In your LMS, import it as a QTI / IMS content package (for example Canvas: _Settings → Import Course Content → QTI
+   .zip file_).
+
+:::tip[Which QTI version?]
+Most current platforms accept **QTI 2.1** (the default). Some older Moodle and Blackboard installs need the legacy
+**1.2** format:
+
+```sh
+npx starlight-quiz export-qti ./dist --version 1.2 --out ./qti
+```
+:::
+
+## Options
+
+| Flag         | Description                                      |
+| ------------ | ------------------------------------------------ |
+| `<source>`   | A manifest file, a directory containing one, or a deployed site URL. |
+| `--out`      | Output directory (default `qti`).                |
+| `--version`  | `2.1` (default) or `1.2`.                        |
+| `--filename` | Manifest filename to look for (default `quiz-manifest.json`). |
