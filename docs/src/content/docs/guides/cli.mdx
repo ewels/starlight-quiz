@@ -14,12 +14,13 @@ quiz on your site, with each question, its answers and which are correct. The pl
 usually nothing to set up. (Opt out or rename it with the [`manifest`](/starlight-quiz/guides/configuration/#manifest)
 option.)
 
-The manifest is generated **at build time** by parsing the built HTML, so:
+The manifest is built from your rendered pages, so it is available wherever the site runs:
 
 - On a deployed site it sits at the root alongside your pages (e.g. `https://your-docs.example/quiz-manifest.json`), so
   the CLI can fetch it straight from the URL.
-- It is part of the **built** site, not the dev server, which is why you won't find it while running `astro dev`. To
-  work against a local copy, build the site first (`npx astro build`).
+- The dev server serves it too, generated on the fly at the same path (e.g.
+  `http://localhost:4321/quiz-manifest.json`), so you can point the CLI at your local dev site.
+- A production build writes it to disk as a static file in your output directory.
 
 ## Take a quiz
 

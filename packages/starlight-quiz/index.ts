@@ -32,10 +32,10 @@ export interface StarlightQuizOptions {
    */
   progressPosition?: ProgressPosition;
   /**
-   * Emit a structured JSON manifest of every quiz to the build output, for the
-   * QTI exporter and terminal runner to consume. Enabled by default; set to
-   * `false` to opt out, or pass a string to choose the filename (defaults to
-   * `quiz-manifest.json`).
+   * Emit a structured JSON manifest of every quiz, for the QTI exporter and
+   * terminal runner to consume. Written to the build output, and served by the
+   * dev server at the same path. Enabled by default; set to `false` to opt out,
+   * or pass a string to choose the filename (defaults to `quiz-manifest.json`).
    *
    * @default true
    */
