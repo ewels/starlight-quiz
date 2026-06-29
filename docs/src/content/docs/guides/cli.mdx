@@ -27,6 +27,22 @@ npx starlight-quiz run https://my-docs.example.com
 The runner presents each question, grades your answers, reveals the correct ones when you are wrong, and prints a final
 score with a tier message. If a site has no manifest, the CLI falls back to scraping the page's HTML.
 
+Add `--shuffle` to randomise the quiz order and the answer order within each quiz:
+
+```sh
+npx starlight-quiz run ./dist --shuffle
+```
+
+## History
+
+Every run is recorded to `~/.local/share/starlight-quiz/history.json` (honouring `XDG_DATA_HOME`). Review or clear it:
+
+```sh
+npx starlight-quiz history          # a table of past runs
+npx starlight-quiz history --json   # the raw JSON
+npx starlight-quiz history --clear  # wipe it
+```
+
 ## Export to QTI for an LMS
 
 Export every quiz as [QTI](https://www.imsglobal.org/question/index.html) assessment items — the interchange format
@@ -49,7 +65,9 @@ all supported.
 | Command           | Argument / flag      | Description                                               |
 | ----------------- | -------------------- | --------------------------------------------------------- |
 | `run`             | `<source>`           | A manifest file, a directory containing one, or a site URL. |
+| `run`             | `--shuffle`          | Randomise quiz and answer order.                          |
 | `run`             | `--filename`         | Manifest filename (default `quiz-manifest.json`).         |
 | `export-qti`      | `<source>`           | As above.                                                 |
 | `export-qti`      | `--out`              | Output directory (default `qti`).                         |
 | `export-qti`      | `--version`          | `2.1` (default) or `1.2`.                                 |
+| `history`         | `--json` · `--clear` | Print past runs as JSON · delete the saved history.       |

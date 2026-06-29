@@ -4,9 +4,11 @@ import { createInterface } from 'node:readline/promises';
 import { parseArgs } from 'node:util';
 
 import { exportQti } from '../lib/cli/export.ts';
+import { appendHistory, clearHistory, formatHistoryTable, readHistory } from '../lib/cli/history.ts';
 import { loadManifest } from '../lib/cli/load.ts';
 import { runQuizzes, type RunnerIo } from '../lib/cli/run.ts';
 import type { QtiVersion } from '../lib/qti.ts';
+import { shuffle } from '../lib/shuffle.ts';
 
 /**
  * A line reader that buffers every line as it arrives, so it works equally for
@@ -54,11 +56,18 @@ function createLineReader(): { ask: (prompt: string) => Promise<string>; close: 
 const USAGE = `starlight-quiz — take or export quizzes from a manifest or a deployed site
 
 Usage:
-  starlight-quiz run <source> [--filename quiz-manifest.json]
+  starlight-quiz run <source> [--shuffle] [--filename quiz-manifest.json]
   starlight-quiz export-qti <source> --out <dir> [--version 2.1] [--filename ...]
+  starlight-quiz history [--json] [--clear]
 
 <source> is a local manifest JSON file, a directory containing one, or the URL
-of a deployed site (its manifest is fetched, falling back to scraping the page).`;
+of a deployed site (its manifest is fetched, falling back to scraping the page).
+
+run options:
+  --shuffle   Randomise quiz order and the answer order within each quiz.
+
+history shows past CLI runs (most recent last); --json prints raw JSON and
+--clear deletes the saved history.`;
 
 async function main(): Promise<number> {
   const [command, ...rest] = argv.slice(2);
@@ -72,7 +81,7 @@ async function main(): Promise<number> {
     const { positionals, values } = parseArgs({
       args: rest,
       allowPositionals: true,
-      options: { filename: { type: 'string' } },
+      options: { filename: { type: 'string' }, shuffle: { type: 'boolean' } },
     });
     const source = positionals[0];
     if (!source) {
@@ -80,14 +89,33 @@ async function main(): Promise<number> {
       return 1;
     }
     const manifest = await loadManifest(source, values.filename);
+    if (values.shuffle) {
+      shuffle(manifest.quizzes);
+      for (const quiz of manifest.quizzes) if (quiz.answers) shuffle(quiz.answers);
+    }
     const reader = createLineReader();
     const io: RunnerIo = { print: (line = '') => void stdout.write(line + '\n'), ask: (prompt) => reader.ask(prompt) };
     try {
-      await runQuizzes(manifest, io);
+      const result = await runQuizzes(manifest, io);
+      if (result.total > 0) {
+        await appendHistory({ date: new Date().toISOString(), source, ...result });
+      }
       return 0;
     } finally {
       reader.close();
     }
+  }
+
+  if (command === 'history') {
+    const { values } = parseArgs({ args: rest, options: { json: { type: 'boolean' }, clear: { type: 'boolean' } } });
+    if (values.clear) {
+      await clearHistory();
+      stdout.write('Cleared quiz history.\n');
+      return 0;
+    }
+    const history = await readHistory();
+    stdout.write((values.json ? JSON.stringify(history, null, 2) : formatHistoryTable(history)) + '\n');
+    return 0;
   }
 
   if (command === 'export-qti') {
