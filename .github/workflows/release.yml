@@ -38,7 +38,7 @@ jobs:
       - run: npm install --global npm@latest
 
       # On a release, refuse to publish if the tag doesn't match the version
-      # we are about to ship (tag v0.1.0 must match package.json 0.1.0).
+      # we are about to ship (tag v1.0.0 must match package.json 1.0.0).
       - name: Check release tag matches package version
         if: github.event_name == 'release'
         env:
