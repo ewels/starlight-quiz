@@ -4,50 +4,24 @@ description: Interactive quizzes for Astro and Starlight, authored in markdown.
 ---
 
 import { Quiz } from 'starlight-quiz/components';
-import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 **Starlight Quiz** adds interactive, self-marking quizzes to your Astro and Starlight documentation.
 
 ## Features
 
-<CardGrid stagger>
-  <Card title="✨ Simple markdown syntax">
-    Write quizzes with GitHub-flavoured task lists. No new syntax to learn.
-  </Card>
-  <Card title="🎯 Multiple quiz types">
-    Single choice, multiple choice and fill-in-the-blank.
-  </Card>
-  <Card title="⚡ Instant feedback">
-    Per-answer feedback and visual correct/incorrect indicators.
-  </Card>
-  <Card title="📝 Rich explanations">
-    Reveal a markdown content section after answering: code, tables and images.
-  </Card>
-  <Card title="📊 Progress & results">
-    An aggregate results panel with score tiers and confetti.
-  </Card>
-  <Card title="💾 Results saved">
-    Answers persist to the browser's local storage, surviving reloads and rebuilds.
-  </Card>
-  <Card title="🔀 Author controls">
-    Shuffle answers, auto-number questions and set site-wide defaults.
-  </Card>
-  <Card title="🌐 Internationalisation">
-    13 languages out of the box, shared with mkdocs-quiz.
-  </Card>
-  <Card title="🧩 Works anywhere">
-    A zero-config Starlight plugin or standalone in any Astro project.
-  </Card>
-  <Card title="♿ Accessible">
-    Real fieldsets, `aria-live` feedback and keyboard-safe auto-submit.
-  </Card>
-  <Card title="📤 LMS export">
-    Export to QTI 1.2/2.1 for Canvas, Moodle and Blackboard.
-  </Card>
-  <Card title="🖥️ Terminal runner">
-    Take quizzes in your terminal, from a local build or a deployed site.
-  </Card>
-</CardGrid>
+- ✨ **Simple markdown syntax** — write quizzes with GitHub-flavoured task lists. No new syntax to learn.
+- 🎯 **Multiple quiz types** — single choice, multiple choice and fill-in-the-blank.
+- ⚡ **Instant feedback** — per-answer feedback and visual correct/incorrect indicators.
+- 📝 **Rich explanations** — reveal a markdown content section after answering: code, tables and images.
+- 📊 **Progress & results** — an aggregate results panel with score tiers and confetti.
+- 💾 **Results saved** — answers persist to the browser's local storage, surviving reloads and rebuilds.
+- 🔀 **Author controls** — shuffle answers, auto-number questions and set site-wide defaults.
+- 🌐 **Internationalisation** — 13 languages out of the box, shared with mkdocs-quiz.
+- 🧩 **Works anywhere** — a zero-config Starlight plugin or standalone in any Astro project.
+- ♿ **Accessible** — real fieldsets, `aria-live` feedback and keyboard-safe auto-submit.
+- 📤 **LMS export** — export to QTI 1.2/2.1 for Canvas, Moodle and Blackboard.
+- 🖥️ **Terminal runner** — take quizzes in your terminal, from a local build or a deployed site.
 
 Try it:
 
@@ -73,11 +47,29 @@ When more than one answer is correct, the quiz automatically switches to checkbo
 
 ## Where next?
 
-- [Quick start](/starlight-quiz/guides/quick-start/): install the plugin and write your first quiz.
-- [Multiple choice](/starlight-quiz/guides/multiple-choice/): radio buttons, checkboxes and answer syntax.
-- [Fill-in-the-blank](/starlight-quiz/guides/fill-in-the-blank/): text-input questions.
-- [Configuration](/starlight-quiz/guides/configuration/): every plugin option and component prop.
-- [Live demo](/starlight-quiz/demo/): every question type on one page.
+<CardGrid>
+  <LinkCard
+    title="Quick start"
+    href="/starlight-quiz/guides/quick-start/"
+    description="Install the plugin and write your first quiz."
+  />
+  <LinkCard
+    title="Multiple choice"
+    href="/starlight-quiz/guides/multiple-choice/"
+    description="Radio buttons, checkboxes and answer syntax."
+  />
+  <LinkCard
+    title="Fill-in-the-blank"
+    href="/starlight-quiz/guides/fill-in-the-blank/"
+    description="Text-input questions."
+  />
+  <LinkCard
+    title="Configuration"
+    href="/starlight-quiz/guides/configuration/"
+    description="Every plugin option and component prop."
+  />
+  <LinkCard title="Live demo" href="/starlight-quiz/demo/" description="Every question type on one page." />
+</CardGrid>
 
 ## Credits
 
