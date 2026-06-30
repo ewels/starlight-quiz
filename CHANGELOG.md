@@ -29,6 +29,6 @@ First public release.
 - Site-wide behaviour defaults via the `quizDefaults` plugin option, with per-quiz props always taking precedence.
 - Optional auto-numbering ("Question N" headings) and per-load answer shuffling.
 - Build-time validation of quiz markers, and a JSON quiz manifest emitted by default and served by the dev server too (opt out with `manifest: false`).
-- A CLI to take quizzes in the terminal (`run`, with `--shuffle`, `--shuffle-answers` and `--page`, plus a `history` command) and to export quizzes to QTI 1.2 / 2.1 for LMS import.
+- A CLI to take quizzes in the terminal (`run`, with `--shuffle` and `--shuffle-answers`, plus a `history` command) and to export quizzes to QTI 1.2 / 2.1 for LMS import.
 - Translations for 13 languages, shared verbatim with the sibling [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz) plugin.
 - Usable as a Starlight plugin or as standalone components in any Astro project.

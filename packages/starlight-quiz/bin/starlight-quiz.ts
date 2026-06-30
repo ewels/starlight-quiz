@@ -52,20 +52,19 @@ function createLineReader(): { ask: (prompt: string) => Promise<string>; close: 
   };
 }
 
-const USAGE = `starlight-quiz — take or export quizzes from a manifest or a deployed site
+const USAGE = `starlight-quiz — take or export quizzes from a manifest or a deployed page
 
 Usage:
-  starlight-quiz run <source> [--shuffle] [--shuffle-answers] [--page <substr>] [--filename quiz-manifest.json]
+  starlight-quiz run <source> [--shuffle] [--shuffle-answers] [--filename quiz-manifest.json]
   starlight-quiz export-qti <source> --out <dir> [--version 2.1] [--filename ...]
   starlight-quiz history [--json | --yaml] [--clear]
 
-<source> is a local manifest JSON file, a directory containing one, or the URL
-of a deployed site (its manifest is fetched, falling back to scraping the page).
+<source> is the full URL of a deployed page (scraped directly) or of its
+quiz-manifest.json, a local manifest JSON file, or a directory containing one.
 
 run options:
   --shuffle          Randomise quiz order and the answer order within each quiz.
   --shuffle-answers  Randomise only the answer order within each quiz.
-  --page <substr>    Only run quizzes whose page path contains <substr>.
 
 history shows past CLI runs (most recent last); --json / --yaml print raw data
 and --clear deletes the saved history.`;
@@ -91,20 +90,12 @@ async function main(): Promise<number> {
         filename: { type: 'string' },
         shuffle: { type: 'boolean' },
         'shuffle-answers': { type: 'boolean' },
-        page: { type: 'string' },
       },
     });
     const source = positionals[0];
     if (!source) return missingSource();
 
     const manifest = await loadManifest(source, values.filename);
-    if (values.page) {
-      manifest.quizzes = manifest.quizzes.filter((quiz) => quiz.page.includes(values.page!));
-      if (manifest.quizzes.length === 0) {
-        stdout.write(`No quizzes on a page matching "${values.page}".\n`);
-        return 1;
-      }
-    }
     if (values.shuffle) shuffle(manifest.quizzes);
     if (values.shuffle || values['shuffle-answers']) {
       for (const quiz of manifest.quizzes) if (quiz.answers) shuffle(quiz.answers);

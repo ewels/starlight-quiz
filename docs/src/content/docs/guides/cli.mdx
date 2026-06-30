@@ -9,10 +9,10 @@ command line, or running a quiz over a deployed site. The same manifest also pow
 
 ## The quiz manifest
 
-The CLI never parses your MDX. Instead it reads a **quiz manifest**: a single `quiz-manifest.json` file listing every
-quiz on your site, with each question, its answers and which are correct. The plugin writes it by default, so there is
-usually nothing to set up. (Opt out or rename it with the [`manifest`](/starlight-quiz/guides/configuration/#manifest)
-option.)
+The CLI never parses your MDX — it reads the rendered output. A single page is scraped straight from its HTML, while a
+whole site is read from a **quiz manifest**: a `quiz-manifest.json` file listing every quiz on your site, with each
+question, its answers and which are correct. The plugin writes the manifest by default, so there is usually nothing to
+set up. (Opt out or rename it with the [`manifest`](/starlight-quiz/guides/configuration/#manifest) option.)
 
 The manifest is built from your rendered pages, so it is available wherever the site runs:
 
@@ -24,15 +24,18 @@ The manifest is built from your rendered pages, so it is available wherever the 
 
 ## Take a quiz
 
-Point `run` at your deployed site, and its manifest is fetched automatically:
+Point `run` at the **full URL of a page** to take just that page's quizzes — scraped straight from the rendered HTML,
+no manifest required:
 
 ```sh
-npx starlight-quiz run https://ewels.github.io/starlight-quiz
+npx starlight-quiz run https://ewels.github.io/starlight-quiz/guides/multiple-choice/
 ```
 
-You can also run against a local build directory (or a manifest file directly), useful before you deploy:
+To take **every quiz on the site at once**, point it at the manifest instead — its URL, a local build directory, or the
+JSON file directly:
 
 ```sh
+npx starlight-quiz run https://ewels.github.io/starlight-quiz/quiz-manifest.json
 npx starlight-quiz run ./dist
 ```
 
@@ -40,7 +43,7 @@ Each question is printed in turn; you type the number(s) of your choice (or the 
 Enter. The runner grades each answer, reveals the correct one when you are wrong, and prints a final score with a tier
 message:
 
-```text title="npx starlight-quiz run https://ewels.github.io/starlight-quiz --page /guides/multiple-choice/"
+```text title="npx starlight-quiz run https://ewels.github.io/starlight-quiz/guides/multiple-choice/"
 Question 1
 ──────────
 What is the capital of France?
@@ -71,16 +74,13 @@ Score: 3/4 (75%)
 Great job! You really know your stuff!
 ```
 
-If a site URL has no manifest, the CLI falls back to scraping the page's HTML.
-
-### Narrowing and shuffling
+### Shuffling
 
 Add `--shuffle` to randomise the quiz order and the answer order within each quiz, or `--shuffle-answers` to randomise
-only the answers. Use `--page <substr>` to take just the quizzes whose page path contains a string:
+only the answers:
 
 ```sh
-npx starlight-quiz run https://ewels.github.io/starlight-quiz --shuffle
-npx starlight-quiz run https://ewels.github.io/starlight-quiz --page /guides/multiple-choice/
+npx starlight-quiz run https://ewels.github.io/starlight-quiz/quiz-manifest.json --shuffle
 ```
 
 ## History
@@ -104,11 +104,10 @@ Date                      Source                                  Result  Score
 
 | Command   | Argument / flag     | Description                                                     |
 | --------- | ------------------- | -------------------------------------------------------------- |
-| `run`     | `<source>`          | A manifest file, a directory containing one, or a site URL.    |
+| `run`     | `<source>`          | A page URL (scraped), a manifest URL or file, or a directory containing one. |
 | `run`     | `--shuffle`         | Randomise quiz and answer order.                               |
 | `run`     | `--shuffle-answers` | Randomise only the answer order within each quiz.              |
-| `run`     | `--page <substr>`   | Only run quizzes whose page path contains `<substr>`.          |
-| `run`     | `--filename`        | Manifest filename (default `quiz-manifest.json`).              |
+| `run`     | `--filename`        | Manifest filename for a local directory (default `quiz-manifest.json`). |
 | `history` | `--json` · `--yaml` · `--clear` | Print past runs as JSON · as YAML · delete the saved history. |
 
 To turn the same quizzes into an LMS import instead, see [QTI export](/starlight-quiz/guides/qti-export/).

@@ -8,32 +8,28 @@ function isUrl(source: string): boolean {
   return /^https?:\/\//.test(source);
 }
 
-/** Resolve a source to its manifest location: a `.json` source is used as-is, otherwise treated as a directory. */
-function manifestLocation(source: string, filename: string): string {
-  return source.endsWith('.json') ? source : `${source.replace(/\/$/, '')}/${filename}`;
-}
-
-async function loadFromUrl(source: string, filename: string): Promise<QuizManifest> {
-  const manifestResponse = await fetch(manifestLocation(source, filename));
-  if (manifestResponse.ok) {
-    return (await manifestResponse.json()) as QuizManifest;
+async function loadFromUrl(source: string): Promise<QuizManifest> {
+  const response = await fetch(source);
+  if (!response.ok) {
+    throw new Error(`Could not load ${source} (HTTP ${response.status}).`);
   }
-
-  // Fall back to scraping the page's HTML when no manifest is published.
-  const pageResponse = await fetch(source);
-  if (!pageResponse.ok) {
-    throw new Error(`Could not load a manifest or page from ${source} (HTTP ${pageResponse.status}).`);
+  // A `.json` URL is a published manifest; any other URL is a page to scrape.
+  if (source.endsWith('.json')) {
+    return (await response.json()) as QuizManifest;
   }
-  const html = await pageResponse.text();
+  const html = await response.text();
   return buildManifest(extractQuizzesFromHtml(html, new URL(source).pathname));
 }
 
 /**
- * Load a quiz manifest from a source: a local manifest JSON file, a directory
- * containing one, or the URL of a deployed site (which is fetched, falling back
- * to scraping the page HTML if no manifest is published there).
+ * Load quizzes from a source:
+ *  - the full URL of a deployed page (scraped directly) or of a published
+ *    `quiz-manifest.json` (fetched as-is);
+ *  - a local manifest JSON file;
+ *  - a local directory containing a manifest.
  */
 export async function loadManifest(source: string, filename = DEFAULT_FILENAME): Promise<QuizManifest> {
-  if (isUrl(source)) return loadFromUrl(source, filename);
-  return JSON.parse(await readFile(manifestLocation(source, filename), 'utf8')) as QuizManifest;
+  if (isUrl(source)) return loadFromUrl(source);
+  const file = source.endsWith('.json') ? source : `${source.replace(/\/$/, '')}/${filename}`;
+  return JSON.parse(await readFile(file, 'utf8')) as QuizManifest;
 }

@@ -45,27 +45,26 @@ describe('loadManifest — local', () => {
 });
 
 describe('loadManifest — URL', () => {
-  it('fetches the manifest from a deployed site', async () => {
+  it('fetches a published manifest by its full .json URL', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(sample)));
-    expect(await loadManifest('https://example.com')).toEqual(sample);
+    expect(await loadManifest('https://example.com/quiz-manifest.json')).toEqual(sample);
     expect(fetch).toHaveBeenCalledWith('https://example.com/quiz-manifest.json');
   });
 
-  it('falls back to scraping the page HTML when no manifest is published', async () => {
+  it('scrapes the page at a full URL', async () => {
     const html = '<sl-quiz id="x"><div class="sl-quiz-source"><p>The cap is [[Paris]].</p></div></sl-quiz>';
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(jsonResponse(null, false)) // manifest 404
-      .mockResolvedValueOnce(htmlResponse(html)); // page HTML
+    const fetchMock = vi.fn().mockResolvedValue(htmlResponse(html));
     vi.stubGlobal('fetch', fetchMock);
 
     const manifest = await loadManifest('https://example.com/page/');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith('https://example.com/page/');
     expect(manifest.quizzes).toHaveLength(1);
     expect(manifest.quizzes[0]).toMatchObject({ id: 'x', type: 'blank', blanks: ['Paris'] });
   });
 
-  it('throws when neither a manifest nor a page can be loaded', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(null, false)));
+  it('throws when the page cannot be loaded', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(htmlResponse('', false)));
     await expect(loadManifest('https://example.com/missing/')).rejects.toThrow(/Could not load/);
   });
 });

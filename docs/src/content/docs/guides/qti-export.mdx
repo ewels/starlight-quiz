@@ -18,11 +18,11 @@ correct, page path), and the plugin writes it by default. See the
 
 ## Export
 
-Point `export-qti` at your deployed site (or a local build directory), and choose an output directory:
+Point `export-qti` at your site's manifest — its URL or a local build directory — and choose an output directory:
 
 ```sh
 # QTI 2.1 (the default)
-npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz --out ./qti
+npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz/quiz-manifest.json --out ./qti
 ```
 
 ```text title="output"
@@ -54,7 +54,7 @@ Most current platforms accept **QTI 2.1** (the default). Some older Moodle and B
 **1.2** format:
 
 ```sh
-npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz --version 1.2 --out ./qti
+npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz/quiz-manifest.json --version 1.2 --out ./qti
 ```
 :::
 
@@ -62,7 +62,7 @@ npx starlight-quiz export-qti https://ewels.github.io/starlight-quiz --version 1
 
 | Flag         | Description                                      |
 | ------------ | ------------------------------------------------ |
-| `<source>`   | A manifest file, a directory containing one, or a deployed site URL. |
+| `<source>`   | A manifest URL or file, a directory containing one, or a page URL (scraped). |
 | `--out`      | Output directory (default `qti`).                |
 | `--version`  | `2.1` (default) or `1.2`.                        |
 | `--filename` | Manifest filename to look for (default `quiz-manifest.json`). |
