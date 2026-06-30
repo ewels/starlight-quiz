@@ -1,5 +1,6 @@
 import { QUIZ_ELEMENT, QUIZ_PROGRESS_BADGE_ELEMENT, QUIZ_PROGRESS_ELEMENT, QUIZ_RESULTS_ELEMENT } from './constants';
 import { getTracker } from './tracker';
+import { setTextAll, wireResetButton } from './widget-dom';
 import type { QuizProgress } from './types';
 
 /**
@@ -14,13 +15,7 @@ class StarlightQuizProgressElement extends HTMLElement {
   #unsubscribe: (() => void) | null = null;
 
   connectedCallback(): void {
-    const resetButton = this.querySelector<HTMLButtonElement>('.sl-quiz-progress-reset');
-    resetButton?.addEventListener('click', () => {
-      const confirmMessage = this.dataset['confirmLabel'];
-      if (confirmMessage && !window.confirm(confirmMessage)) return;
-      getTracker().resetAll();
-    });
-
+    wireResetButton(this, '.sl-quiz-progress-reset');
     this.#unsubscribe = getTracker().subscribe((progress) => this.#update(progress));
   }
 
@@ -32,20 +27,17 @@ class StarlightQuizProgressElement extends HTMLElement {
   #update(progress: QuizProgress): void {
     this.hidden = progress.total === 0;
 
-    this.#setText('.sl-quiz-progress-answered', String(progress.answered));
-    this.#setText('.sl-quiz-progress-total', String(progress.total));
-    this.#setText('.sl-quiz-progress-correct', String(progress.correct));
-    this.#setText('.sl-quiz-progress-percentage', `${progress.percentage}%`);
-    this.#setText('.sl-quiz-progress-score', `${progress.score}%`);
+    setTextAll(this, '.sl-quiz-progress-answered', String(progress.answered));
+    setTextAll(this, '.sl-quiz-progress-total', String(progress.total));
+    setTextAll(this, '.sl-quiz-progress-correct', String(progress.correct));
+    setTextAll(this, '.sl-quiz-progress-percentage', `${progress.percentage}%`);
+    setTextAll(this, '.sl-quiz-progress-score', `${progress.score}%`);
 
     // The bar splits into a correct (green) and an incorrect (red) segment,
     // each sized as a fraction of the total — matching mkdocs-quiz.
-    const correctPercent = progress.total > 0 ? (progress.correct / progress.total) * 100 : 0;
-    const incorrectPercent = progress.total > 0 ? ((progress.answered - progress.correct) / progress.total) * 100 : 0;
-    const correctBar = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-correct');
-    if (correctBar) correctBar.style.inlineSize = `${correctPercent}%`;
-    const incorrectBar = this.querySelector<HTMLElement>('.sl-quiz-progress-bar-incorrect');
-    if (incorrectBar) incorrectBar.style.inlineSize = `${incorrectPercent}%`;
+    const fraction = (count: number): string => (progress.total > 0 ? `${(count / progress.total) * 100}%` : '0%');
+    this.#setBarWidth('.sl-quiz-progress-bar-correct', fraction(progress.correct));
+    this.#setBarWidth('.sl-quiz-progress-bar-incorrect', fraction(progress.answered - progress.correct));
 
     const bar = this.querySelector('.sl-quiz-progress-bar');
     if (bar) {
@@ -54,10 +46,9 @@ class StarlightQuizProgressElement extends HTMLElement {
     }
   }
 
-  #setText(selector: string, value: string): void {
-    for (const element of this.querySelectorAll(selector)) {
-      element.textContent = value;
-    }
+  #setBarWidth(selector: string, width: string): void {
+    const bar = this.querySelector<HTMLElement>(selector);
+    if (bar) bar.style.inlineSize = width;
   }
 }
 
@@ -143,12 +134,8 @@ class StarlightQuizProgressBadgeElement extends HTMLElement {
   #update(progress: QuizProgress): void {
     this.hidden = progress.total === 0;
 
-    for (const element of this.querySelectorAll('.sl-quiz-progress-answered')) {
-      element.textContent = String(progress.answered);
-    }
-    for (const element of this.querySelectorAll('.sl-quiz-progress-total')) {
-      element.textContent = String(progress.total);
-    }
+    setTextAll(this, '.sl-quiz-progress-answered', String(progress.answered));
+    setTextAll(this, '.sl-quiz-progress-total', String(progress.total));
 
     const prefix = this.dataset['badgeLabel'];
     const answered = this.dataset['answeredLabel'];

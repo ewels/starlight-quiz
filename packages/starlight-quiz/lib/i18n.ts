@@ -29,3 +29,15 @@ export function getTranslate(locals: unknown): Translate | undefined {
   const translate = (locals as Record<string, unknown>)['t'];
   return typeof translate === 'function' ? (translate as Translate) : undefined;
 }
+
+/** Resolve a string for a key, applying an optional prop override. */
+export type StringResolver = (key: StringKey, override?: string) => string;
+
+/**
+ * Bind a resolver to `Astro.locals` so components don't repeat the
+ * `getTranslate` + `resolveString(..., t)` dance for every label.
+ */
+export function createStringResolver(locals: unknown): StringResolver {
+  const translate = getTranslate(locals);
+  return (key, override) => resolveString(key, override, translate);
+}

@@ -7,7 +7,6 @@ import { exportQti } from '../lib/cli/export.ts';
 import { appendHistory, clearHistory, formatHistoryTable, formatHistoryYaml, readHistory } from '../lib/cli/history.ts';
 import { loadManifest } from '../lib/cli/load.ts';
 import { runQuizzes, type RunnerIo } from '../lib/cli/run.ts';
-import type { QtiVersion } from '../lib/qti.ts';
 import { shuffle } from '../lib/shuffle.ts';
 
 /**
@@ -71,6 +70,11 @@ run options:
 history shows past CLI runs (most recent last); --json / --yaml print raw data
 and --clear deletes the saved history.`;
 
+function missingSource(): number {
+  stdout.write('Missing <source>.\n\n' + USAGE + '\n');
+  return 1;
+}
+
 async function main(): Promise<number> {
   const [command, ...rest] = argv.slice(2);
 
@@ -91,10 +95,8 @@ async function main(): Promise<number> {
       },
     });
     const source = positionals[0];
-    if (!source) {
-      stdout.write('Missing <source>.\n\n' + USAGE + '\n');
-      return 1;
-    }
+    if (!source) return missingSource();
+
     const manifest = await loadManifest(source, values.filename);
     if (values.page) {
       manifest.quizzes = manifest.quizzes.filter((quiz) => quiz.page.includes(values.page!));
@@ -131,11 +133,10 @@ async function main(): Promise<number> {
       return 0;
     }
     const history = await readHistory();
-    const out = values.json
-      ? JSON.stringify(history, null, 2)
-      : values.yaml
-        ? formatHistoryYaml(history)
-        : formatHistoryTable(history);
+    let out: string;
+    if (values.json) out = JSON.stringify(history, null, 2);
+    else if (values.yaml) out = formatHistoryYaml(history);
+    else out = formatHistoryTable(history);
     stdout.write(out + '\n');
     return 0;
   }
@@ -147,18 +148,17 @@ async function main(): Promise<number> {
       options: { version: { type: 'string' }, out: { type: 'string' }, filename: { type: 'string' } },
     });
     const source = positionals[0];
-    if (!source) {
-      stdout.write('Missing <source>.\n\n' + USAGE + '\n');
-      return 1;
-    }
+    if (!source) return missingSource();
+
     const version = values.version ?? '2.1';
     if (version !== '1.2' && version !== '2.1') {
       stdout.write('--version must be 1.2 or 2.1\n');
       return 1;
     }
+    const outDir = values.out ?? 'qti';
     const manifest = await loadManifest(source, values.filename);
-    const written = await exportQti(manifest, { version: version as QtiVersion, outDir: values.out ?? 'qti' });
-    stdout.write(`Wrote ${written.length} file(s) to ${values.out ?? 'qti'}/\n`);
+    const written = await exportQti(manifest, { version, outDir });
+    stdout.write(`Wrote ${written.length} file(s) to ${outDir}/\n`);
     return 0;
   }
 

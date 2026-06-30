@@ -1,5 +1,5 @@
 ---
-import { getTranslate, resolveString } from '../lib/i18n';
+import { createStringResolver } from '../lib/i18n';
 
 interface Props {
   /** Extra class names for the badge. */
@@ -12,9 +12,9 @@ interface Props {
 
 const { class: className, badgeLabel, answeredLabel } = Astro.props;
 
-const t = getTranslate(Astro.locals);
-const badge = resolveString('starlightQuiz.results.badge', badgeLabel, t);
-const answered = resolveString('starlightQuiz.results.answered', answeredLabel, t);
+const resolve = createStringResolver(Astro.locals);
+const badge = resolve('starlightQuiz.results.badge', badgeLabel);
+const answered = resolve('starlightQuiz.results.answered', answeredLabel);
 ---
 
 <sl-quiz-progress-badge

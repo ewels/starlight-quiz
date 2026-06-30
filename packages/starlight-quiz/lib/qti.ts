@@ -41,10 +41,7 @@ function splitBlanks(question: string): { text: (string | number)[]; answers: st
 
 function qti21Choice(quiz: QuizManifestEntry, answers: ManifestAnswer[]): string {
   const multiple = quiz.type === 'multiple';
-  const correct = answers
-    .map((a, i) => [a, i] as const)
-    .filter(([a]) => a.correct)
-    .map(([, i]) => choiceId(i));
+  const correct = answers.flatMap((a, i) => (a.correct ? [choiceId(i)] : []));
   const choices = answers.map(
     (a, i) => `      <simpleChoice identifier="${choiceId(i)}">${esc(a.text)}</simpleChoice>`,
   );

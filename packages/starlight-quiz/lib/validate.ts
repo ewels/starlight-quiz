@@ -1,6 +1,6 @@
-import { HTMLElement as ParsedElement, parse } from 'node-html-parser';
+import { HTMLElement as ParsedElement } from 'node-html-parser';
 
-import { isEmptyCheckboxText } from './parse.ts';
+import { collapseWhitespace, eachQuizSource, isAnswerItem } from './dom.ts';
 
 /** A problem found in an authored quiz. */
 export interface QuizValidationIssue {
@@ -29,25 +29,18 @@ function directChildren(parent: ParsedElement, tag: string): ParsedElement[] {
  * answer to match the original mkdocs-quiz.
  */
 export function validateQuizHtml(html: string, page: string): QuizValidationIssue[] {
-  const root = parse(html);
   const issues: QuizValidationIssue[] = [];
 
-  for (const el of root.querySelectorAll('sl-quiz')) {
-    const source = el.querySelector('.sl-quiz-source');
-    if (!source) continue;
-    const id = el.getAttribute('id') ?? '(unknown)';
-
-    const taskLists = source.querySelectorAll('ul.contains-task-list');
-    for (const list of taskLists) {
+  for (const { id, source } of eachQuizSource(html, '(unknown)')) {
+    for (const list of source.querySelectorAll('ul.contains-task-list')) {
       for (const li of directChildren(list, 'li')) {
-        if (!li.querySelector('input[type="checkbox"]') && !isEmptyCheckboxText(li.text)) {
-          const text = li.text.replace(/\s+/g, ' ').trim().slice(0, 60);
-          issues.push({
-            page,
-            id,
-            message: `answer "${text}" has no checkbox — only \`- [x]\`, \`- [ ]\` and \`- [X]\` mark answers`,
-          });
-        }
+        if (isAnswerItem(li)) continue;
+        const text = collapseWhitespace(li.text).slice(0, 60);
+        issues.push({
+          page,
+          id,
+          message: `answer "${text}" has no checkbox — only \`- [x]\`, \`- [ ]\` and \`- [X]\` mark answers`,
+        });
       }
     }
   }

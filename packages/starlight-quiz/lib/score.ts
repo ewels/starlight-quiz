@@ -44,3 +44,14 @@ export function computeProgress(total: number, answered: number, correct: number
 export function isComplete(progress: QuizProgress): boolean {
   return progress.total > 0 && progress.answered >= progress.total;
 }
+
+/** Whether two progress snapshots are field-for-field equal. */
+export function progressEquals(a: QuizProgress, b: QuizProgress): boolean {
+  return (
+    a.total === b.total &&
+    a.answered === b.answered &&
+    a.correct === b.correct &&
+    a.percentage === b.percentage &&
+    a.score === b.score
+  );
+}

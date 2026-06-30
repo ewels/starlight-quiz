@@ -45,13 +45,6 @@ async function listContentPages(contentDir: string): Promise<string[]> {
   return [...pages].sort();
 }
 
-/**
- * A Vite dev-server plugin that serves the quiz manifest at the same path the
- * build emits it. `astro dev` never writes the file, which surprises people who
- * point the CLI at their local dev site, so we build it on demand: list the
- * content pages, fetch each from the running dev server, and parse the rendered
- * HTML with the same extractor the build uses.
- */
 /** The slice of Vite's dev server we use (avoids a hard dependency on Vite's types). */
 interface DevMiddlewareServer {
   middlewares: {
@@ -64,6 +57,13 @@ interface DevServerPlugin {
   configureServer(server: DevMiddlewareServer): void;
 }
 
+/**
+ * A Vite dev-server plugin that serves the quiz manifest at the same path the
+ * build emits it. `astro dev` never writes the file, which surprises people who
+ * point the CLI at their local dev site, so we build it on demand: list the
+ * content pages, fetch each from the running dev server, and parse the rendered
+ * HTML with the same extractor the build uses.
+ */
 function devManifestPlugin(filename: string, base: string, srcDir: string): DevServerPlugin {
   const contentDir = path.join(srcDir, 'content', 'docs');
   const routePath = joinBase(base, '/' + filename);
@@ -85,10 +85,7 @@ function devManifestPlugin(filename: string, base: string, srcDir: string): DevS
             }),
           );
 
-          const quizzes: QuizManifestEntry[] = [];
-          for (const { page, html } of rendered) {
-            if (html) quizzes.push(...extractQuizzesFromHtml(html, page));
-          }
+          const quizzes = collectQuizzes(rendered.filter(({ html }) => html));
 
           res.setHeader('content-type', 'application/json');
           res.end(JSON.stringify(buildManifest(quizzes), null, 2) + '\n');
@@ -98,13 +95,24 @@ function devManifestPlugin(filename: string, base: string, srcDir: string): DevS
   };
 }
 
-async function readHtmlFiles(dir: URL): Promise<{ file: string; html: string; page: string }[]> {
+/** A page's rendered HTML paired with its site path. */
+interface RenderedPage {
+  html: string;
+  page: string;
+}
+
+/** Extract the quiz entries from a set of rendered pages, in page order. */
+function collectQuizzes(pages: RenderedPage[]): QuizManifestEntry[] {
+  return pages.flatMap(({ html, page }) => extractQuizzesFromHtml(html, page));
+}
+
+/** Read every built `.html` file under `dir`, paired with its site path. */
+async function readHtmlFiles(dir: URL): Promise<RenderedPage[]> {
   const outDir = fileURLToPath(dir);
   const entries = await readdir(outDir, { recursive: true });
   const htmlFiles = entries.filter((file) => file.endsWith('.html')).sort();
   return Promise.all(
     htmlFiles.map(async (file) => ({
-      file,
       html: await readFile(path.join(outDir, file), 'utf8'),
       page: pagePath(file),
     })),
@@ -153,17 +161,10 @@ export function quizManifestIntegration(options: QuizManifestIntegrationOptions 
         } as Parameters<typeof updateConfig>[0]);
       },
       'astro:build:done': async ({ dir, logger }) => {
-        const outDir = fileURLToPath(dir);
-        const entries = await readdir(outDir, { recursive: true });
-        const htmlFiles = entries.filter((file) => file.endsWith('.html')).sort();
+        const quizzes = collectQuizzes(await readHtmlFiles(dir));
 
-        const quizzes: QuizManifestEntry[] = [];
-        for (const file of htmlFiles) {
-          const html = await readFile(path.join(outDir, file), 'utf8');
-          quizzes.push(...extractQuizzesFromHtml(html, pagePath(file)));
-        }
-
-        await writeFile(path.join(outDir, filename), JSON.stringify(buildManifest(quizzes), null, 2) + '\n');
+        const outFile = path.join(fileURLToPath(dir), filename);
+        await writeFile(outFile, JSON.stringify(buildManifest(quizzes), null, 2) + '\n');
         logger.info(`Wrote ${quizzes.length} quiz${quizzes.length === 1 ? '' : 'zes'} to ${filename}`);
       },
     },

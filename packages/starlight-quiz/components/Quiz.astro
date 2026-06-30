@@ -1,7 +1,7 @@
 ---
 import { getQuizDefaults } from '../lib/config';
 import { quizId } from '../lib/id';
-import { getTranslate, resolveString } from '../lib/i18n';
+import { createStringResolver } from '../lib/i18n';
 
 interface Props {
   /** A stable id for persistence. Falls back to a hash of the title. */
@@ -56,28 +56,28 @@ const disableAfterSubmit = Astro.props.disableAfterSubmit ?? defaults.disableAft
 const showCorrect = Astro.props.showCorrect ?? defaults.showCorrect;
 const autoNumber = Astro.props.autoNumber ?? defaults.autoNumber;
 
-const t = getTranslate(Astro.locals);
+const resolve = createStringResolver(Astro.locals);
 const resolvedId = quizId(id, title);
 
 const labels = {
-  submit: resolveString('starlightQuiz.submit', submitLabel, t),
-  reset: resolveString('starlightQuiz.reset', resetLabel, t),
-  correct: resolveString('starlightQuiz.correct', correctLabel, t),
-  incorrect: resolveString('starlightQuiz.incorrect', incorrectLabel, t),
-  tryAgain: resolveString('starlightQuiz.tryAgain', tryAgainLabel, t),
-  questionNumber: resolveString('starlightQuiz.questionNumber', undefined, t),
-  empty: resolveString('starlightQuiz.empty', undefined, t),
+  submit: resolve('starlightQuiz.submit', submitLabel),
+  reset: resolve('starlightQuiz.reset', resetLabel),
+  correct: resolve('starlightQuiz.correct', correctLabel),
+  incorrect: resolve('starlightQuiz.incorrect', incorrectLabel),
+  tryAgain: resolve('starlightQuiz.tryAgain', tryAgainLabel),
+  questionNumber: resolve('starlightQuiz.questionNumber'),
+  empty: resolve('starlightQuiz.empty'),
 };
 ---
 
 <sl-quiz
   id={resolvedId}
   class:list={['sl-quiz', className]}
-  data-shuffle={shuffle ? 'true' : 'false'}
-  data-auto-submit={autoSubmit ? 'true' : 'false'}
-  data-disable-after-submit={disableAfterSubmit ? 'true' : 'false'}
-  data-show-correct={showCorrect ? 'true' : 'false'}
-  data-auto-number={autoNumber ? 'true' : 'false'}
+  data-shuffle={String(shuffle)}
+  data-auto-submit={String(autoSubmit)}
+  data-disable-after-submit={String(disableAfterSubmit)}
+  data-show-correct={String(showCorrect)}
+  data-auto-number={String(autoNumber)}
   data-number-label={labels.questionNumber}
   data-submit-label={labels.submit}
   data-reset-label={labels.reset}

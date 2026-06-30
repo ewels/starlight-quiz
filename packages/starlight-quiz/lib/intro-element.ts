@@ -1,5 +1,5 @@
 import { QUIZ_INTRO_ELEMENT } from './constants';
-import { getTracker } from './tracker';
+import { wireResetButton } from './widget-dom';
 
 /**
  * The `<sl-quiz-intro>` custom element: a small panel of intro text with a
@@ -12,12 +12,7 @@ import { getTracker } from './tracker';
  */
 class StarlightQuizIntroElement extends HTMLElement {
   connectedCallback(): void {
-    const resetButton = this.querySelector<HTMLButtonElement>('.sl-quiz-intro-reset');
-    resetButton?.addEventListener('click', () => {
-      const confirmMessage = this.dataset['confirmLabel'];
-      if (confirmMessage && !window.confirm(confirmMessage)) return;
-      getTracker().resetAll();
-    });
+    wireResetButton(this, '.sl-quiz-intro-reset');
   }
 }
 

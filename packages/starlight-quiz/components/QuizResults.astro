@@ -1,6 +1,6 @@
 ---
 import { getQuizDefaults } from '../lib/config';
-import { getTranslate, resolveString } from '../lib/i18n';
+import { createStringResolver } from '../lib/i18n';
 
 interface Props {
   /** Extra class names for the results wrapper. */
@@ -27,27 +27,27 @@ const { class: className, titleLabel, progressLabel, answeredLabel, correctLabel
 
 const confetti = Astro.props.confetti ?? getQuizDefaults(Astro.locals).confetti;
 
-const t = getTranslate(Astro.locals);
+const resolve = createStringResolver(Astro.locals);
 
-const title = resolveString('starlightQuiz.results.title', titleLabel, t);
-const progressHeading = resolveString('starlightQuiz.progressHeading', progressLabel, t);
-const questionsAnswered = resolveString('starlightQuiz.results.questionsAnswered', answeredLabel, t);
-const correct = resolveString('starlightQuiz.results.correct', correctLabel, t);
-const resetAll = resolveString('starlightQuiz.results.resetAll', resetLabel, t);
-const confirmReset = resolveString('starlightQuiz.results.confirmReset', undefined, t);
+const title = resolve('starlightQuiz.results.title', titleLabel);
+const progressHeading = resolve('starlightQuiz.progressHeading', progressLabel);
+const questionsAnswered = resolve('starlightQuiz.results.questionsAnswered', answeredLabel);
+const correct = resolve('starlightQuiz.results.correct', correctLabel);
+const resetAll = resolve('starlightQuiz.results.resetAll', resetLabel);
+const confirmReset = resolve('starlightQuiz.results.confirmReset');
 
 const messages = {
-  excellent: resolveString('starlightQuiz.results.excellent', undefined, t),
-  good: resolveString('starlightQuiz.results.good', undefined, t),
-  average: resolveString('starlightQuiz.results.average', undefined, t),
-  poor: resolveString('starlightQuiz.results.poor', undefined, t),
-  fail: resolveString('starlightQuiz.results.fail', undefined, t),
+  excellent: resolve('starlightQuiz.results.excellent'),
+  good: resolve('starlightQuiz.results.good'),
+  average: resolve('starlightQuiz.results.average'),
+  poor: resolve('starlightQuiz.results.poor'),
+  fail: resolve('starlightQuiz.results.fail'),
 };
 ---
 
 <sl-quiz-results
   class:list={['sl-quiz-results', className]}
-  data-confetti={confetti ? 'true' : 'false'}
+  data-confetti={String(confetti)}
   data-confirm-label={confirmReset}
   data-msg-excellent={messages.excellent}
   data-msg-good={messages.good}

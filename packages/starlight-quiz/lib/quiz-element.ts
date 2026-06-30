@@ -180,8 +180,9 @@ class StarlightQuizElement extends HTMLElement {
   #buildChoices(source: HTMLElement, form: HTMLFormElement): void {
     const list = findAnswerList(source);
     const nodes = Array.from(source.childNodes);
+    const listIndex = list ? nodes.indexOf(list) : -1;
 
-    const questionNodes = list ? nodes.slice(0, nodes.indexOf(list)) : nodes;
+    const questionNodes = list ? nodes.slice(0, listIndex) : nodes;
     const question = document.createElement('div');
     question.className = 'sl-quiz-question';
     question.id = `${this.#quizId}-question`;
@@ -200,17 +201,16 @@ class StarlightQuizElement extends HTMLElement {
       // `[]` empty-checkbox item that GFM left as plain text. Any other plain
       // list item — e.g. an unsupported `[y]` marker — is ignored rather than
       // becoming a bogus answer.
-      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li')).filter(
-        (li) =>
-          li.querySelector<HTMLInputElement>('input[type="checkbox"]') || isEmptyCheckboxText(li.textContent ?? ''),
-      );
-      const correctCount = items.filter(
-        (li) => li.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked,
-      ).length;
+      const items = Array.from(list.querySelectorAll<HTMLLIElement>(':scope > li'))
+        .map((li) => ({ li, checkbox: li.querySelector<HTMLInputElement>('input[type="checkbox"]') }))
+        .filter(({ li, checkbox }) => checkbox || isEmptyCheckboxText(li.textContent ?? ''));
+      const correctCount = items.filter(({ checkbox }) => checkbox?.checked).length;
       const inputType = correctCount > 1 ? 'checkbox' : 'radio';
       const groupName = `${this.#quizId}-answer`;
 
-      this.#answers = items.map((li, index) => this.#buildAnswer(li, index, inputType, groupName));
+      this.#answers = items.map(({ li, checkbox }, index) =>
+        this.#buildAnswer(li, checkbox, index, inputType, groupName),
+      );
       if (this.#shuffle) shuffle(this.#answers);
       fieldset.append(...this.#answers.map((answer) => answer.wrapper));
 
@@ -225,11 +225,16 @@ class StarlightQuizElement extends HTMLElement {
     }
 
     form.append(question, fieldset);
-    this.#extractContent(list ? nodes.slice(nodes.indexOf(list) + 1) : []);
+    this.#extractContent(list ? nodes.slice(listIndex + 1) : []);
   }
 
-  #buildAnswer(li: HTMLLIElement, index: number, type: 'radio' | 'checkbox', groupName: string): ChoiceAnswer {
-    const checkbox = li.querySelector<HTMLInputElement>('input[type="checkbox"]');
+  #buildAnswer(
+    li: HTMLLIElement,
+    checkbox: HTMLInputElement | null,
+    index: number,
+    type: 'radio' | 'checkbox',
+    groupName: string,
+  ): ChoiceAnswer {
     const correct = checkbox?.checked ?? false;
     checkbox?.remove();
 
@@ -377,12 +382,11 @@ class StarlightQuizElement extends HTMLElement {
     }
     this.#renderFeedback(correct);
 
+    this.#submitButton.hidden = true;
     if (this.#disableAfterSubmit) {
       this.#setDisabled(true);
-      this.#submitButton.hidden = true;
       this.#resetButton.hidden = true;
     } else {
-      this.#submitButton.hidden = true;
       this.#resetButton.hidden = false;
     }
 
@@ -393,15 +397,17 @@ class StarlightQuizElement extends HTMLElement {
   }
 
   #markChoices(correct: boolean): void {
+    // Reveal an unselected correct answer only when configured to show the
+    // correct answer, or when the submission was right anyway.
+    const revealCorrect = this.#showCorrect || correct;
     for (const answer of this.#answers) {
       answer.wrapper.classList.remove('sl-quiz-answer--correct', 'sl-quiz-answer--wrong');
       if (answer.feedback) answer.feedback.hidden = true;
+
       const selected = answer.input.checked;
-      if (selected && answer.correct) {
-        answer.wrapper.classList.add('sl-quiz-answer--correct');
-      } else if (selected && !answer.correct) {
+      if (selected && !answer.correct) {
         answer.wrapper.classList.add('sl-quiz-answer--wrong');
-      } else if (!selected && answer.correct && (this.#showCorrect || correct)) {
+      } else if (answer.correct && (selected || revealCorrect)) {
         answer.wrapper.classList.add('sl-quiz-answer--correct');
       }
     }
@@ -423,47 +429,56 @@ class StarlightQuizElement extends HTMLElement {
     this.#feedback.classList.toggle('sl-quiz-feedback--correct', correct);
     this.#feedback.classList.toggle('sl-quiz-feedback--wrong', !correct);
 
-    const items: HTMLElement[] = [];
-    if (this.#type !== 'blank') {
-      // One box per selected answer that carries feedback, each tagged with a
-      // badge naming the answer it responds to — essential when more than one
-      // answer's feedback is shown at once.
-      for (const answer of this.#answers) {
-        if (answer.input.checked && answer.feedback) {
-          const item = this.#feedbackItem(answer.correct);
-          item.append(this.#feedbackBadge(answer));
-          item.append(...Array.from(answer.feedback.cloneNode(true).childNodes));
-          items.push(item);
-        }
-      }
-    }
-
-    if (items.length === 0) {
-      // No per-answer feedback to show: fall back to a single generic message.
-      const item = this.#feedbackItem(correct);
-      const message = document.createElement('p');
-      message.className = 'sl-quiz-feedback-message';
-      message.textContent = correct
-        ? this.#labels.correct
-        : this.#disableAfterSubmit
-          ? this.#labels.incorrect
-          : this.#labels.tryAgain;
-      item.append(message);
-      if (this.#type === 'blank' && !correct && this.#showCorrect) {
-        item.append(this.#buildBlankCorrections());
-      }
-      items.push(item);
-    }
+    const items = this.#type === 'blank' ? [] : this.#perAnswerFeedbackItems();
+    if (items.length === 0) items.push(this.#fallbackFeedbackItem(correct));
 
     this.#feedback.append(...items);
     this.#feedback.hidden = false;
   }
 
+  /**
+   * One feedback box per selected answer that carries feedback, each tagged
+   * with a badge naming the answer it responds to — essential when more than
+   * one answer's feedback is shown at once.
+   */
+  #perAnswerFeedbackItems(): HTMLElement[] {
+    const items: HTMLElement[] = [];
+    for (const answer of this.#answers) {
+      if (answer.input.checked && answer.feedback) {
+        const item = this.#feedbackItem(answer.correct);
+        item.append(this.#feedbackBadge(answer));
+        item.append(...Array.from(answer.feedback.cloneNode(true).childNodes));
+        items.push(item);
+      }
+    }
+    return items;
+  }
+
+  /** A single generic feedback box, used when no per-answer feedback applies. */
+  #fallbackFeedbackItem(correct: boolean): HTMLElement {
+    const item = this.#feedbackItem(correct);
+    const message = document.createElement('p');
+    message.className = 'sl-quiz-feedback-message';
+    message.textContent = this.#fallbackMessage(correct);
+    item.append(message);
+    if (this.#type === 'blank' && !correct && this.#showCorrect) {
+      item.append(this.#buildBlankCorrections());
+    }
+    return item;
+  }
+
+  /** The generic message shown when no per-answer feedback applies. */
+  #fallbackMessage(correct: boolean): string {
+    if (correct) return this.#labels.correct;
+    // When the quiz can be retried, nudge rather than declare the final verdict.
+    return this.#disableAfterSubmit ? this.#labels.incorrect : this.#labels.tryAgain;
+  }
+
   /** A single tinted feedback box, coloured by whether its answer was right. */
   #feedbackItem(isCorrect: boolean): HTMLDivElement {
     const item = document.createElement('div');
-    item.className = 'sl-quiz-feedback-item';
-    item.classList.add(isCorrect ? 'sl-quiz-feedback-item--correct' : 'sl-quiz-feedback-item--wrong');
+    const variant = isCorrect ? 'sl-quiz-feedback-item--correct' : 'sl-quiz-feedback-item--wrong';
+    item.className = `sl-quiz-feedback-item ${variant}`;
     return item;
   }
 

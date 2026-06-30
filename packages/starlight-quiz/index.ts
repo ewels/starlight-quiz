@@ -3,7 +3,7 @@ import type { StarlightPlugin } from '@astrojs/starlight/types';
 import { quizManifestIntegration, quizValidationIntegration } from './integration';
 import { DEFAULT_QUIZ_DEFAULTS, type ProgressPosition, type QuizDefaults } from './lib/config';
 import { quizConfigIntegration } from './libs/config-integration';
-import { overrideStarlightComponent } from './libs/starlight';
+import { overrideStarlightComponent, type StarlightComponentName } from './libs/starlight';
 import { Translations } from './translations';
 
 /** Options for the `starlight-quiz` plugin. */
@@ -96,27 +96,16 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
 
         const customCss = injectStyles ? [...(config.customCss ?? []), 'starlight-quiz/styles'] : config.customCss;
 
+        function override(component: StarlightComponentName, entrypoint: string) {
+          return overrideStarlightComponent(config.components, logger, component, entrypoint);
+        }
+
         const components = progressTracker
           ? {
               ...config.components,
-              ...overrideStarlightComponent(
-                config.components,
-                logger,
-                'TableOfContents',
-                'starlight-quiz/overrides/TableOfContents.astro',
-              ),
-              ...overrideStarlightComponent(
-                config.components,
-                logger,
-                'MobileTableOfContents',
-                'starlight-quiz/overrides/MobileTableOfContents.astro',
-              ),
-              ...overrideStarlightComponent(
-                config.components,
-                logger,
-                'Footer',
-                'starlight-quiz/overrides/Footer.astro',
-              ),
+              ...override('TableOfContents', 'starlight-quiz/overrides/TableOfContents.astro'),
+              ...override('MobileTableOfContents', 'starlight-quiz/overrides/MobileTableOfContents.astro'),
+              ...override('Footer', 'starlight-quiz/overrides/Footer.astro'),
             }
           : config.components;
 

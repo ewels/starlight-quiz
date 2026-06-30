@@ -1,5 +1,5 @@
 import { PROGRESS_EVENT, RESET_ALL_EVENT } from './constants';
-import { computeProgress } from './score';
+import { computeProgress, progressEquals } from './score';
 import { loadState, saveState, type StorageLike, type StorageMap } from './storage';
 import type { QuizProgress, QuizState } from './types';
 
@@ -53,6 +53,8 @@ export class QuizTracker {
   #path: string | null = null;
   #states: StorageMap = {};
   #registered = new Set<string>();
+  /** Last progress broadcast, so `#emit` can skip no-op notifications. */
+  #lastEmitted: QuizProgress | null = null;
 
   constructor(options: QuizTrackerOptions = {}) {
     this.#storage = options.storage ?? defaultStorage();
@@ -66,6 +68,7 @@ export class QuizTracker {
       this.#path = path;
       this.#states = loadState(this.#storage, path);
       this.#registered = new Set();
+      this.#lastEmitted = null;
     }
   }
 
@@ -136,6 +139,10 @@ export class QuizTracker {
 
   #emit(): void {
     const progress = this.progress;
+    // Quizzes register one-by-one on load; skip the redundant broadcasts when
+    // the aggregate has not actually changed.
+    if (this.#lastEmitted && progressEquals(this.#lastEmitted, progress)) return;
+    this.#lastEmitted = progress;
     for (const listener of this.#listeners) listener(progress);
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent(PROGRESS_EVENT, { detail: progress }));

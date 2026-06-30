@@ -1,8 +1,9 @@
-import { HTMLElement as ParsedElement, parse } from 'node-html-parser';
+import { HTMLElement as ParsedElement } from 'node-html-parser';
 
 // Explicit .ts extensions on runtime relative imports so this module runs both
 // under Vite (the build integration) and directly under Node (the CLI).
-import { BLANK_PATTERN, isEmptyCheckboxText, stripEmptyCheckbox } from './parse.ts';
+import { collapseWhitespace, eachQuizSource, isAnswerItem } from './dom.ts';
+import { BLANK_PATTERN, hasBlank, stripEmptyCheckbox } from './parse.ts';
 import type { QuizType } from './types.ts';
 
 /** A single answer in a choice quiz. */
@@ -42,8 +43,8 @@ export interface QuizManifest {
   quizzes: QuizManifestEntry[];
 }
 
-function collapse(text: string): string {
-  return text.replace(/\s+/g, ' ').trim();
+function isHr(node: ParsedElement['childNodes'][number]): node is ParsedElement {
+  return node instanceof ParsedElement && node.tagName?.toLowerCase() === 'hr';
 }
 
 /** Text content of the sibling nodes before `stop` (exclusive). */
@@ -53,7 +54,7 @@ function textBefore(parent: ParsedElement, stop: ParsedElement | null): string {
     if (stop && node === stop) break;
     parts.push(node.text);
   }
-  return collapse(parts.join(' '));
+  return collapseWhitespace(parts.join(' '));
 }
 
 /** Text content of the sibling nodes after `start`, skipping `<hr>` rules. */
@@ -65,17 +66,14 @@ function textAfter(parent: ParsedElement, start: ParsedElement | null): string {
       if (node === start) seen = true;
       continue;
     }
-    if (node instanceof ParsedElement && node.tagName?.toLowerCase() === 'hr') continue;
+    if (isHr(node)) continue;
     parts.push(node.text);
   }
-  return collapse(parts.join(' '));
+  return collapseWhitespace(parts.join(' '));
 }
 
 function firstRule(source: ParsedElement): ParsedElement | null {
-  for (const node of source.childNodes) {
-    if (node instanceof ParsedElement && node.tagName?.toLowerCase() === 'hr') return node;
-  }
-  return null;
+  return source.childNodes.find(isHr) ?? null;
 }
 
 function extractBlanks(text: string): string[] {
@@ -92,18 +90,16 @@ function parseChoice(
   source: ParsedElement,
   list: ParsedElement,
 ): Pick<QuizManifestEntry, 'answers' | 'question' | 'explanation' | 'type'> {
-  const items = list
-    .querySelectorAll('li')
-    .filter((li) => li.querySelector('input[type="checkbox"]') || isEmptyCheckboxText(li.text));
+  const items = list.querySelectorAll('li').filter(isAnswerItem);
   const answers: ManifestAnswer[] = items.map((li) => {
     const checkbox = li.querySelector('input[type="checkbox"]');
     const correct = checkbox?.hasAttribute('checked') ?? false;
     const blockquote = li.querySelector('blockquote');
-    const feedback = blockquote ? collapse(blockquote.text) : undefined;
+    const feedback = blockquote ? collapseWhitespace(blockquote.text) : undefined;
     blockquote?.remove();
     checkbox?.remove();
     // `[]` empty-checkbox answers have no input; strip the plain-text marker.
-    const answer: ManifestAnswer = { text: stripEmptyCheckbox(collapse(li.text)), correct };
+    const answer: ManifestAnswer = { text: stripEmptyCheckbox(collapseWhitespace(li.text)), correct };
     if (feedback) answer.feedback = feedback;
     return answer;
   });
@@ -125,19 +121,14 @@ function parseChoice(
  * blanks) — so no MDX or runtime DOM is needed.
  */
 export function extractQuizzesFromHtml(html: string, page: string): QuizManifestEntry[] {
-  const root = parse(html);
   const entries: QuizManifestEntry[] = [];
 
-  for (const el of root.querySelectorAll('sl-quiz')) {
-    const source = el.querySelector('.sl-quiz-source');
-    if (!source) continue;
-
-    const id = el.getAttribute('id') ?? '';
+  for (const { id, el, source } of eachQuizSource(html)) {
     const title = el.querySelector('.sl-quiz-title')?.text.trim();
     const base: Pick<QuizManifestEntry, 'id' | 'page'> & { title?: string } = { id, page };
     if (title) base.title = title;
 
-    if (BLANK_PATTERN.test(source.text)) {
+    if (hasBlank(source.text)) {
       const rule = firstRule(source);
       const question = textBefore(source, rule);
       const blanks = extractBlanks(question);
