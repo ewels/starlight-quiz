@@ -4,6 +4,13 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+## **Version 1.0.1** (2026-08-14)
+
+Metadata-only release — no code, behaviour or API changes.
+
+- Expanded the package keywords so the package is shelved under a category on
+  [astro.build/integrations](https://astro.build/integrations) instead of showing as "Uncategorized".
+
 ## **Version 1.0.0** (2026-06-30)
 
 First public release.

@@ -1,6 +1,6 @@
 {
   "name": "starlight-quiz",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "license": "Apache-2.0",
   "author": "Phil Ewels",
@@ -15,12 +15,16 @@
   "keywords": [
     "starlight",
     "starlight-plugin",
-    "quiz",
     "astro",
     "astro-component",
     "withastro",
+    "ui",
+    "quiz",
     "documentation",
-    "mdx"
+    "mdx",
+    "interactive",
+    "education",
+    "learning"
   ],
   "sideEffects": [
     "*.css",
