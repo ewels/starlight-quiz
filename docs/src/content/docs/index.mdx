@@ -1,6 +1,11 @@
 ---
 title: Starlight Quiz
 description: Interactive quizzes for Astro and Starlight, authored in markdown.
+# starlight-page-actions derives the Markdown URL as pathname-minus-trailing-slash
+# + '.md', which on the site root resolves to `/starlight-quiz.md` — one level above
+# the deployed base, so it 404s and cannot be served from here. The page's Markdown
+# is still reachable at index.md, via rel="alternate" and via llms.txt.
+pageActions: false
 ---
 
 import { Quiz } from 'starlight-quiz/components';
@@ -70,6 +75,14 @@ When more than one answer is correct, the quiz automatically switches to checkbo
   />
   <LinkCard title="Live demo" href="/starlight-quiz/demo/" description="Every question type on one page." />
 </CardGrid>
+
+## Reading these docs with an AI assistant
+
+Every page has **Copy Markdown** and **Open in…** buttons beside its title, and serves its own source at
+the same URL with `.md` appended. The whole site is also available as
+[`llms.txt`](https://ewels.github.io/starlight-quiz/llms.txt) (an index),
+[`llms-full.txt`](https://ewels.github.io/starlight-quiz/llms-full.txt) (everything) and
+[`llms-small.txt`](https://ewels.github.io/starlight-quiz/llms-small.txt) (trimmed for smaller context windows).
 
 ## Credits
 

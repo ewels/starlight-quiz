@@ -1,0 +1,29 @@
+---
+// Starlight emits every OpenGraph tag except og:image, and no plugin emits the
+// rel="alternate" pointer at the raw Markdown. Both are added here.
+import Default from '@astrojs/starlight/components/Head.astro';
+import { getCollection } from 'astro:content';
+
+const ids = new Set((await getCollection('docs')).map((entry) => entry.id));
+// Starlight normalises the home page's route entry id to '', while `getCollection`
+// (and so the card route, and page-actions' `index.md`) keys it as 'index'.
+const id = Astro.locals.starlightRoute.entry.id || 'index';
+
+/** Absolute URL under the site's base path. Crawlers reject relative og:image. */
+const absolute = (path: string) => new URL(`${import.meta.env.BASE_URL}/${path}`.replace(/\/{2,}/g, '/'), Astro.site);
+
+// Pages with a generated card get theirs; anything else falls back to the home card.
+const image = absolute(`og/${ids.has(id) ? id : 'index'}.png`);
+// starlight-page-actions writes the raw Markdown to `<id>.md` at the site root.
+const markdown = ids.has(id) ? absolute(`${id}.md`) : null;
+---
+
+<Default><slot /></Default>
+{/* Starlight emits only the SVG favicon. These cover iOS home screens and clients that want a bitmap. */}
+<link rel="apple-touch-icon" sizes="180x180" href={absolute('apple-touch-icon.png')} />
+<link rel="icon" type="image/png" sizes="32x32" href={absolute('favicon-32.png')} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content={image} />
+{markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
