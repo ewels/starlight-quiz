@@ -75,6 +75,16 @@ const CURATED: Record<string, Partial<Record<StringKey, string>>> = {
     'starlightQuiz.results.confirmReset':
       '¿Reiniciar todas las respuestas de esta página? Esta acción no se puede deshacer.',
   },
+  ru: {
+    'starlightQuiz.results.badge': 'Викторина',
+    'starlightQuiz.intro.text':
+      'Ответы на этой странице сохраняются в локальном хранилище вашего браузера и остаются доступными между посещениями.',
+    'starlightQuiz.results.progress': 'Прогресс',
+    'starlightQuiz.results.answered': 'отвечено',
+    'starlightQuiz.results.resetAll': 'Сбросить все ответы',
+    'starlightQuiz.results.confirmReset':
+      'Сбросить все ответы на этой странице? Это действие нельзя отменить.',
+  },
 };
 
 /** Parse a gettext `.po` file into a `{ msgid: msgstr }` map. */
