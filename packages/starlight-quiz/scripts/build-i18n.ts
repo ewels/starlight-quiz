@@ -82,8 +82,7 @@ const CURATED: Record<string, Partial<Record<StringKey, string>>> = {
     'starlightQuiz.results.progress': 'Прогресс',
     'starlightQuiz.results.answered': 'отвечено',
     'starlightQuiz.results.resetAll': 'Сбросить все ответы',
-    'starlightQuiz.results.confirmReset':
-      'Сбросить все ответы на этой странице? Это действие нельзя отменить.',
+    'starlightQuiz.results.confirmReset': 'Сбросить все ответы на этой странице? Это действие нельзя отменить.',
   },
 };
 
