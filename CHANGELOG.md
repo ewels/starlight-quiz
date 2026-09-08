@@ -4,11 +4,20 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+## **Version 1.0.2** (2026-09-08)
+
+Translation release — no API changes.
+
 - Added a Russian translation, contributed by [@dragomano](https://github.com/dragomano)
-  ([#2](https://github.com/ewels/starlight-quiz/pull/2)).
-- Completed the translations for all 13 locales and moved every translated string into the gettext `.po` files. Some
-  progress-widget wording changes to match mkdocs-quiz — French now reads "Répondu" rather than "répondues"
-  ([#3](https://github.com/ewels/starlight-quiz/pull/3)).
+  ([#2](https://github.com/ewels/starlight-quiz/pull/2)). That brings the built-in locales to 14 including English.
+- Filled in every missing string across all 13 translated locales, and moved each one into the gettext `.po` files so
+  they are the single source ([#3](https://github.com/ewels/starlight-quiz/pull/3)).
+- Relabelled the table-of-contents progress widget to match mkdocs-quiz. Both counts now read with the label first —
+  "Answered: 3 / 10" and "Correct: 2", rather than the word trailing the count. In French this also corrects "Répondu"
+  from "répondues" ([#3](https://github.com/ewels/starlight-quiz/pull/3)).
+- The progress widget's correct-count label now resolves `starlightQuiz.progressCorrect` rather than sharing
+  `starlightQuiz.results.correct` with the results panel, so the two read independently. If you overrode that string in
+  your own Starlight translations, move the override to the new key. The `correctLabel` prop is unchanged.
 
 ## **Version 1.0.1** (2026-08-14)
 
