@@ -43,46 +43,133 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
 };
 
 /**
- * Hand-written translations for strings that have no mkdocs msgid. Locales not
- * listed here fall back to English for these keys (Starlight overlays the
- * locale table on top of the English base).
+ * Hand-written translations for the six strings that have no mkdocs msgid
+ * (the intro text, the progress/badge labels, the reset-all button and its
+ * confirm prompt). Every locale shipped in `locales/` is listed here so a
+ * gap is visible in this file rather than only in the coverage report.
+ *
+ * A value identical to the English source is intentional (e.g. "Quiz" is
+ * "Quiz" in German) — `buildLocale` drops it from the generated table and
+ * Starlight falls back to the English base.
  */
 const CURATED: Record<string, Partial<Record<StringKey, string>>> = {
-  fr: {
-    'starlightQuiz.intro.text':
-      'Les réponses de cette page sont enregistrées dans le stockage local de votre navigateur et persistent entre les visites.',
-    'starlightQuiz.results.progress': 'Progression',
-    'starlightQuiz.results.answered': 'répondues',
-    'starlightQuiz.results.resetAll': 'Réinitialiser toutes les réponses',
-    'starlightQuiz.results.confirmReset':
-      'Réinitialiser toutes les réponses de cette page ? Cette action est irréversible.',
-  },
   de: {
     'starlightQuiz.intro.text':
       'Die Antworten auf dieser Seite werden im lokalen Speicher deines Browsers gespeichert und bleiben zwischen Besuchen erhalten.',
     'starlightQuiz.results.progress': 'Fortschritt',
+    'starlightQuiz.results.badge': 'Quiz',
     'starlightQuiz.results.answered': 'beantwortet',
     'starlightQuiz.results.resetAll': 'Alle Antworten zurücksetzen',
     'starlightQuiz.results.confirmReset':
       'Alle Antworten auf dieser Seite zurücksetzen? Dies kann nicht rückgängig gemacht werden.',
   },
+  eo: {
+    'starlightQuiz.intro.text':
+      'La respondoj de ĉi tiu paĝo estas konservataj en la loka memoro de via retumilo kaj restas inter vizitoj.',
+    'starlightQuiz.results.progress': 'Progreso',
+    'starlightQuiz.results.badge': 'Kvizo',
+    'starlightQuiz.results.answered': 'respondita',
+    'starlightQuiz.results.resetAll': 'Restarigi ĉiujn respondojn',
+    'starlightQuiz.results.confirmReset': 'Ĉu restarigi ĉiujn respondojn en ĉi tiu paĝo? Tio ne estas malfarebla.',
+  },
   es: {
     'starlightQuiz.intro.text':
       'Las respuestas de esta página se guardan en el almacenamiento local de tu navegador y se conservan entre visitas.',
     'starlightQuiz.results.progress': 'Progreso',
+    'starlightQuiz.results.badge': 'Cuestionario',
     'starlightQuiz.results.answered': 'respondidas',
     'starlightQuiz.results.resetAll': 'Reiniciar todas las respuestas',
     'starlightQuiz.results.confirmReset':
       '¿Reiniciar todas las respuestas de esta página? Esta acción no se puede deshacer.',
   },
+  fr: {
+    'starlightQuiz.intro.text':
+      'Les réponses de cette page sont enregistrées dans le stockage local de votre navigateur et persistent entre les visites.',
+    'starlightQuiz.results.progress': 'Progression',
+    'starlightQuiz.results.badge': 'Quiz',
+    'starlightQuiz.results.answered': 'répondues',
+    'starlightQuiz.results.resetAll': 'Réinitialiser toutes les réponses',
+    'starlightQuiz.results.confirmReset':
+      'Réinitialiser toutes les réponses de cette page ? Cette action est irréversible.',
+  },
+  hi: {
+    'starlightQuiz.intro.text':
+      'इस पृष्ठ के क्विज़ उत्तर आपके ब्राउज़र के लोकल स्टोरेज में सहेजे जाते हैं और अगली विज़िट तक बने रहते हैं।',
+    'starlightQuiz.results.progress': 'प्रगति',
+    'starlightQuiz.results.badge': 'क्विज़',
+    'starlightQuiz.results.answered': 'उत्तर दिए',
+    'starlightQuiz.results.resetAll': 'सभी उत्तर रीसेट करें',
+    'starlightQuiz.results.confirmReset': 'इस पृष्ठ के सभी उत्तर रीसेट करें? इसे पूर्ववत नहीं किया जा सकता।',
+  },
+  id: {
+    'starlightQuiz.intro.text':
+      'Jawaban kuis di halaman ini disimpan di penyimpanan lokal peramban Anda dan tetap tersimpan di antara kunjungan.',
+    'starlightQuiz.results.progress': 'Progres',
+    'starlightQuiz.results.badge': 'Kuis',
+    'starlightQuiz.results.answered': 'dijawab',
+    'starlightQuiz.results.resetAll': 'Atur ulang semua jawaban',
+    'starlightQuiz.results.confirmReset':
+      'Atur ulang semua jawaban di halaman ini? Tindakan ini tidak dapat dibatalkan.',
+  },
+  ja: {
+    'starlightQuiz.intro.text':
+      'このページのクイズの回答はブラウザのローカルストレージに保存され、次回の訪問時にも保持されます。',
+    'starlightQuiz.results.progress': '進捗',
+    'starlightQuiz.results.badge': 'クイズ',
+    'starlightQuiz.results.answered': '回答済み',
+    'starlightQuiz.results.resetAll': 'すべての回答をリセット',
+    'starlightQuiz.results.confirmReset': 'このページのすべての回答をリセットしますか？この操作は元に戻せません。',
+  },
+  ko: {
+    'starlightQuiz.intro.text': '이 페이지의 퀴즈 답변은 브라우저의 로컬 저장소에 저장되어 다시 방문해도 유지됩니다.',
+    'starlightQuiz.results.progress': '진행 상황',
+    'starlightQuiz.results.badge': '퀴즈',
+    'starlightQuiz.results.answered': '답변함',
+    'starlightQuiz.results.resetAll': '모든 답변 초기화',
+    'starlightQuiz.results.confirmReset': '이 페이지의 모든 답변을 초기화할까요? 이 작업은 되돌릴 수 없습니다.',
+  },
+  no: {
+    'starlightQuiz.intro.text': 'Svarene på denne siden lagres i nettleserens lokale lagring og beholdes mellom besøk.',
+    'starlightQuiz.results.progress': 'Fremdrift',
+    'starlightQuiz.results.badge': 'Quiz',
+    'starlightQuiz.results.answered': 'besvart',
+    'starlightQuiz.results.resetAll': 'Tilbakestill alle svar',
+    'starlightQuiz.results.confirmReset': 'Tilbakestille alle svar på denne siden? Dette kan ikke angres.',
+  },
+  'pt-br': {
+    'starlightQuiz.intro.text':
+      'As respostas desta página são salvas no armazenamento local do seu navegador e são mantidas entre as visitas.',
+    'starlightQuiz.results.progress': 'Progresso',
+    'starlightQuiz.results.badge': 'Quiz',
+    'starlightQuiz.results.answered': 'respondidas',
+    'starlightQuiz.results.resetAll': 'Reiniciar todas as respostas',
+    'starlightQuiz.results.confirmReset': 'Reiniciar todas as respostas desta página? Esta ação não pode ser desfeita.',
+  },
   ru: {
-    'starlightQuiz.results.badge': 'Викторина',
     'starlightQuiz.intro.text':
       'Ответы на этой странице сохраняются в локальном хранилище вашего браузера и остаются доступными между посещениями.',
     'starlightQuiz.results.progress': 'Прогресс',
+    'starlightQuiz.results.badge': 'Викторина',
     'starlightQuiz.results.answered': 'отвечено',
     'starlightQuiz.results.resetAll': 'Сбросить все ответы',
     'starlightQuiz.results.confirmReset': 'Сбросить все ответы на этой странице? Это действие нельзя отменить.',
+  },
+  sv: {
+    'starlightQuiz.intro.text':
+      'Svaren på den här sidan sparas i webbläsarens lokala lagring och finns kvar mellan besöken.',
+    'starlightQuiz.results.progress': 'Framsteg',
+    'starlightQuiz.results.badge': 'Quiz',
+    'starlightQuiz.results.answered': 'besvarade',
+    'starlightQuiz.results.resetAll': 'Återställ alla svar',
+    'starlightQuiz.results.confirmReset': 'Återställa alla svar på den här sidan? Detta kan inte ångras.',
+  },
+  zh: {
+    'starlightQuiz.intro.text': '本页的测验答案会保存在浏览器的本地存储中，并在下次访问时保留。',
+    'starlightQuiz.results.progress': '进度',
+    'starlightQuiz.results.badge': '测验',
+    'starlightQuiz.results.answered': '已回答',
+    'starlightQuiz.results.resetAll': '重置所有答案',
+    'starlightQuiz.results.confirmReset': '确定重置本页所有答案吗？此操作无法撤销。',
   },
 };
 
@@ -122,19 +209,28 @@ function parsePo(text: string): Record<string, string> {
   return out;
 }
 
-/** Build one locale's table: only keys that genuinely differ from English. */
+/**
+ * Build one locale's table: only keys that genuinely differ from English.
+ *
+ * `missing` lists the keys the locale has no value for at all — those are real
+ * gaps. A key whose translation happens to equal the English source ("Quiz" in
+ * German) is covered, not missing: it is left out of the table so Starlight
+ * falls back to the English base.
+ */
 function buildLocale(
   po: Record<string, string>,
   curated: Partial<Record<StringKey, string>>,
-): Partial<Record<StringKey, string>> {
+): { table: Partial<Record<StringKey, string>>; missing: StringKey[] } {
   const table: Partial<Record<StringKey, string>> = {};
+  const missing: StringKey[] = [];
   for (const key of Object.keys(STRINGS) as StringKey[]) {
     const msgid = KEY_TO_MSGID[key];
     const fromPo = msgid ? po[msgid] : undefined;
     const value = fromPo?.trim() ? fromPo : curated[key];
-    if (value !== undefined && value !== STRINGS[key]) table[key] = value;
+    if (value === undefined) missing.push(key);
+    else if (value !== STRINGS[key]) table[key] = value;
   }
-  return table;
+  return { table, missing };
 }
 
 const files = readdirSync(localesDir)
@@ -142,11 +238,13 @@ const files = readdirSync(localesDir)
   .sort();
 
 const tables: Record<string, Partial<Record<StringKey, string>>> = {};
+const gaps: Record<string, StringKey[]> = {};
 for (const file of files) {
   const code = file.replace(/\.po$/, '').toLowerCase(); // mkdocs `pt-BR` -> Starlight `pt-br`
   const po = parsePo(readFileSync(join(localesDir, file), 'utf8'));
-  const table = buildLocale(po, CURATED[code] ?? CURATED[code.split('-')[0]!] ?? {});
+  const { table, missing } = buildLocale(po, CURATED[code] ?? CURATED[code.split('-')[0]!] ?? {});
   if (Object.keys(table).length > 0) tables[code] = table;
+  gaps[code] = missing;
 }
 
 const body = Object.entries(tables)
@@ -175,19 +273,20 @@ ${body}
 
 writeFileSync(outFile, output);
 
-// Coverage report — how many of the source strings each locale translates.
+// Coverage report — how many of the source strings each locale has a value for.
 const totalKeys = Object.keys(STRINGS).length;
-const codes = Object.keys(tables).sort();
-console.log(`Wrote ${outFile} — en + ${codes.length} locales.\n`);
+const codes = Object.keys(gaps).sort();
+console.log(`Wrote ${outFile} — en + ${Object.keys(tables).length} locales.\n`);
 console.log(`Coverage (translated / ${totalKeys} strings):`);
-const empty: string[] = [];
 for (const code of codes) {
-  const translated = Object.keys(tables[code]!).length;
-  const pct = Math.round((translated / totalKeys) * 100);
-  console.log(`  ${code.padEnd(6)} ${String(translated).padStart(2)}/${totalKeys}  ${String(pct).padStart(3)}%`);
-  if (translated === 0) empty.push(code);
+  const missing = gaps[code]!;
+  const covered = totalKeys - missing.length;
+  const pct = Math.round((covered / totalKeys) * 100);
+  const note = missing.length > 0 ? `  missing: ${missing.join(', ')}` : '';
+  console.log(`  ${code.padEnd(6)} ${String(covered).padStart(2)}/${totalKeys}  ${String(pct).padStart(3)}%${note}`);
 }
-if (empty.length > 0) {
-  // A locale that translates nothing usually means a broken or empty .po file.
-  console.warn(`\nWarning: no translations found for: ${empty.join(', ')}`);
+const incomplete = codes.filter((code) => gaps[code]!.length > 0);
+if (incomplete.length > 0) {
+  // Either the .po file is missing msgids or CURATED has no entry for the locale.
+  console.warn(`\nWarning: incomplete locales: ${incomplete.join(', ')}`);
 }

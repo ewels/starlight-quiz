@@ -4,6 +4,16 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+- Completed the translations for every shipped locale. The six strings with no
+  mkdocs-quiz counterpart (the intro text, the progress and badge labels, the
+  reset-all button and its confirm prompt) were only hand-written for German,
+  Spanish, French and Russian; the remaining nine locales fell back to English.
+  Every locale in `locales/` is now listed in the generator's `CURATED` map.
+- The `gen:i18n` coverage report now counts a locale as covering a string when
+  it has a value for it, and names the keys that are genuinely missing — a
+  translation that legitimately matches English ("Quiz" in German) no longer
+  reads as a gap.
+
 ## **Version 1.0.1** (2026-08-14)
 
 Metadata-only release — no code, behaviour or API changes.
