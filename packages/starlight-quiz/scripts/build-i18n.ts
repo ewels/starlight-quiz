@@ -1,14 +1,18 @@
 /**
  * Generate `translations.ts` from the gettext `.po` files in `locales/`.
  *
- * The `.po` files are copied verbatim from mkdocs-quiz so the two sibling
- * plugins share one set of translations. starlight-quiz keeps its own
- * namespaced string keys (e.g. `starlightQuiz.submit`) for safe injection into
- * Starlight's i18n, so this script maps each key to the corresponding mkdocs
- * msgid (the English source string) and pulls the translated value across.
+ * starlight-quiz keeps its own namespaced string keys (e.g.
+ * `starlightQuiz.submit`) for safe injection into Starlight's i18n, so this
+ * script maps each key to its msgid (the English source string) and pulls the
+ * translated value across.
  *
- * Strings with no mkdocs counterpart (the intro text, the reset-all confirm,
- * etc.) keep the hand-written translations in CURATED below.
+ * Most of those msgids are shared with mkdocs-quiz, and that part of each
+ * `.po` file is kept byte-identical to the sibling plugin's so the two read
+ * the same way. The strings belonging to UI mkdocs-quiz does not have (the
+ * intro panel, the ToC badge, the page-wide reset and its confirm prompt) are
+ * appended in a marked block at the end of the same file — inert there, since
+ * mkdocs-quiz loads a `.po` into a dict and looks up only the msgids it knows,
+ * and it keeps translators working in one file.
  *
  * Run with: `pnpm --filter starlight-quiz gen:i18n`
  * (Node strips the types: `node --experimental-strip-types`.)
@@ -22,7 +26,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const localesDir = join(here, '..', 'locales');
 const outFile = join(here, '..', 'translations.ts');
 
-/** starlight-quiz key -> mkdocs-quiz msgid (the English source string). */
+/** starlight-quiz key -> msgid (the English source string) in the `.po` files. */
 const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
   'starlightQuiz.questionNumber': 'Question {n}',
   'starlightQuiz.submit': 'Submit',
@@ -33,6 +37,8 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
   'starlightQuiz.empty': '(empty)',
   'starlightQuiz.results.title': 'Quiz Complete!',
   'starlightQuiz.progressHeading': 'Quiz Progress',
+  'starlightQuiz.results.answered': 'Answered:',
+  'starlightQuiz.progressCorrect': 'Correct:',
   'starlightQuiz.results.questionsAnswered': 'questions answered',
   'starlightQuiz.results.correct': 'correct',
   'starlightQuiz.results.excellent': 'Outstanding! You aced it!',
@@ -40,51 +46,21 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
   'starlightQuiz.results.average': 'Good effort! Keep learning!',
   'starlightQuiz.results.poor': "Not bad, but there's room for improvement!",
   'starlightQuiz.results.fail': 'Better luck next time! Keep trying!',
+  // starlight-quiz-only strings; the msgid is the English source verbatim.
+  'starlightQuiz.intro.text':
+    "Quiz answers on this page are saved to your browser's local storage and persist between visits.",
+  'starlightQuiz.results.badge': 'Quiz',
+  'starlightQuiz.results.resetAll': 'Reset all answers',
+  'starlightQuiz.results.confirmReset': 'Reset every answer on this page? This cannot be undone.',
 };
 
 /**
- * Hand-written translations for strings that have no mkdocs msgid. Locales not
- * listed here fall back to English for these keys (Starlight overlays the
- * locale table on top of the English base).
+ * msgids whose mkdocs wording carries punctuation that starlight-quiz renders
+ * in the markup instead. `Answered:` and `Correct:` label the counts in both
+ * plugins, but here the colon lives in `QuizProgress.astro`, so strip it —
+ * along with any space before it, since French writes "Correctes :".
  */
-const CURATED: Record<string, Partial<Record<StringKey, string>>> = {
-  fr: {
-    'starlightQuiz.intro.text':
-      'Les réponses de cette page sont enregistrées dans le stockage local de votre navigateur et persistent entre les visites.',
-    'starlightQuiz.results.progress': 'Progression',
-    'starlightQuiz.results.answered': 'répondues',
-    'starlightQuiz.results.resetAll': 'Réinitialiser toutes les réponses',
-    'starlightQuiz.results.confirmReset':
-      'Réinitialiser toutes les réponses de cette page ? Cette action est irréversible.',
-  },
-  de: {
-    'starlightQuiz.intro.text':
-      'Die Antworten auf dieser Seite werden im lokalen Speicher deines Browsers gespeichert und bleiben zwischen Besuchen erhalten.',
-    'starlightQuiz.results.progress': 'Fortschritt',
-    'starlightQuiz.results.answered': 'beantwortet',
-    'starlightQuiz.results.resetAll': 'Alle Antworten zurücksetzen',
-    'starlightQuiz.results.confirmReset':
-      'Alle Antworten auf dieser Seite zurücksetzen? Dies kann nicht rückgängig gemacht werden.',
-  },
-  es: {
-    'starlightQuiz.intro.text':
-      'Las respuestas de esta página se guardan en el almacenamiento local de tu navegador y se conservan entre visitas.',
-    'starlightQuiz.results.progress': 'Progreso',
-    'starlightQuiz.results.answered': 'respondidas',
-    'starlightQuiz.results.resetAll': 'Reiniciar todas las respuestas',
-    'starlightQuiz.results.confirmReset':
-      '¿Reiniciar todas las respuestas de esta página? Esta acción no se puede deshacer.',
-  },
-  ru: {
-    'starlightQuiz.results.badge': 'Викторина',
-    'starlightQuiz.intro.text':
-      'Ответы на этой странице сохраняются в локальном хранилище вашего браузера и остаются доступными между посещениями.',
-    'starlightQuiz.results.progress': 'Прогресс',
-    'starlightQuiz.results.answered': 'отвечено',
-    'starlightQuiz.results.resetAll': 'Сбросить все ответы',
-    'starlightQuiz.results.confirmReset': 'Сбросить все ответы на этой странице? Это действие нельзя отменить.',
-  },
-};
+const STRIP_TRAILING_COLON = new Set<StringKey>(['starlightQuiz.results.answered', 'starlightQuiz.progressCorrect']);
 
 /** Parse a gettext `.po` file into a `{ msgid: msgstr }` map. */
 function parsePo(text: string): Record<string, string> {
@@ -122,19 +98,28 @@ function parsePo(text: string): Record<string, string> {
   return out;
 }
 
-/** Build one locale's table: only keys that genuinely differ from English. */
-function buildLocale(
-  po: Record<string, string>,
-  curated: Partial<Record<StringKey, string>>,
-): Partial<Record<StringKey, string>> {
+/**
+ * Build one locale's table: only keys that genuinely differ from English.
+ *
+ * `missing` lists the keys the locale has no value for at all — those are real
+ * gaps. A key whose translation happens to equal the English source ("Quiz" in
+ * German) is covered, not missing: it is left out of the table so Starlight
+ * falls back to the English base.
+ */
+function buildLocale(po: Record<string, string>): {
+  table: Partial<Record<StringKey, string>>;
+  missing: StringKey[];
+} {
   const table: Partial<Record<StringKey, string>> = {};
+  const missing: StringKey[] = [];
   for (const key of Object.keys(STRINGS) as StringKey[]) {
     const msgid = KEY_TO_MSGID[key];
-    const fromPo = msgid ? po[msgid] : undefined;
-    const value = fromPo?.trim() ? fromPo : curated[key];
-    if (value !== undefined && value !== STRINGS[key]) table[key] = value;
+    const raw = msgid && po[msgid]?.trim() ? po[msgid] : undefined;
+    const value = raw !== undefined && STRIP_TRAILING_COLON.has(key) ? raw.replace(/\s*:\s*$/, '') : raw;
+    if (value === undefined) missing.push(key);
+    else if (value !== STRINGS[key]) table[key] = value;
   }
-  return table;
+  return { table, missing };
 }
 
 const files = readdirSync(localesDir)
@@ -142,11 +127,13 @@ const files = readdirSync(localesDir)
   .sort();
 
 const tables: Record<string, Partial<Record<StringKey, string>>> = {};
+const gaps: Record<string, StringKey[]> = {};
 for (const file of files) {
   const code = file.replace(/\.po$/, '').toLowerCase(); // mkdocs `pt-BR` -> Starlight `pt-br`
   const po = parsePo(readFileSync(join(localesDir, file), 'utf8'));
-  const table = buildLocale(po, CURATED[code] ?? CURATED[code.split('-')[0]!] ?? {});
+  const { table, missing } = buildLocale(po);
   if (Object.keys(table).length > 0) tables[code] = table;
+  gaps[code] = missing;
 }
 
 const body = Object.entries(tables)
@@ -175,19 +162,20 @@ ${body}
 
 writeFileSync(outFile, output);
 
-// Coverage report — how many of the source strings each locale translates.
+// Coverage report — how many of the source strings each locale has a value for.
 const totalKeys = Object.keys(STRINGS).length;
-const codes = Object.keys(tables).sort();
-console.log(`Wrote ${outFile} — en + ${codes.length} locales.\n`);
+const codes = Object.keys(gaps).sort();
+console.log(`Wrote ${outFile} — en + ${Object.keys(tables).length} locales.\n`);
 console.log(`Coverage (translated / ${totalKeys} strings):`);
-const empty: string[] = [];
 for (const code of codes) {
-  const translated = Object.keys(tables[code]!).length;
-  const pct = Math.round((translated / totalKeys) * 100);
-  console.log(`  ${code.padEnd(6)} ${String(translated).padStart(2)}/${totalKeys}  ${String(pct).padStart(3)}%`);
-  if (translated === 0) empty.push(code);
+  const missing = gaps[code]!;
+  const covered = totalKeys - missing.length;
+  const pct = Math.round((covered / totalKeys) * 100);
+  const note = missing.length > 0 ? `  missing: ${missing.join(', ')}` : '';
+  console.log(`  ${code.padEnd(6)} ${String(covered).padStart(2)}/${totalKeys}  ${String(pct).padStart(3)}%${note}`);
 }
-if (empty.length > 0) {
-  // A locale that translates nothing usually means a broken or empty .po file.
-  console.warn(`\nWarning: no translations found for: ${empty.join(', ')}`);
+const incomplete = codes.filter((code) => gaps[code]!.length > 0);
+if (incomplete.length > 0) {
+  // The locale's .po file is missing msgids, or leaves their msgstr empty.
+  console.warn(`\nWarning: incomplete locales: ${incomplete.join(', ')}`);
 }

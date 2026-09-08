@@ -106,3 +106,26 @@ msgstr "초기화"
 #: js/quiz.js:677
 msgid "(empty)"
 msgstr "(비어 있음)"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "이 페이지의 퀴즈 답변은 브라우저의 로컬 저장소에 저장되어 다시 방문해도 유지됩니다."
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "퀴즈"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "모든 답변 초기화"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "이 페이지의 모든 답변을 초기화할까요? 이 작업은 되돌릴 수 없습니다."

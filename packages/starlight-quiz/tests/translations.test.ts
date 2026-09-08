@@ -26,7 +26,7 @@ describe('translations', () => {
   });
 
   it('ships the mkdocs-quiz locales', () => {
-    // The .po files are copied verbatim from mkdocs-quiz, so all of its locales ship.
+    // The .po files carry mkdocs-quiz's shared strings, so all of its locales ship.
     expect(locales).toEqual(
       expect.arrayContaining(['en', 'de', 'eo', 'es', 'fr', 'hi', 'id', 'ja', 'ko', 'no', 'pt-br', 'sv', 'zh']),
     );

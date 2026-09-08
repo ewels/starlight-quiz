@@ -1,4 +1,6 @@
-# Translations template for mkdocs-quiz.
+# Translations template for starlight-quiz.
+# The shared strings below are kept byte-identical to mkdocs-quiz's template
+# so the two stay in step; the starlight-quiz-only block is at the end.
 # Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the mkdocs-quiz project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
@@ -110,4 +112,27 @@ msgstr ""
 
 #: overrides/main.html:36 overrides/main.html:61
 msgid "Reset"
+msgstr ""
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr ""
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr ""
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr ""
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
 msgstr ""

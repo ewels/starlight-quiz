@@ -109,3 +109,26 @@ msgstr "Restarigi"
 #: js/quiz.js:677
 msgid "(empty)"
 msgstr "(malplena)"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "La respondoj de ĉi tiu paĝo estas konservataj en la loka memoro de via retumilo kaj restas inter vizitoj."
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "Kvizo"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "Restarigi ĉiujn respondojn"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "Ĉu restarigi ĉiujn respondojn en ĉi tiu paĝo? Tio ne estas malfarebla."

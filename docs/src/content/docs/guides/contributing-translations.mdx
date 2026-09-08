@@ -7,24 +7,23 @@ Community translations are very welcome. This page explains how to add a new lan
 
 ## How translations are stored
 
-Starlight Quiz shares its translations **verbatim with [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz)** so the two
-sibling plugins always read the same way. The source of truth is a set of standard gettext `.po` files:
+Every translated string lives in a standard gettext `.po` file — there is no second place to look:
 
 ```
 packages/starlight-quiz/locales/
-  de.po   eo.po   es.po   fr.po   hi.po   id.po
-  ja.po   ko.po   no.po   pt-BR.po  sv.po   zh.po
+  de.po   eo.po   es.po   fr.po   hi.po   id.po   ja.po
+  ko.po   no.po   pt-BR.po  ru.po   sv.po   zh.po
 ```
 
 There is no `en.po`: English is the source text, used as the fallback when a string is untranslated.
 
-A build step, `gen:i18n`, compiles these `.po` files into `translations.ts` (the table the plugin injects into
-Starlight). Two kinds of string feed into it:
+Most of these strings are **shared with [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz)**, the sibling plugin, so
+the two always read the same way — that part of each file is byte-identical to mkdocs-quiz's own. A handful belong to UI
+mkdocs-quiz doesn't have (the intro panel, the mobile table-of-contents badge, and the page-wide reset button with its
+confirm prompt); those sit in a clearly marked block at the end of each file. mkdocs-quiz ignores them, so one file
+serves both projects.
 
-- **Shared strings** (buttons, feedback, score messages) are pulled from the `.po` files by matching the mkdocs-quiz
-  source text.
-- A few **Starlight-only strings** with no mkdocs counterpart (the intro-panel text and a couple of results-panel
-  labels) live in a hand-maintained `CURATED` map in `packages/starlight-quiz/scripts/build-i18n.ts`.
+A build step, `gen:i18n`, compiles the `.po` files into `translations.ts`, the table the plugin injects into Starlight.
 
 ## Add or improve a language
 
@@ -39,10 +38,10 @@ Starlight). Two kinds of string feed into it:
    msgstr "Question {n}"
    ```
 
-2. _(Optional)_ For full coverage, add the Starlight-only strings for your locale to the `CURATED` map in
-   `scripts/build-i18n.ts`. Locales missing from `CURATED` simply fall back to English for those few keys.
+   Translate the marked Starlight-only block at the end of the file too — any `msgstr` you leave empty simply falls
+   back to English.
 
-3. **Regenerate** the runtime table:
+2. **Regenerate** the runtime table:
 
    ```sh
    pnpm --filter starlight-quiz gen:i18n
@@ -51,17 +50,18 @@ Starlight). Two kinds of string feed into it:
    It rewrites `translations.ts` and prints a coverage summary, a quick way to see what is still missing:
 
    ```text
-   Coverage (translated / 21 strings):
-     de     20/21   95%
-     es     20/21   95%
-     fr     19/21   90%
+   Coverage (translated / 22 strings):
+     de     22/22  100%
+     es     22/22  100%
+     fr     22/22  100%
      …
    ```
 
-4. **Commit** the regenerated `translations.ts` alongside your `.po` change (and `build-i18n.ts` if you edited
-   `CURATED`).
+   Anything short of full coverage is listed by key, so you can see exactly what is still missing.
 
-5. **Open a pull request.** Because the `.po` files are shared with mkdocs-quiz, please mention if the same change
+3. **Commit** the regenerated `translations.ts` alongside your `.po` change.
+
+4. **Open a pull request.** Because the `.po` files are shared with mkdocs-quiz, please mention if the same change
    should land there too, so the two stay in sync.
 
 ## Test it locally

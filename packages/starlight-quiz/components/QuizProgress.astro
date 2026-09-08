@@ -6,9 +6,9 @@ interface Props {
   class?: string;
   /** Override the heading. */
   headingLabel?: string;
-  /** Override the word after the answered/total count. */
+  /** Override the label in front of the answered/total count. */
   answeredLabel?: string;
-  /** Override the word after the correct count. */
+  /** Override the label in front of the correct count. */
   correctLabel?: string;
   /** Override the reset button label. */
   resetLabel?: string;
@@ -21,7 +21,7 @@ const { class: className, headingLabel, answeredLabel, correctLabel, resetLabel,
 const resolve = createStringResolver(Astro.locals);
 const heading = resolve('starlightQuiz.progressHeading', headingLabel);
 const answered = resolve('starlightQuiz.results.answered', answeredLabel);
-const correct = resolve('starlightQuiz.results.correct', correctLabel);
+const correct = resolve('starlightQuiz.progressCorrect', correctLabel);
 const reset = resolve('starlightQuiz.reset', resetLabel);
 const confirmReset = resolve('starlightQuiz.results.confirmReset');
 ---

@@ -4,6 +4,12 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+- Added a Russian translation, contributed by [@dragomano](https://github.com/dragomano)
+  ([#2](https://github.com/ewels/starlight-quiz/pull/2)).
+- Completed the translations for all 13 locales and moved every translated string into the gettext `.po` files. Some
+  progress-widget wording changes to match mkdocs-quiz — French now reads "Répondu" rather than "répondues"
+  ([#3](https://github.com/ewels/starlight-quiz/pull/3)).
+
 ## **Version 1.0.1** (2026-08-14)
 
 Metadata-only release — no code, behaviour or API changes.

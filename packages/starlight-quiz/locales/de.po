@@ -111,3 +111,26 @@ msgstr "Zurücksetzen"
 #: js/quiz.js:677
 msgid "(empty)"
 msgstr "(leer)"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "Die Antworten auf dieser Seite werden im lokalen Speicher deines Browsers gespeichert und bleiben zwischen Besuchen erhalten."
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "Quiz"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "Alle Antworten zurücksetzen"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "Alle Antworten auf dieser Seite zurücksetzen? Dies kann nicht rückgängig gemacht werden."

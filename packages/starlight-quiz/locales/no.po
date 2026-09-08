@@ -111,3 +111,26 @@ msgstr "Tilbakestill"
 #: js/quiz.js:677
 msgid "(empty)"
 msgstr "(tom)"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "Svarene på denne siden lagres i nettleserens lokale lagring og beholdes mellom besøk."
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "Quiz"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "Tilbakestill alle svar"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "Tilbakestille alle svar på denne siden? Dette kan ikke angres."
