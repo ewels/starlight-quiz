@@ -4,11 +4,18 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
-- Completed the translations for every shipped locale. The six strings with no
+- Completed the translations for every shipped locale. The strings with no
   mkdocs-quiz counterpart (the intro text, the progress and badge labels, the
   reset-all button and its confirm prompt) were only hand-written for German,
   Spanish, French and Russian; the remaining nine locales fell back to English.
   Every locale in `locales/` is now listed in the generator's `CURATED` map.
+- Sourced the progress label ("answered") from mkdocs-quiz's existing
+  `Answered:` msgid instead of hand-writing it per locale. The colon lives in
+  `QuizProgress.astro`, so the generator strips a trailing colon (and any space
+  before it — French writes "Répondu :"). This is the shared translation for
+  the same label in the sibling plugin, so a few locales change wording
+  slightly: French now reads "Répondu" rather than "répondues", and German,
+  Spanish and Russian pick up the capitalisation mkdocs-quiz uses.
 - The `gen:i18n` coverage report now counts a locale as covering a string when
   it has a value for it, and names the keys that are genuinely missing — a
   translation that legitimately matches English ("Quiz" in German) no longer
