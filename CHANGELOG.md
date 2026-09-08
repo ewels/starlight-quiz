@@ -4,16 +4,11 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
-Translation overhaul ([#3](https://github.com/ewels/starlight-quiz/pull/3)):
-
-- All 13 locales now translate every string. Nine of them fell back to English for the intro panel, the
-  table-of-contents badge, and the reset-all button with its confirm prompt.
-- Every translated string now lives in the gettext `.po` files, so translators work in one place with their usual
-  tooling instead of editing TypeScript. `locales/mkdocs_quiz.pot` is renamed `locales/starlight-quiz.pot`.
-- The progress widget's labels are taken from mkdocs-quiz's own msgids and match its sidebar exactly. A few locales
-  shift wording as a result — French reads "Répondu" rather than "répondues", and English "Answered" rather than
-  "answered".
-- Added `starlightQuiz.progressCorrect`; removed `starlightQuiz.results.progress`, which nothing resolved.
+- Added a Russian translation, contributed by [@dragomano](https://github.com/dragomano)
+  ([#2](https://github.com/ewels/starlight-quiz/pull/2)).
+- Completed the translations for all 13 locales and moved every translated string into the gettext `.po` files. Some
+  progress-widget wording changes to match mkdocs-quiz — French now reads "Répondu" rather than "répondues"
+  ([#3](https://github.com/ewels/starlight-quiz/pull/3)).
 
 ## **Version 1.0.1** (2026-08-14)
 
