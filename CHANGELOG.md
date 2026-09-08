@@ -16,6 +16,10 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
   the same label in the sibling plugin, so a few locales change wording
   slightly: French now reads "Répondu" rather than "répondues", and German,
   Spanish and Russian pick up the capitalisation mkdocs-quiz uses.
+- Removed the unused `starlightQuiz.results.progress` string. Nothing resolved
+  it — `<QuizResults>` and `<QuizProgress>` both use `starlightQuiz.progressHeading`
+  ("Quiz Progress") — and it has no mkdocs-quiz counterpart to keep it in step
+  with, so it was dead weight in every locale table.
 - The `gen:i18n` coverage report now counts a locale as covering a string when
   it has a value for it, and names the keys that are genuinely missing — a
   translation that legitimately matches English ("Quiz" in German) no longer

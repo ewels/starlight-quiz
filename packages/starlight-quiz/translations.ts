@@ -20,7 +20,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Die Antworten auf dieser Seite werden im lokalen Speicher deines Browsers gespeichert und bleiben zwischen Besuchen erhalten.',
     'starlightQuiz.results.title': 'Quiz abgeschlossen!',
-    'starlightQuiz.results.progress': 'Fortschritt',
     'starlightQuiz.progressHeading': 'Quiz-Fortschritt',
     'starlightQuiz.results.answered': 'Beantwortet',
     'starlightQuiz.results.questionsAnswered': 'Fragen beantwortet',
@@ -45,7 +44,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'La respondoj de ĉi tiu paĝo estas konservataj en la loka memoro de via retumilo kaj restas inter vizitoj.',
     'starlightQuiz.results.title': 'Kvizo Finita!',
-    'starlightQuiz.results.progress': 'Progreso',
     'starlightQuiz.progressHeading': 'Kvizo-Progreso',
     'starlightQuiz.results.badge': 'Kvizo',
     'starlightQuiz.results.answered': 'Respondita',
@@ -70,7 +68,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Las respuestas de esta página se guardan en el almacenamiento local de tu navegador y se conservan entre visitas.',
     'starlightQuiz.results.title': '¡Cuestionario completado!',
-    'starlightQuiz.results.progress': 'Progreso',
     'starlightQuiz.progressHeading': 'Progreso del cuestionario',
     'starlightQuiz.results.badge': 'Cuestionario',
     'starlightQuiz.results.answered': 'Respondidas',
@@ -95,7 +92,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Les réponses de cette page sont enregistrées dans le stockage local de votre navigateur et persistent entre les visites.',
     'starlightQuiz.results.title': 'Quiz terminé !',
-    'starlightQuiz.results.progress': 'Progression',
     'starlightQuiz.progressHeading': 'Progression du quiz',
     'starlightQuiz.results.answered': 'Répondu',
     'starlightQuiz.results.questionsAnswered': 'questions répondues',
@@ -120,7 +116,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'इस पृष्ठ के क्विज़ उत्तर आपके ब्राउज़र के लोकल स्टोरेज में सहेजे जाते हैं और अगली विज़िट तक बने रहते हैं।',
     'starlightQuiz.results.title': 'क्विज़ पूर्ण!',
-    'starlightQuiz.results.progress': 'प्रगति',
     'starlightQuiz.progressHeading': 'क्विज़ प्रगति',
     'starlightQuiz.results.badge': 'क्विज़',
     'starlightQuiz.results.answered': 'उत्तर दिए',
@@ -145,7 +140,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Jawaban kuis di halaman ini disimpan di penyimpanan lokal peramban Anda dan tetap tersimpan di antara kunjungan.',
     'starlightQuiz.results.title': 'Kuis Selesai!',
-    'starlightQuiz.results.progress': 'Progres',
     'starlightQuiz.progressHeading': 'Progres Kuis',
     'starlightQuiz.results.badge': 'Kuis',
     'starlightQuiz.results.answered': 'Dijawab',
@@ -171,7 +165,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'このページのクイズの回答はブラウザのローカルストレージに保存され、次回の訪問時にも保持されます。',
     'starlightQuiz.results.title': 'クイズ完了！',
-    'starlightQuiz.results.progress': '進捗',
     'starlightQuiz.progressHeading': 'クイズの進捗',
     'starlightQuiz.results.badge': 'クイズ',
     'starlightQuiz.results.answered': '回答済み',
@@ -195,7 +188,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.empty': '(비어 있음)',
     'starlightQuiz.intro.text': '이 페이지의 퀴즈 답변은 브라우저의 로컬 저장소에 저장되어 다시 방문해도 유지됩니다.',
     'starlightQuiz.results.title': '퀴즈 완료!',
-    'starlightQuiz.results.progress': '진행 상황',
     'starlightQuiz.progressHeading': '퀴즈 진행 상황',
     'starlightQuiz.results.badge': '퀴즈',
     'starlightQuiz.results.answered': '답변함',
@@ -219,7 +211,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.empty': '(tom)',
     'starlightQuiz.intro.text': 'Svarene på denne siden lagres i nettleserens lokale lagring og beholdes mellom besøk.',
     'starlightQuiz.results.title': 'Quiz fullført!',
-    'starlightQuiz.results.progress': 'Fremdrift',
     'starlightQuiz.progressHeading': 'Pågående quiz',
     'starlightQuiz.results.answered': 'Besvart',
     'starlightQuiz.results.questionsAnswered': 'spørsmål besvart',
@@ -243,7 +234,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'As respostas desta página são salvas no armazenamento local do seu navegador e são mantidas entre as visitas.',
     'starlightQuiz.results.title': 'Quiz completo!',
-    'starlightQuiz.results.progress': 'Progresso',
     'starlightQuiz.progressHeading': 'Progresso do quiz',
     'starlightQuiz.results.answered': 'Respondido',
     'starlightQuiz.results.questionsAnswered': 'questões respondidas',
@@ -267,7 +257,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Ответы на этой странице сохраняются в локальном хранилище вашего браузера и остаются доступными между посещениями.',
     'starlightQuiz.results.title': 'Викторина завершена!',
-    'starlightQuiz.results.progress': 'Прогресс',
     'starlightQuiz.progressHeading': 'Прогресс викторины',
     'starlightQuiz.results.badge': 'Викторина',
     'starlightQuiz.results.answered': 'Отвечено',
@@ -292,7 +281,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.intro.text':
       'Svaren på den här sidan sparas i webbläsarens lokala lagring och finns kvar mellan besöken.',
     'starlightQuiz.results.title': 'Quiz slutfört!',
-    'starlightQuiz.results.progress': 'Framsteg',
     'starlightQuiz.progressHeading': 'Quiz-framsteg',
     'starlightQuiz.results.answered': 'Besvarade',
     'starlightQuiz.results.questionsAnswered': 'frågor besvarade',
@@ -315,7 +303,6 @@ export const Translations: Record<string, Record<string, string>> = {
     'starlightQuiz.empty': '(空)',
     'starlightQuiz.intro.text': '本页的测验答案会保存在浏览器的本地存储中，并在下次访问时保留。',
     'starlightQuiz.results.title': '测验完成！',
-    'starlightQuiz.results.progress': '进度',
     'starlightQuiz.progressHeading': '测验进度',
     'starlightQuiz.results.badge': '测验',
     'starlightQuiz.results.answered': '已回答',

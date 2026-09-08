@@ -14,7 +14,6 @@ export const STRINGS = {
   'starlightQuiz.intro.text':
     "Quiz answers on this page are saved to your browser's local storage and persist between visits.",
   'starlightQuiz.results.title': 'Your score',
-  'starlightQuiz.results.progress': 'Progress',
   'starlightQuiz.progressHeading': 'Quiz Progress',
   'starlightQuiz.results.badge': 'Quiz',
   'starlightQuiz.results.answered': 'answered',
