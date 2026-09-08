@@ -16,6 +16,16 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
   the same label in the sibling plugin, so a few locales change wording
   slightly: French now reads "Répondu" rather than "répondues", and German,
   Spanish and Russian pick up the capitalisation mkdocs-quiz uses.
+- Gave the progress widget's "Correct" label its own string,
+  `starlightQuiz.progressCorrect`, sourced from mkdocs-quiz's `Correct:` msgid.
+  It previously reused `starlightQuiz.results.correct` ("correct"), which is
+  the trailing word in the results panel ("3 correct") — a different role from
+  the label leading the sidebar count. The widget now matches mkdocs-quiz's
+  sidebar exactly: `Quiz Progress` / `Answered:` / `Correct:` / `Reset`.
+- The English `starlightQuiz.results.answered` is now "Answered" rather than
+  "answered", so the two sidebar labels are capitalised consistently and match
+  the 13 translations. `<QuizProgress>`'s `answeredLabel` and `correctLabel`
+  props are unchanged.
 - Removed the unused `starlightQuiz.results.progress` string. Nothing resolved
   it — `<QuizResults>` and `<QuizProgress>` both use `starlightQuiz.progressHeading`
   ("Quiz Progress") — and it has no mkdocs-quiz counterpart to keep it in step

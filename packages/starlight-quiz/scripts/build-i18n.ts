@@ -34,6 +34,7 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
   'starlightQuiz.results.title': 'Quiz Complete!',
   'starlightQuiz.progressHeading': 'Quiz Progress',
   'starlightQuiz.results.answered': 'Answered:',
+  'starlightQuiz.progressCorrect': 'Correct:',
   'starlightQuiz.results.questionsAnswered': 'questions answered',
   'starlightQuiz.results.correct': 'correct',
   'starlightQuiz.results.excellent': 'Outstanding! You aced it!',
@@ -45,11 +46,11 @@ const KEY_TO_MSGID: Partial<Record<StringKey, string>> = {
 
 /**
  * msgids whose mkdocs wording carries punctuation that starlight-quiz renders
- * in the markup instead. `Answered:` labels the count in both plugins, but
- * here the colon lives in `QuizProgress.astro`, so strip it — along with any
- * space before it, since French writes "Répondu :".
+ * in the markup instead. `Answered:` and `Correct:` label the counts in both
+ * plugins, but here the colon lives in `QuizProgress.astro`, so strip it —
+ * along with any space before it, since French writes "Correctes :".
  */
-const STRIP_TRAILING_COLON = new Set<StringKey>(['starlightQuiz.results.answered']);
+const STRIP_TRAILING_COLON = new Set<StringKey>(['starlightQuiz.results.answered', 'starlightQuiz.progressCorrect']);
 
 /**
  * Hand-written translations for the five strings that have no mkdocs msgid

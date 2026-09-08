@@ -14,9 +14,14 @@ export const STRINGS = {
   'starlightQuiz.intro.text':
     "Quiz answers on this page are saved to your browser's local storage and persist between visits.",
   'starlightQuiz.results.title': 'Your score',
+  // The progress widget's three labels. `answered` and `progressCorrect` lead
+  // their counts ("Answered: 3 / 10"), with the colon rendered by the
+  // component — mirroring mkdocs-quiz's `Answered:` / `Correct:` sidebar. The
+  // `results.` prefix on `answered` is historical; its twin is progressCorrect.
   'starlightQuiz.progressHeading': 'Quiz Progress',
+  'starlightQuiz.results.answered': 'Answered',
+  'starlightQuiz.progressCorrect': 'Correct',
   'starlightQuiz.results.badge': 'Quiz',
-  'starlightQuiz.results.answered': 'answered',
   'starlightQuiz.results.questionsAnswered': 'questions answered',
   'starlightQuiz.results.correct': 'correct',
   'starlightQuiz.results.resetAll': 'Reset all answers',
