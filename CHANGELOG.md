@@ -4,43 +4,16 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
-- Completed the translations for every shipped locale. The strings with no
-  mkdocs-quiz counterpart (the intro text, the badge label, the reset-all
-  button and its confirm prompt) were only translated for German, Spanish,
-  French and Russian; the remaining nine locales fell back to English.
-- Moved those Starlight-only strings into the `.po` files, in a marked block at
-  the end of each, and deleted the generator's `CURATED` map. Every translated
-  string now lives in one place, editable by translators and their usual
-  tooling rather than in a TypeScript source file. The shared strings stay
-  byte-identical to mkdocs-quiz's `.po` files; the extra block is inert there,
-  since that plugin loads a `.po` into a dict and looks up only the msgids it
-  knows. `locales/mkdocs_quiz.pot` is renamed `locales/starlight-quiz.pot` and
-  carries the full string set.
-- Sourced the progress label ("answered") from mkdocs-quiz's existing
-  `Answered:` msgid instead of hand-writing it per locale. The colon lives in
-  `QuizProgress.astro`, so the generator strips a trailing colon (and any space
-  before it — French writes "Répondu :"). This is the shared translation for
-  the same label in the sibling plugin, so a few locales change wording
-  slightly: French now reads "Répondu" rather than "répondues", and German,
-  Spanish and Russian pick up the capitalisation mkdocs-quiz uses.
-- Gave the progress widget's "Correct" label its own string,
-  `starlightQuiz.progressCorrect`, sourced from mkdocs-quiz's `Correct:` msgid.
-  It previously reused `starlightQuiz.results.correct` ("correct"), which is
-  the trailing word in the results panel ("3 correct") — a different role from
-  the label leading the sidebar count. The widget now matches mkdocs-quiz's
-  sidebar exactly: `Quiz Progress` / `Answered:` / `Correct:` / `Reset`.
-- The English `starlightQuiz.results.answered` is now "Answered" rather than
-  "answered", so the two sidebar labels are capitalised consistently and match
-  the 13 translations. `<QuizProgress>`'s `answeredLabel` and `correctLabel`
-  props are unchanged.
-- Removed the unused `starlightQuiz.results.progress` string. Nothing resolved
-  it — `<QuizResults>` and `<QuizProgress>` both use `starlightQuiz.progressHeading`
-  ("Quiz Progress") — and it has no mkdocs-quiz counterpart to keep it in step
-  with, so it was dead weight in every locale table.
-- The `gen:i18n` coverage report now counts a locale as covering a string when
-  it has a value for it, and names the keys that are genuinely missing — a
-  translation that legitimately matches English ("Quiz" in German) no longer
-  reads as a gap.
+Translation overhaul ([#3](https://github.com/ewels/starlight-quiz/pull/3)):
+
+- All 13 locales now translate every string. Nine of them fell back to English for the intro panel, the
+  table-of-contents badge, and the reset-all button with its confirm prompt.
+- Every translated string now lives in the gettext `.po` files, so translators work in one place with their usual
+  tooling instead of editing TypeScript. `locales/mkdocs_quiz.pot` is renamed `locales/starlight-quiz.pot`.
+- The progress widget's labels are taken from mkdocs-quiz's own msgids and match its sidebar exactly. A few locales
+  shift wording as a result — French reads "Répondu" rather than "répondues", and English "Answered" rather than
+  "answered".
+- Added `starlightQuiz.progressCorrect`; removed `starlightQuiz.results.progress`, which nothing resolved.
 
 ## **Version 1.0.1** (2026-08-14)
 
