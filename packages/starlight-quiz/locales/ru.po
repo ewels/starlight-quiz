@@ -115,3 +115,26 @@ msgstr "Верно:"
 #: overrides/main.html:36 overrides/main.html:61
 msgid "Reset"
 msgstr "Сброс"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "Ответы на этой странице сохраняются в локальном хранилище вашего браузера и остаются доступными между посещениями."
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "Викторина"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "Сбросить все ответы"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "Сбросить все ответы на этой странице? Это действие нельзя отменить."

@@ -106,3 +106,26 @@ msgstr "重置"
 #: js/quiz.js:677
 msgid "(empty)"
 msgstr "(空)"
+
+# ---------------------------------------------------------------------------
+# starlight-quiz only. These strings have no mkdocs-quiz counterpart (they
+# belong to UI that plugin does not have: the intro panel, the mobile
+# table-of-contents badge, and the page-wide reset button with its confirm
+# prompt). mkdocs-quiz loads .po files into a dict and looks up msgids it
+# knows, so carrying them here is inert for that plugin.
+# ---------------------------------------------------------------------------
+#. starlightQuiz.intro.text
+msgid "Quiz answers on this page are saved to your browser's local storage and persist between visits."
+msgstr "本页的测验答案会保存在浏览器的本地存储中，并在下次访问时保留。"
+
+#. starlightQuiz.results.badge
+msgid "Quiz"
+msgstr "测验"
+
+#. starlightQuiz.results.resetAll
+msgid "Reset all answers"
+msgstr "重置所有答案"
+
+#. starlightQuiz.results.confirmReset
+msgid "Reset every answer on this page? This cannot be undone."
+msgstr "确定重置本页所有答案吗？此操作无法撤销。"

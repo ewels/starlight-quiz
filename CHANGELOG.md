@@ -5,10 +5,17 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 ## Unreleased
 
 - Completed the translations for every shipped locale. The strings with no
-  mkdocs-quiz counterpart (the intro text, the progress and badge labels, the
-  reset-all button and its confirm prompt) were only hand-written for German,
-  Spanish, French and Russian; the remaining nine locales fell back to English.
-  Every locale in `locales/` is now listed in the generator's `CURATED` map.
+  mkdocs-quiz counterpart (the intro text, the badge label, the reset-all
+  button and its confirm prompt) were only translated for German, Spanish,
+  French and Russian; the remaining nine locales fell back to English.
+- Moved those Starlight-only strings into the `.po` files, in a marked block at
+  the end of each, and deleted the generator's `CURATED` map. Every translated
+  string now lives in one place, editable by translators and their usual
+  tooling rather than in a TypeScript source file. The shared strings stay
+  byte-identical to mkdocs-quiz's `.po` files; the extra block is inert there,
+  since that plugin loads a `.po` into a dict and looks up only the msgids it
+  knows. `locales/mkdocs_quiz.pot` is renamed `locales/starlight-quiz.pot` and
+  carries the full string set.
 - Sourced the progress label ("answered") from mkdocs-quiz's existing
   `Answered:` msgid instead of hand-writing it per locale. The colon lives in
   `QuizProgress.astro`, so the generator strips a trailing colon (and any space

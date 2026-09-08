@@ -45,8 +45,9 @@ the fastest way to see a change and the first place to add a new one.
   changelog page on the site is generated from it.
 - Edited a `.po` file in `packages/starlight-quiz/locales/`? Run
   `pnpm --filter starlight-quiz gen:i18n` and commit the regenerated `translations.ts` with it.
-  The `.po` files are shared verbatim with [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz), so
-  fix a translation there and both plugins get it.
+  The shared strings match [mkdocs-quiz](https://github.com/ewels/mkdocs-quiz)'s `.po` files
+  exactly, so fix a translation in either project and it ports across cleanly. Strings only this
+  plugin has sit in a marked block at the end of each file.
 - `.mdx` is formatted by hand. Prettier reflows task lists and fenced quiz examples in ways that
   break the authoring syntax, so it is set to skip those files.
 
