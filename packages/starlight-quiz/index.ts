@@ -84,7 +84,7 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
       'i18n:setup'({ injectTranslations }) {
         injectTranslations(Translations);
       },
-      'config:setup'({ addIntegration, config, logger, updateConfig }) {
+      'config:setup'({ addIntegration, astroConfig, config, logger, updateConfig }) {
         addIntegration(quizConfigIntegration({ defaults: quizDefaults, progressPosition }));
 
         if (validate) {
@@ -97,7 +97,7 @@ export default function starlightQuiz(options: StarlightQuizOptions = {}): Starl
         const customCss = injectStyles ? [...(config.customCss ?? []), 'starlight-quiz/styles'] : config.customCss;
 
         function override(component: StarlightComponentName, entrypoint: string) {
-          return overrideStarlightComponent(config.components, logger, component, entrypoint);
+          return overrideStarlightComponent(config.components, logger, component, entrypoint, astroConfig.root);
         }
 
         const components = progressTracker

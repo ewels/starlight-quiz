@@ -4,6 +4,10 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+- Stopped warning about an existing `Footer`, `TableOfContents` or `MobileTableOfContents` override when that override
+  already renders the matching `starlight-quiz/overrides/*` component
+  ([#5](https://github.com/ewels/starlight-quiz/issues/5)).
+
 ## **Version 1.0.2** (2026-09-08)
 
 Translation release — no API changes.

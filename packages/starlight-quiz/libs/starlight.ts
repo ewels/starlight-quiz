@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+
 import type { StarlightUserConfig } from '@astrojs/starlight/types';
 import type { AstroIntegrationLogger } from 'astro';
 
@@ -7,17 +9,20 @@ type Components = NonNullable<StarlightUserConfig['components']>;
 export type StarlightComponentName = keyof Components;
 
 /**
- * Build a component-override entry for Starlight, warning (and backing off)
- * if the user already overrides that component themselves, so we never clobber
- * their customisation.
+ * Build a component-override entry for Starlight, backing off if the user
+ * already overrides that component themselves, so we never clobber their
+ * customisation. Warns unless their override already renders `entrypoint`.
  */
 export function overrideStarlightComponent(
   components: StarlightUserConfig['components'],
   logger: AstroIntegrationLogger,
   component: StarlightComponentName,
   entrypoint: string,
+  root: URL,
 ): Partial<Components> {
-  if (components?.[component]) {
+  const existing = components?.[component];
+  if (existing) {
+    if (rendersEntrypoint(existing, entrypoint, root)) return {};
     logger.warn(
       `It looks like you already have a \`${component}\` component override in your Starlight configuration.`,
     );
@@ -27,4 +32,14 @@ export function overrideStarlightComponent(
     return {};
   }
   return { [component]: entrypoint };
+}
+
+/** Whether the user's override file already renders the starlight-quiz entrypoint. */
+function rendersEntrypoint(path: string, entrypoint: string, root: URL): boolean {
+  try {
+    return readFileSync(new URL(path, root), 'utf8').includes(entrypoint);
+  } catch {
+    // Package specifiers and aliases aren't readable as files.
+    return false;
+  }
 }
