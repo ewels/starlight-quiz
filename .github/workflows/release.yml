@@ -36,6 +36,8 @@ jobs:
 
       # Trusted publishing needs npm >= 11.5.1; Node 22 ships an older npm.
       - run: npm install --global npm@latest
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - run: pnpm install --frozen-lockfile
 
       # On a release, refuse to publish if the tag doesn't match the version
       # we are about to ship (tag v1.0.0 must match package.json 1.0.0).
@@ -51,7 +53,7 @@ jobs:
             exit 1
           fi
 
-      # prepack copies README/CHANGELOG/LICENSE in from the repo root, and
+      # prepack builds the CLI and copies README/CHANGELOG/LICENSE from the root;
       # provenance is attached via the id-token permission above.
       - name: Publish
         working-directory: packages/starlight-quiz

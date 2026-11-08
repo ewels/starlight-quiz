@@ -19,6 +19,11 @@ pnpm dev        # run the docs site locally
 
 ## Checks
 
+The Astro integration uses source files directly. The terminal CLI is bundled into JavaScript
+by `pnpm --filter starlight-quiz build:cli`, also run automatically during packaging.
+Do not commit generated `dist/` files. Run `npm run test:package` to test a packed installation,
+including quiz input, page scraping, history and QTI export.
+
 | Task                       | Command                          |
 | -------------------------- | -------------------------------- |
 | Unit tests (Vitest)        | `pnpm test`                      |
