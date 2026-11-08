@@ -86,7 +86,7 @@ On `astro:build:done` the generated HTML is parsed with `node-html-parser`:
 Code in `lib/` runs in **two** environments, which dictates import style:
 
 - **Browser** — custom elements, bundled by Vite. Relative imports omit the extension (`./parse`).
-- **Node** — the CLI and the build integration run the `.ts` directly via type-stripping, so their relative imports need explicit **`.ts` extensions** (`./parse.ts`). This is why `manifest.ts`, `validate.ts`, `qti.ts`, `bin/` and `lib/cli/` use `.ts` on imports.
+- **Node** — the published CLI is bundled to JavaScript during `prepack`; its source uses explicit **`.ts` extensions** (`./parse.ts`) for direct development execution with Node type-stripping. Astro loads the build integration source. This is why `manifest.ts`, `validate.ts`, `qti.ts`, `bin/` and `lib/cli/` use `.ts` on imports.
 
 ### TypeScript
 

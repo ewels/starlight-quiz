@@ -26,7 +26,8 @@
     "format:check": "prettier --check --cache --ignore-unknown .",
     "test": "pnpm --filter starlight-quiz test",
     "test:e2e": "pnpm --filter starlight-quiz-docs test:e2e",
-    "release": "pnpm --filter starlight-quiz publish --access public --no-git-checks"
+    "release": "pnpm --filter starlight-quiz publish --access public --no-git-checks",
+    "test:package": "node scripts/test-package.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

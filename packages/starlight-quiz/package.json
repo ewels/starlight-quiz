@@ -31,7 +31,7 @@
     "*.astro"
   ],
   "bin": {
-    "starlight-quiz": "./bin/starlight-quiz.ts"
+    "starlight-quiz": "./dist/starlight-quiz.js"
   },
   "exports": {
     ".": "./index.ts",
@@ -54,16 +54,18 @@
     "env.d.ts",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "dist"
   ],
   "scripts": {
-    "prepack": "cp ../../README.md ./README.md && cp ../../CHANGELOG.md ./CHANGELOG.md && cp ../../LICENSE ./LICENSE",
+    "prepack": "node scripts/prepack.mjs",
     "gen:i18n": "node --experimental-strip-types scripts/build-i18n.ts && pnpm exec prettier --write translations.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:cli": "node scripts/build-cli.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
@@ -86,7 +88,8 @@
     "astro": "^7.0.3",
     "jsdom": "^29.1.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "esbuild": "^0.28.1"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -23,8 +23,11 @@ pnpm dev
 The docs site is served under its base path: open
 **<http://localhost:4321/starlight-quiz>**, not bare `localhost:4321`.
 
-The package ships its `.ts` and `.astro` source with no build step. Edits inside
-`packages/starlight-quiz` are picked up by the dev server directly.
+The Astro integration ships its `.ts` and `.astro` source. Edits inside
+`packages/starlight-quiz` are picked up by the dev server directly. The CLI is bundled
+to JavaScript by `pnpm --filter starlight-quiz build:cli`, automatically run during
+`prepack`. Generated `dist/` files are not committed. Run `npm run test:package`
+to pack, install, and exercise the published executable in an isolated temporary project.
 
 `/demo` exercises every feature, and its quizzes have the stable ids the e2e specs rely on — it is
 the fastest way to see a change and the first place to add a new one.

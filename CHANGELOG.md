@@ -4,6 +4,8 @@ All notable changes to `starlight-quiz` are recorded here. New work is added und
 
 ## Unreleased
 
+- Fix the published terminal CLI failing under `npx` by bundling its TypeScript to JavaScript before publishing.
+
 ## **Version 1.0.3** (2026-11-04)
 
 Bug-fix release — no API changes.
